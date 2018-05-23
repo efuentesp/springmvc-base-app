@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -26,12 +28,22 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.softtek.acceleo.demo.catalogo.bean.AfiliadoBean;
 import com.softtek.acceleo.demo.domain.Afiliado;
 import com.softtek.acceleo.demo.service.AfiliadoService;
+import com.softtek.spring.seguridad.IJwtAuthenticationProvider;
+import com.softtek.spring.seguridad.entity.User;
 
 @Controller
 public class AfiliadoController {
 
 	@Autowired
 	private AfiliadoService afiliadoService;
+	
+	
+//	@Autowired
+//	private IJwtAuthenticationProvider jwtap;
+//	
+//
+//	UserDetails userDetails;
+	
 	
 	Afiliado afiliado = new Afiliado();
 
@@ -61,9 +73,11 @@ public class AfiliadoController {
 		return listAfiliado;
 	}
 	
+	
 	@RequestMapping(value = "/afiliado/{id}", method = RequestMethod.GET, produces = "application/json")
 	    public @ResponseBody  Afiliado getAfiliado(@PathVariable("id") int id) {
 	        
+		System.out.println("Inicio Afiliado");
 	        afiliado.setAfiliadoId(id);
 	        
 	        Afiliado afiliado = null;
@@ -236,6 +250,24 @@ public class AfiliadoController {
 		}
 		return beans;
 	}
+	
+//	@RequestMapping(value = "/api/authenticate", method = RequestMethod.POST)
+//	public ResponseEntity<UserDetails> autenticarUser(@RequestBody User user) {
+//		System.out.println("Inicio Rest");
+//		
+//		String userName = user.getUsername();
+//		String password = user.getPassword();
+//		UserDetails userDetails = null;
+//		
+//		try {
+//			userDetails = jwtap.validarAutenticacionUser(password, userName);
+//			
+//			return new ResponseEntity<UserDetails>(userDetails, HttpStatus.OK);
+//		}catch(AuthenticationException ae) {
+//			return new ResponseEntity<UserDetails>(userDetails, HttpStatus.NOT_FOUND);
+//		}
+//	}
+	
 
 }
 
