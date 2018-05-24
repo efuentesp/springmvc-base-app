@@ -27,9 +27,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.softtek.acceleo.demo.catalogo.bean.AfiliadoBean;
 import com.softtek.acceleo.demo.domain.Afiliado;
+import com.softtek.acceleo.demo.domain.User;
 import com.softtek.acceleo.demo.service.AfiliadoService;
 import com.softtek.spring.seguridad.IJwtAuthenticationProvider;
-import com.softtek.spring.seguridad.entity.User;
 
 @Controller
 public class AfiliadoController {

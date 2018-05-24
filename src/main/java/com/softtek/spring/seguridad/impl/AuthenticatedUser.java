@@ -8,14 +8,14 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-@Component("authenticatedUser")//JPB
+@Component("authenticatedUser")
 public class AuthenticatedUser implements UserDetails {
     /**
 	 * 
 	 */
 	private static final long serialVersionUID = 6690681491291701161L;
 	
-	private final Long id;
+	private final String id;
     private final String username;
     private final String password;
     private final String token;
@@ -30,7 +30,7 @@ public class AuthenticatedUser implements UserDetails {
     	this.authorities = null;
     }
 
-    public AuthenticatedUser(Long id, String username, String password, String token, Collection</*? extends */GrantedAuthority> authorities) {
+    public AuthenticatedUser(String id, String username, String password, String token, Collection</*? extends */GrantedAuthority> authorities) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -39,7 +39,7 @@ public class AuthenticatedUser implements UserDetails {
     }
 
     @JsonIgnore
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
@@ -106,7 +106,5 @@ public class AuthenticatedUser implements UserDetails {
     public String getPassword() {
         return this.password;
     }
-
-
 
 }

@@ -6,18 +6,15 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import com.softtek.acceleo.demo.domain.User;
 import com.softtek.spring.seguridad.IJwtUtil;
-import com.softtek.spring.seguridad.entity.User;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.SignatureException;
 
-@Component//JPB
+@Component
 public class JwtUtil implements IJwtUtil {
 	private static final Logger logger = Logger.getLogger(JwtUtil.class);
 	
@@ -38,33 +35,20 @@ public class JwtUtil implements IJwtUtil {
         	logger.info("-_-_-_-_-_-_-_-_-_-_-_-_-_-_****** password: " + this.secret);
         	logger.info("-_-_-_-_-_-_-_-_-_-_-_-_-_-_****** token: " + token);
         	
-        	Claims body = null; 
-        	try {
-        		body = Jwts.parser()
-        				.setSigningKey(secret.getBytes("UTF-8"))
-        				.parseClaimsJws(token)
-        				.getBody();
-            
-        		logger.info("body: " + body);
-        	}catch(ExpiredJwtException e) {
-        		logger.error("**** ExpiredJwtException JPB: " + e);
-        	}catch(MalformedJwtException e) {
-        		logger.error("**** MalformedJwtException JPB: " + e);
-        	}catch(SignatureException e) {
-        		logger.error("**** SignatureException JPB: " + e);
-        	}catch(UnsupportedEncodingException e) {
-        		logger.error("**** UnsupportedEncodingException JPB: " + e);
-        	}
+        	Claims body = Jwts.parser()
+        					.setSigningKey(secret.getBytes("UTF-8"))
+        					.parseClaimsJws(token)
+        					.getBody();
 
             User user = new User();
-            user.setUsername(body.getSubject());
-            user.setId(Long.parseLong((String) body.get("userId")));
-            user.setRole((String) body.get("role"));            
+            user.setUserName(body.getSubject());
+            user.setIdUser((String) body.get("userId"));//user.setIdUser(Long.parseLong((String) body.get("userId")));
+            user.setRol((String) body.get("role"));            
             logger.info("Finalizando parseToken(...)");
             
             return user;
 
-        } catch (JwtException | ClassCastException e) {
+        } catch (JwtException | ClassCastException | UnsupportedEncodingException e) {
             return null;
         }
     }
@@ -77,14 +61,14 @@ public class JwtUtil implements IJwtUtil {
      * @return the JWT token
      */
 	@Override
-    public String generateToken(User user, String password) {
-        Claims claims = Jwts.claims().setSubject(user.getUsername());
-        claims.put("userId", user.getId() + "");
-        claims.put("role", user.getRole());
+    public String generateToken(User user, String password) throws UnsupportedEncodingException {
+        Claims claims = Jwts.claims().setSubject(user.getUserName());
+        claims.put("userId", user.getIdUser() + "");
+        claims.put("role", user.getRol());
         
         return Jwts.builder()
                 .setClaims(claims)
-                .signWith(SignatureAlgorithm.HS512, password)
+                .signWith(SignatureAlgorithm.HS512, password.getBytes("UTF-8"))
                 .compact();
     }
 

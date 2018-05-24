@@ -2,19 +2,16 @@ package com.softtek.spring.seguridad.impl;
 
 import java.io.IOException;
 
+import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.FilterChain;
 
-import org.codehaus.jackson.map.JsonMappingException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
-import org.springframework.stereotype.Component;
 
 
-//@Component("iJwtAuthenticationFilter")//JPB
 public class JwtAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
     public JwtAuthenticationFilter() {
         super("/**");

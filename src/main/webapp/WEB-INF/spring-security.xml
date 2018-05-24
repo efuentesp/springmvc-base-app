@@ -14,7 +14,6 @@
         <custom-filter before="FORM_LOGIN_FILTER" ref="jwtAuthenticationFilter"/>
     </http>
     
-    <!--beans:bean id="jwtAuthenticationFilter" class="com.toptal.travelplanner.security.JwtAuthenticationFilter"-->
     <beans:bean id="jwtAuthenticationFilter" class="com.softtek.spring.seguridad.impl.JwtAuthenticationFilter">
         <beans:property name="authenticationManager" ref="authenticationManager" />
         <beans:property name="authenticationSuccessHandler" ref="jwtAuthenticationSuccessHandler" />

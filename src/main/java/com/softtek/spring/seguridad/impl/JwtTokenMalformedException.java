@@ -1,11 +1,14 @@
 package com.softtek.spring.seguridad.impl;
 
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.stereotype.Component;
 
-//@Component//JPB
 public class JwtTokenMalformedException extends AuthenticationException {
-    public JwtTokenMalformedException(String msg) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8048273188791083016L;
+
+	public JwtTokenMalformedException(String msg) {
         super(msg);
     }
 }

@@ -1,5 +1,7 @@
 package com.softtek.spring.seguridad.impl;
 
+import java.io.UnsupportedEncodingException;
+
 import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
@@ -12,8 +14,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.softtek.acceleo.demo.domain.User;
 import com.softtek.spring.seguridad.IJwtAuthenticationProvider;
-import com.softtek.spring.seguridad.entity.User;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "file:src/main/resources/applicationContext.xml")
@@ -37,7 +39,7 @@ public class JwtAuthenticationProviderTest {
 			String userName = "user01";
 			
 			//Password capturado en pantalla.
-			String password = "user03";//user01 - OK   --- userTest - NO OK
+			String password = "user01";//user01 - OK   --- userTest - NO OK
 			
 			AuthenticatedUser ud = (AuthenticatedUser) jwtap.validarAutenticacionUser(password, userName);
 			logger.info("---->>>> token: " + ud.getToken());
@@ -48,7 +50,7 @@ public class JwtAuthenticationProviderTest {
 			logger.error("****** Error JUnit: " + e);
 		} 
 	}
-	
+		
 	@After
 	public void finJUnit(){
 		logger.info("****** Finalizando prueba de JUnit - JwtAuthenticationProviderTest... ******");
