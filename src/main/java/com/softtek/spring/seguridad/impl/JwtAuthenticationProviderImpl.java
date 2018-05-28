@@ -15,23 +15,19 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import com.softtek.acceleo.demo.domain.User;
-import com.softtek.acceleo.demo.service.TipopensionService;
-import com.softtek.spring.seguridad.IJwtAuthenticationProvider;
-import com.softtek.spring.seguridad.UserService;
+import com.softtek.acceleo.demo.service.UserService;
+import com.softtek.spring.seguridad.JwtAuthenticationProvider;
 
-@Component
-public class JwtAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider implements IJwtAuthenticationProvider {
-	private static final Logger logger = Logger.getLogger(JwtAuthenticationProvider.class);
+@Component("jwtAuthenticationProvider")
+public class JwtAuthenticationProviderImpl extends AbstractUserDetailsAuthenticationProvider implements JwtAuthenticationProvider {
+	private static final Logger logger = Logger.getLogger(JwtAuthenticationProviderImpl.class);
 	
     @Autowired
-    private JwtUtil jwtUtil;
+    private JwtUtilImpl jwtUtil;
     
     @Autowired
     UserService userService;
     
-    @Autowired
-    TipopensionService tipopensionService;
-
     @Override
     public boolean supports(Class<?> authentication) {
         return (JwtAuthenticationToken.class.isAssignableFrom(authentication));
@@ -59,16 +55,11 @@ public class JwtAuthenticationProvider extends AbstractUserDetailsAuthentication
     }
     
 	@Override
-	public String generateToken(User user, String password) throws UnsupportedEncodingException {
-		return jwtUtil.generateToken(user, password);
-	}
-    
-	@Override
 	public UserDetails validarAutenticacionUser(String password, String userName) throws AuthenticationException {
 		jwtUtil.setSecret(password);//Se pasa como parametro, el password capturado en pantalla, mismo que se debe autenticar.
 		
 		//Este password se debe obtener de la base de datos. (En base al userName)
-		//String passwordToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMDEiLCJ1c2VySWQiOiIxIiwicm9sZSI6IkFkbWluaXN0cmFkb3IifQ.NFc5EVE_N0BeuEDgkq7EBe5uDkkJg3UZSZ3naV-jUfYG-3veyz3n_zye6g4vb058AwlCTVD_r5vdDFarpNF5-w";//user01
+		//String passwordToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMDEiLCJ1c2VySWQiOiIxIiwicm9sZSI6ImFkbWluIn0.ssZU4ybtaPVkgRHsvxM3rGZ6QQN7gi2cFU42mmJ-1ooVV9zxlJfxarJ9omCLi5Nd3qSPcF2QCBVLPNSzf9KRuw";//user01
 		//String passwordToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMDIiLCJ1c2VySWQiOiIxIiwicm9sZSI6IkFkbWluaXN0cmFkb3IifQ.lCVVfVgFlMq7FIRUHZs9adC2YrmgOJ5MdcDbvdjQh9FD53AC8mLqgFr_PND5uvGWBUU7nPGhYsu46GB1sxJwMw";//user02
 		//String passwordToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMDMiLCJ1c2VySWQiOiIxIiwicm9sZSI6IkFkbWluaXN0cmFkb3IifQ.Yx78P6YRQcJkiA04ldaWqUjtxTyiZOPztBpbVkoUKabiC_A2U7jKT0IAE1FigKYy1jrUCjsnooEqwkWp6SO4BQ";//user03		
 		//String passwordToken = makerToken(userName, password);//No borrar estas lineas, se ocupan para generar token de pruebas JUnit cuando no se conoce el token del password.
@@ -118,10 +109,11 @@ public class JwtAuthenticationProvider extends AbstractUserDetailsAuthentication
     	User user = new User();
     	user.setIdUser("1");
     	user.setUserName(userName);
-    	user.setRol("Administrador");
+    	user.setPassword(password);
+    	user.setRol("admin");
 		
     	try {
-	    	token = jwtUtil.generateToken(user, password);//El password que se pasa como parametro, es el capturado en pantalla.
+	    	token = jwtUtil.generateToken(user);
 	    	
 	    	logger.info("-_-_-_-_-_-_-_-_-_-_-_-_-_-_****** user.Id: " + user.getIdUser());
 	    	logger.info("-_-_-_-_-_-_-_-_-_-_-_-_-_-_****** user.Username: " + user.getUserName());

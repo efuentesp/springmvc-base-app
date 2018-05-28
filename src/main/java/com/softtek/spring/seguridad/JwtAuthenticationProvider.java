@@ -8,11 +8,9 @@ import java.io.UnsupportedEncodingException;
 
 import org.springframework.security.core.AuthenticationException;
 
-public interface IJwtAuthenticationProvider {
+public interface JwtAuthenticationProvider {
 	
     public boolean supports(Class<?> authentication);
-    
-    public String generateToken(User user, String password) throws UnsupportedEncodingException;
     
     public UserDetails validarAutenticacionUser(String password, String userName) throws AuthenticationException;
     

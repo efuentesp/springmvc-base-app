@@ -14,7 +14,8 @@
         <custom-filter before="FORM_LOGIN_FILTER" ref="jwtAuthenticationFilter"/>
     </http>
     
-    <beans:bean id="jwtAuthenticationFilter" class="com.softtek.spring.seguridad.impl.JwtAuthenticationFilter">
+<!--     
+	<beans:bean id="jwtAuthenticationFilter" class="com.softtek.spring.seguridad.impl.JwtAuthenticationFilter">
         <beans:property name="authenticationManager" ref="authenticationManager" />
         <beans:property name="authenticationSuccessHandler" ref="jwtAuthenticationSuccessHandler" />
     </beans:bean>
@@ -22,5 +23,5 @@
     <authentication-manager alias="authenticationManager">
         <authentication-provider ref="jwtAuthenticationProvider" />
     </authentication-manager>
-    
+ -->    
 </beans:beans>

@@ -1,5 +1,6 @@
 package com.softtek.acceleo.demo.domain;
 
+import java.awt.Image;
 import java.io.Serializable;
 
 import javax.persistence.Column;
@@ -31,7 +32,10 @@ public class User implements Serializable {
 	@Column(name = "rol", nullable = false)
     private String rol;
 	
+	@Column(name = "image")
+    private String imagen;
 	
+		
 	public String getIdUser() {
 		return idUser;
 	}
@@ -56,44 +60,10 @@ public class User implements Serializable {
 	public void setRol(String rol) {
 		this.rol = rol;
 	}
-
-    
-	/*
-	private Long id;
-	private String username;
-	private String password;
-    private String role;
-    
-	public Long getId() {
-		return id;
+	public String getImagen() {
+		return imagen;
 	}
-	
-	public void setId(Long id) {
-		this.id = id;
+	public void setImagen(String imagen) {
+		this.imagen = imagen;
 	}
-	
-	public String getUsername() {
-		return username;
-	}
-	
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-	
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	
-	public String getRole() {
-		return role;
-	}
-	
-	public void setRole(String role) {
-		this.role = role;
-	}
-	*/
 }

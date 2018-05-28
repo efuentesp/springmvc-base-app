@@ -19,14 +19,15 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 	<context:component-scan base-package="com.softtek.acceleo.demo.domain" />
 	<context:component-scan base-package="com.softtek.spring.seguridad" />
 	<context:component-scan base-package="com.softtek.spring.seguridad.controller" />
-	<context:component-scan base-package="com.softtek.spring.seguridad.entity" />
-	<context:component-scan base-package="com.softtek.spring.seguridad.impl" />
+	
 	<!--  context:component-scan base-package="com.softtek.app.masterdetail" /-->
 	<!--  context:component-scan base-package="com.softtek.app.solicitud" /-->
 	<!--  context:component-scan base-package="model.business.person" /-->
 	<!--  context:component-scan base-package="model.domain.Person" /-->
 	<!--  context:component-scan base-package="model.persistence.person" /-->
-<context:component-scan base-package="com.softtek.app.login" />
+	
+	<context:component-scan base-package="com.softtek.app.login" />
+	
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.UrlBasedViewResolver">
 		<property name="viewClass">
@@ -48,7 +49,6 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<property name="packagesToScan" value="com.softtek.acceleo.demo.domain" />
-		<!--property name="packagesToScan2" value="com.softtek.spring.seguridad.entity" /-->
 		<property name="hibernateProperties">
 			<props>
 				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>

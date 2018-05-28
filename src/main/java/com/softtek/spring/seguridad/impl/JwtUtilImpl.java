@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.softtek.acceleo.demo.domain.User;
-import com.softtek.spring.seguridad.IJwtUtil;
+import com.softtek.spring.seguridad.JwtUtil;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
@@ -15,8 +15,8 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 @Component
-public class JwtUtil implements IJwtUtil {
-	private static final Logger logger = Logger.getLogger(JwtUtil.class);
+public class JwtUtilImpl implements JwtUtil {
+	private static final Logger logger = Logger.getLogger(JwtUtilImpl.class);
 	
 	@Value("${jwt.secret}")
     private String secret;
@@ -42,7 +42,7 @@ public class JwtUtil implements IJwtUtil {
 
             User user = new User();
             user.setUserName(body.getSubject());
-            user.setIdUser((String) body.get("userId"));//user.setIdUser(Long.parseLong((String) body.get("userId")));
+            user.setIdUser((String) body.get("userId"));
             user.setRol((String) body.get("role"));            
             logger.info("Finalizando parseToken(...)");
             
@@ -61,16 +61,35 @@ public class JwtUtil implements IJwtUtil {
      * @return the JWT token
      */
 	@Override
-    public String generateToken(User user, String password) throws UnsupportedEncodingException {
+    public String generateToken(User user) throws UnsupportedEncodingException {
         Claims claims = Jwts.claims().setSubject(user.getUserName());
         claims.put("userId", user.getIdUser() + "");
         claims.put("role", user.getRol());
         
         return Jwts.builder()
                 .setClaims(claims)
-                .signWith(SignatureAlgorithm.HS512, password.getBytes("UTF-8"))
+                .signWith(SignatureAlgorithm.HS512, user.getPassword().getBytes("UTF-8"))
                 .compact();
     }
+	
+	/**
+	 * Genera un JWT token, con base al user, password, y el algoritmo que se pasan como paramentros.
+	 * @param user - Contiene la información del usuario.
+	 * @param sgntrAlgrtm - Algoritmo con el cual se genera el token.
+	 * @return token.
+	 * @throws UnsupportedEncodingException para manejar las posibles exceptions.
+	 */
+	@Override
+	public String generarToken(User user, SignatureAlgorithm sgntrAlgrtm) throws UnsupportedEncodingException {
+        Claims claims = Jwts.claims().setSubject(user.getUserName());
+        claims.put("userId", user.getIdUser() + "");
+        claims.put("role", user.getRol());
+        
+        return Jwts.builder()
+                .setClaims(claims)
+                .signWith(sgntrAlgrtm, user.getPassword().getBytes("UTF-8"))
+                .compact();
+	}
 
 	public String getSecret() {
 		return secret;

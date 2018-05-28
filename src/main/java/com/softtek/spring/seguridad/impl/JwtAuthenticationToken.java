@@ -1,6 +1,7 @@
 package com.softtek.spring.seguridad.impl;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.stereotype.Component;
 
 public class JwtAuthenticationToken extends UsernamePasswordAuthenticationToken {
     /**

@@ -1,6 +1,7 @@
 package com.softtek.spring.seguridad.impl;
 
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.stereotype.Component;
 
 public class JwtTokenMalformedException extends AuthenticationException {
     /**

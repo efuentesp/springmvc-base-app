@@ -7,12 +7,11 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -27,23 +26,13 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.softtek.acceleo.demo.catalogo.bean.AfiliadoBean;
 import com.softtek.acceleo.demo.domain.Afiliado;
-import com.softtek.acceleo.demo.domain.User;
 import com.softtek.acceleo.demo.service.AfiliadoService;
-import com.softtek.spring.seguridad.IJwtAuthenticationProvider;
 
 @Controller
 public class AfiliadoController {
 
 	@Autowired
-	private AfiliadoService afiliadoService;
-	
-	
-//	@Autowired
-//	private IJwtAuthenticationProvider jwtap;
-//	
-//
-//	UserDetails userDetails;
-	
+	private AfiliadoService afiliadoService;	
 	
 	Afiliado afiliado = new Afiliado();
 
@@ -251,24 +240,6 @@ public class AfiliadoController {
 		return beans;
 	}
 	
-//	@RequestMapping(value = "/api/authenticate", method = RequestMethod.POST)
-//	public ResponseEntity<UserDetails> autenticarUser(@RequestBody User user) {
-//		System.out.println("Inicio Rest");
-//		
-//		String userName = user.getUsername();
-//		String password = user.getPassword();
-//		UserDetails userDetails = null;
-//		
-//		try {
-//			userDetails = jwtap.validarAutenticacionUser(password, userName);
-//			
-//			return new ResponseEntity<UserDetails>(userDetails, HttpStatus.OK);
-//		}catch(AuthenticationException ae) {
-//			return new ResponseEntity<UserDetails>(userDetails, HttpStatus.NOT_FOUND);
-//		}
-//	}
-	
-
 }
 
 
