@@ -59,7 +59,7 @@ public class JwtAuthenticationProviderTest extends AbstractTransactionalJUnit4Sp
 			logger.error("****** Error: Autenticacion no valida - " + ae);
 		} catch(Exception e) {
 			logger.error("****** Error JUnit: " + e);
-		} 
+		}
 	}
 		
 	@After
