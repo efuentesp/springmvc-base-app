@@ -188,7 +188,7 @@ public class ModuloController {
 	private Modulo prepareModel(ModuloBean moduloBean) {
 		Modulo modulo = new Modulo();
 
-		modulo.setIdModulo(moduloBean.getIdModulo());
+		modulo.setIdModulo(moduloBean.getId());
 		modulo.setModulo(moduloBean.getModulo());
 		modulo.setEstatus(moduloBean.getEstatus());
 		modulo.setFechaCreacion(moduloBean.getFechaCreacion());
@@ -206,7 +206,7 @@ public class ModuloController {
 			for (Modulo modulo : modulos) {
 				bean = new ModuloBean();
 
-                bean.setIdModulo(modulo.getIdModulo());
+                bean.setId(modulo.getIdModulo());
                 bean.setModulo(modulo.getModulo());
                 bean.setEstatus(modulo.getEstatus());
                 bean.setFechaCreacion(modulo.getFechaCreacion());

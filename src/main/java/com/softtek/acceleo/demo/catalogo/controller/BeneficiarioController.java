@@ -186,9 +186,9 @@ public class BeneficiarioController {
 		//beneficiario.setParentescoId(beneficiarioBean.getParentescoId());
 		beneficiario.setCurp(beneficiarioBean.getCurp());
 		beneficiario.setNombre(beneficiarioBean.getNombre());
-		beneficiario.setApellido_paterno(beneficiarioBean.getApellido_paterno());
-		beneficiario.setApellido_materno(beneficiarioBean.getApellido_materno());
-		beneficiario.setFecha_nacimiento(beneficiarioBean.getFecha_nacimiento());
+		beneficiario.setApellido_paterno(beneficiarioBean.getApellidoPaterno());
+		beneficiario.setApellido_materno(beneficiarioBean.getApellidoMaterno());
+		beneficiario.setFecha_nacimiento(beneficiarioBean.getFechaNacimiento());
 		beneficiario.setBeneficiarioId(beneficiarioBean.getBeneficiarioId());
 		beneficiarioBean.setBeneficiarioId(null);
 
@@ -206,9 +206,9 @@ public class BeneficiarioController {
 				//bean.setParentescoId(beneficiario.getParentescoId());
 				bean.setCurp(beneficiario.getCurp());
 				bean.setNombre(beneficiario.getNombre());
-				bean.setApellido_paterno(beneficiario.getApellido_paterno());
-				bean.setApellido_materno(beneficiario.getApellido_materno());
-				bean.setFecha_nacimiento(beneficiario.getFecha_nacimiento());
+				bean.setApellidoPaterno(beneficiario.getApellido_paterno());
+				bean.setApellidoMaterno(beneficiario.getApellido_materno());
+				bean.setFechaNacimiento(beneficiario.getFecha_nacimiento());
 				bean.setBeneficiarioId(beneficiario.getBeneficiarioId());
 				beans.add(bean);
 			}

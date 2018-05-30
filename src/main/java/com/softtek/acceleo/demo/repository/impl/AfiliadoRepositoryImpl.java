@@ -1,4 +1,9 @@
-
+/**
+ * Autor: PSG.
+ * Proyecto:
+ * Version: 0.1 
+ * Clase para generar consultas de los afiliados. 
+ */
 package com.softtek.acceleo.demo.repository.impl;
 
 import java.util.List;
@@ -13,21 +18,35 @@ import org.hibernate.criterion.Restrictions;
 import com.softtek.acceleo.demo.domain.Afiliado;
 import com.softtek.acceleo.demo.repository.AfiliadoRepository;
 
+/**
+ * Clase AfiliadoRepositoryImpl.
+ * @author PSG.
+ *
+ */
 @Repository("afiliadoRepository")
 public class AfiliadoRepositoryImpl implements AfiliadoRepository {
 
 	@Autowired
 	private SessionFactory sessionFactory;
 
+	/**
+	 * Agrega un afiliado.
+	 */
 	public void addAfiliado(Afiliado afiliado) {
 		sessionFactory.getCurrentSession().persist(afiliado);
 	}
 
+	/**
+	 * Edita un afiliado.
+	 */
 	public void editAfiliado(Afiliado afiliado) {
 		sessionFactory.getCurrentSession().update(afiliado);
 
 	}
 
+	/**
+	 * Consulta informacion de afiliados.
+	 */
 	@SuppressWarnings({ "unchecked" })
 	public List<Afiliado> listAfiliados(Afiliado afiliado) {
 
@@ -42,6 +61,9 @@ public class AfiliadoRepositoryImpl implements AfiliadoRepository {
 				.createCriteria(Afiliado.class).list();
 	}
 
+	/**
+	 * Consulta informacion de afiliados y la pagina.
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Afiliado> listAfiliadosQuery(Afiliado afiliado, String query, int page, int size) {
 		
@@ -78,6 +100,9 @@ Restrictions.like("monto_pension", "%" + query +"%"))
 	}
 
 
+	/**
+	 * Consulta informacion de afiliados y la pagina.
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Afiliado> listAfiliadosPagination(Afiliado afiliado, int page, int size) {
 			//cuentaProxy.set#columnsGrid(cuenta.get#columnsGrid());
@@ -86,6 +111,9 @@ Restrictions.like("monto_pension", "%" + query +"%"))
 				.setMaxResults(size).list();
 	}
 
+	/**
+	 * Obtiene el numero de afiliados consultados.
+	 */
 	@SuppressWarnings({ "unchecked" })
 	public long getTotalRows() {
 		
@@ -96,6 +124,9 @@ Restrictions.like("monto_pension", "%" + query +"%"))
 		return totalRows;  
 	}
 
+	/**
+	 * Obtiene el numero de afiliados consultados.
+	 */
 	@SuppressWarnings({ "unchecked" })
 	public long getTotalRowsSearch(String query) {
 		
@@ -122,6 +153,9 @@ Restrictions.like("monto_pension", "%" + query +"%"))
 	}
 
 
+	/**
+	 * Obtiene el numero de afiliados consultados.
+	 */
 	@SuppressWarnings({ "unchecked" })
 	public long getTotalRows(String query) {
 		
@@ -133,13 +167,17 @@ Restrictions.like("monto_pension", "%" + query +"%"))
 		return totalRows;  
 	}
 
-	
-
+	/**
+	 * Consulta informacion de un afiliado.
+	 */
 	public Afiliado getAfiliado(int empid) {
 		return (Afiliado) sessionFactory.getCurrentSession().get(
 				Afiliado.class, empid);
 	}
 
+	/**
+	 * Elimina un afiliado.
+	 */
 	public void deleteAfiliado(Afiliado afiliado) {
 		sessionFactory.getCurrentSession().delete(afiliado);
 	}

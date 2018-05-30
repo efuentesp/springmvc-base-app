@@ -190,7 +190,7 @@ public class AuthorityController {
 	private Authority prepareModel(AuthorityBean authorityBean) {
 		Authority authority = new Authority();
 
-		authority.setIdRol(authorityBean.getIdRol());
+		authority.setIdRol(authorityBean.getId());
 		authority.setRol(authorityBean.getRol());
 		authority.setEstatus(authorityBean.getEstatus());
 		authority.setFechaCreacion(authorityBean.getFechaCreacion());
@@ -208,7 +208,7 @@ public class AuthorityController {
 			for (Authority authority : authoritys) {
 				bean = new AuthorityBean();
 
-                bean.setIdRol(authority.getIdRol());
+                bean.setId(authority.getIdRol());
                 bean.setRol(authority.getRol());
                 bean.setEstatus(authority.getEstatus());
                 bean.setFechaCreacion(authority.getFechaCreacion());

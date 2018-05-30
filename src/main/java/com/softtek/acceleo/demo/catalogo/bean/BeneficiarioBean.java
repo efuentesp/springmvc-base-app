@@ -1,64 +1,141 @@
+/**
+ * Autor: PSG.
+ * Proyecto:
+ * Version: 0.1 
+ * Clase para encapsular informacion de un Beneficiario. 
+ */
 package com.softtek.acceleo.demo.catalogo.bean;
 
 import java.util.Date;
 
+/**
+ * Clase BeneficiarioBean.
+ * @author PSG.
+ *
+ */
 public class BeneficiarioBean {
 
 	private Integer beneficiarioId;
 
-	private String fecha_nacimiento;
+	private String fechaNacimiento;
 	private String nombre;
-	private String apellido_paterno;
+	private String apellidoPaterno;
 	private String curp;
-	private String apellido_materno;
+	private String apellidoMaterno;
 
 
 	private Parentesco parentescoId;
 	private enum Parentesco { hijo,conyuge,ascendiente}
 
 
+	/**
+	 * Obtiene el id del beneficiario.
+	 * @return Integer.
+	 */
 	public Integer getBeneficiarioId() {
 		return beneficiarioId;
 	}
 
+	/**
+	 * Asigna el id del beneficiario.
+	 * @param beneficiarioId.
+	 */
 	public void setBeneficiarioId(Integer beneficiarioId) {
 		this.beneficiarioId = beneficiarioId;
 	}
 
-	public String getFecha_nacimiento () {
-	    return fecha_nacimiento;  		
+	/**
+	 * Obtiene la fecha de nacimiento del beneficiario.
+	 * @return String.
+	 */
+	public String getFechaNacimiento () {
+	    return fechaNacimiento;  		
     }
-	public void setFecha_nacimiento(String fecha_nacimiento) {
-		this.fecha_nacimiento = fecha_nacimiento;
+	
+	/**
+	 * Asigna la fecha de nacimiento del beneficiario.
+	 * @param fechaNacimiento.
+	 */
+	public void setFechaNacimiento(String fechaNacimiento) {
+		this.fechaNacimiento = fechaNacimiento;
 	}
+	
+	/**
+	 * Obtiene el nombre del beneficiario.
+	 * @return String.
+	 */
 	public String getNombre () {
 	    return nombre;  		
     }
+	
+	/**
+	 * Asigna el nombre del beneficiario.
+	 * @param nombre.
+	 */
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	public String getApellido_paterno () {
-	    return apellido_paterno;  		
+	
+	/**
+	 * Obtiene el apellido paterno del beneficiario.
+	 * @return String.
+	 */
+	public String getApellidoPaterno () {
+	    return apellidoPaterno;  		
     }
-	public void setApellido_paterno(String apellido_paterno) {
-		this.apellido_paterno = apellido_paterno;
+	
+	/**
+	 * Asigna el apellido paterno del beneficiario.
+	 * @param apellidoPaterno.
+	 */
+	public void setApellidoPaterno(String apellidoPaterno) {
+		this.apellidoPaterno = apellidoPaterno;
 	}
+	
+	/**
+	 * Obtiene la curp del beneficiario.
+	 * @return String.
+	 */
 	public String getCurp () {
 	    return curp;  		
     }
+	
+	/**
+	 * Asigna la curp del beneficiario.
+	 * @param curp.
+	 */
 	public void setCurp(String curp) {
 		this.curp = curp;
 	}
-	public String getApellido_materno () {
-	    return apellido_materno;  		
+	
+	/**
+	 * Obtiene el apellido materno del beneficiario.
+	 * @return String.
+	 */
+	public String getApellidoMaterno () {
+	    return apellidoMaterno;  		
     }
-	public void setApellido_materno(String apellido_materno) {
-		this.apellido_materno = apellido_materno;
+	
+	/**
+	 * Asigna el apellido materno del beneficiario.
+	 * @param apellidoMaterno
+	 */
+	public void setApellidoMaterno(String apellidoMaterno) {
+		this.apellidoMaterno = apellidoMaterno;
 	}
 
+	/**
+	 * Obtiene el parentescoId del beneficiario.
+	 * @return Parentesco.
+	 */
 	public Parentesco getParentescoId () {
 	    return parentescoId;  		
     }
+	
+	/**
+	 * Asigna el parentescoId del beneficiario.
+	 * @param parentescoId.
+	 */
 	public void setParentescoId (Parentesco parentescoId) {
 		this.parentescoId = parentescoId;
 	}

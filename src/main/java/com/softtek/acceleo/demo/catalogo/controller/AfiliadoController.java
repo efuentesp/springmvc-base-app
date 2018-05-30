@@ -1,3 +1,9 @@
+/**
+ * Autor: PSG.
+ * Proyecto:
+ * Version: 0.1 
+ * Clase para invocar servicios de los afiliados. 
+ */
 package com.softtek.acceleo.demo.catalogo.controller;
 
 import java.util.ArrayList;
@@ -28,6 +34,11 @@ import com.softtek.acceleo.demo.catalogo.bean.AfiliadoBean;
 import com.softtek.acceleo.demo.domain.Afiliado;
 import com.softtek.acceleo.demo.service.AfiliadoService;
 
+/**
+ * Clase AfiliadoController.
+ * @author PSG.
+ *
+ */
 @Controller
 public class AfiliadoController {
 
@@ -36,6 +47,13 @@ public class AfiliadoController {
 	
 	Afiliado afiliado = new Afiliado();
 
+	/**
+	 * Obtiene informacion de los afilliados.
+	 * @param requestParams.
+	 * @param request.
+	 * @param response.
+	 * @return List<Afiliado>.
+	 */
 	@RequestMapping(value = "/afiliado", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody  List<Afiliado> getAfiliados(@RequestParam Map<String,String> requestParams, HttpServletRequest request, HttpServletResponse response) {
 
@@ -62,7 +80,11 @@ public class AfiliadoController {
 		return listAfiliado;
 	}
 	
-	
+	/**
+	 * Obtiene informacion de un afiliado.
+	 * @param id.
+	 * @return Afiliado.
+	 */
 	@RequestMapping(value = "/afiliado/{id}", method = RequestMethod.GET, produces = "application/json")
 	    public @ResponseBody  Afiliado getAfiliado(@PathVariable("id") int id) {
 	        
@@ -75,7 +97,12 @@ public class AfiliadoController {
 	 }
 
 
-
+	/**
+	 * Crea un nuevo afiliado.
+	 * @param afiliado.
+	 * @param ucBuilder.
+	 * @return ResponseEntity.
+	 */
 	 @RequestMapping(value = "/afiliado", method = RequestMethod.POST)
 	    public ResponseEntity<Void> createAfiliado(@RequestBody Afiliado afiliado,    UriComponentsBuilder ucBuilder) {
 	   
@@ -86,6 +113,12 @@ public class AfiliadoController {
 	        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 	 }
 		
+	 /**
+	  * Actualiza la informacion de un afiliado.
+	  * @param id.
+	  * @param afiliado.
+	  * @return ResponseEntity.
+	  */
 	 @RequestMapping(value = "/afiliado/{id}", method = RequestMethod.PUT)
 	    public ResponseEntity<Afiliado> actualizarAfiliado(
 				@PathVariable("id") int id, 
@@ -119,7 +152,11 @@ public class AfiliadoController {
 	        return new ResponseEntity<Afiliado>(afiliadoFound, HttpStatus.OK);
 	  } 	
 	
-		
+		/**
+		 * Elimina un afiliado.
+		 * @param id.
+		 * @return ResponseEntity<Afiliado>.
+		 */
 		@RequestMapping(value = "/afiliado/{id}", method = RequestMethod.DELETE)
 	    public ResponseEntity<Afiliado> deleteAfiliado(@PathVariable("id") int id) {
 			 long rows = 0;	
@@ -137,7 +174,11 @@ public class AfiliadoController {
              }
 		}
 
-
+	/**
+	 * Salva informacion de un afiliado.
+	 * @param afiliadoBean.
+	 * @return String.
+	 */
 	@RequestMapping(value = "/saveAfiliado", method = RequestMethod.POST)
 	public @ResponseBody String saveAfiliado(
 			@ModelAttribute("command") AfiliadoBean afiliadoBean) {
@@ -148,6 +189,11 @@ public class AfiliadoController {
 		return "SUCCESS";
 	}
 	
+	/**
+	 * Edita informacion de un afiliado.
+	 * @param afiliadoBean.
+	 * @return String.
+	 */
 	@RequestMapping(value = "/editAfiliado", method = RequestMethod.POST)
 	public @ResponseBody String editAfiliado(
 			@ModelAttribute("command") AfiliadoBean afiliadoBean) {
@@ -158,6 +204,12 @@ public class AfiliadoController {
 		return "SUCCESS";
 	}
 
+	/**
+	 * Agrega un afiliado.
+	 * @param afiliadoBean.
+	 * @param result.
+	 * @return ModelAndView.
+	 */
 	@RequestMapping(value = "/searchAfiliado", method = RequestMethod.GET)
 	public ModelAndView addAfiliado(
 			@ModelAttribute("command") AfiliadoBean afiliadoBean,
@@ -172,6 +224,12 @@ public class AfiliadoController {
 		return new ModelAndView("searchAfiliado", model);
 	}
 
+	/**
+	 * Elimina un afiliado.
+	 * @param afiliadoBean.
+	 * @param result.
+	 * @return ModelAndView.
+	 */
 	@RequestMapping(value = "/deleteAfiliado", method = RequestMethod.POST)
 	public ModelAndView deleteAfiliado(
 			@ModelAttribute("command") AfiliadoBean afiliadoBean,
@@ -185,11 +243,20 @@ public class AfiliadoController {
 		return new ModelAndView("searchAfiliado", model);
 	}
 
+	/**
+	 * 
+	 * @return ModelAndView.
+	 */
 	@RequestMapping(value = "/entryAfiliado", method = RequestMethod.GET)
 	public ModelAndView entryAfiliado() {
 		return new ModelAndView("redirect:/searchAfiliado");
 	}
 
+	/**
+	 * Convierte un objeto de tipo AfiliadoBean a un objeto de tipo Afiliado.
+	 * @param afiliadoBean.
+	 * @return Afiliado.
+	 */
 	private Afiliado prepareModel(AfiliadoBean afiliadoBean) {
 		Afiliado afiliado = new Afiliado();
 
@@ -197,21 +264,26 @@ public class AfiliadoController {
 		afiliado.setBeneficiarioId(afiliadoBean.getBeneficiarioId());
 		afiliado.setNss(afiliadoBean.getNss());
 		afiliado.setNombre(afiliadoBean.getNombre());
-		afiliado.setApellido_paterno(afiliadoBean.getApellido_paterno());
-		afiliado.setApellido_materno(afiliadoBean.getApellido_materno());
+		afiliado.setApellido_paterno(afiliadoBean.getApellidoPaterno());
+		afiliado.setApellido_materno(afiliadoBean.getApellidoMaterno());
 		afiliado.setObservaciones(afiliadoBean.getObservaciones());
-		afiliado.setFecha_afiliacion(afiliadoBean.getFecha_afiliacion());
+		afiliado.setFecha_afiliacion(afiliadoBean.getFechaAfiliacion());
 		afiliado.setFoto(afiliadoBean.getFoto());
-		afiliado.setActa_nacimiento(afiliadoBean.getActa_nacimiento());
+		afiliado.setActa_nacimiento(afiliadoBean.getActaNacimiento());
 		afiliado.setCorreo(afiliadoBean.getCorreo());
-		afiliado.setSemanas_cotizadas(afiliadoBean.getSemanas_cotizadas());
-		afiliado.setMonto_pension(afiliadoBean.getMonto_pension());
+		afiliado.setSemanas_cotizadas(afiliadoBean.getSemanasCotizadas());
+		afiliado.setMonto_pension(afiliadoBean.getMontoPension());
 		afiliado.setAfiliadoId(afiliadoBean.getAfiliadoId());
 		afiliadoBean.setAfiliadoId(null);
 
 		return afiliado;
 	}
 
+	/**
+	 * Convierte lista de objetos de tipo Afiliados a lista de objetos de tipo AfiliadoBean.
+	 * @param afiliados.
+	 * @return List<AfiliadoBean>.
+	 */
 	private List<AfiliadoBean> prepareListofBean(List<Afiliado> afiliados) {
 		List<AfiliadoBean> beans = null;
 		if (afiliados != null && !afiliados.isEmpty()) {
@@ -224,15 +296,15 @@ public class AfiliadoController {
 				bean.setBeneficiarioId(afiliado.getBeneficiarioId());
 				bean.setNss(afiliado.getNss());
 				bean.setNombre(afiliado.getNombre());
-				bean.setApellido_paterno(afiliado.getApellido_paterno());
-				bean.setApellido_materno(afiliado.getApellido_materno());
+				bean.setApellidoPaterno(afiliado.getApellido_paterno());
+				bean.setApellidoMaterno(afiliado.getApellido_materno());
 				bean.setObservaciones(afiliado.getObservaciones());
-				bean.setFecha_afiliacion(afiliado.getFecha_afiliacion());
+				bean.setFechaAfiliacion(afiliado.getFecha_afiliacion());
 				bean.setFoto(afiliado.getFoto());
-				bean.setActa_nacimiento(afiliado.getActa_nacimiento());
+				bean.setActaNacimiento(afiliado.getActa_nacimiento());
 				bean.setCorreo(afiliado.getCorreo());
-				bean.setSemanas_cotizadas(afiliado.getSemanas_cotizadas());
-				bean.setMonto_pension(afiliado.getMonto_pension());
+				bean.setSemanasCotizadas(afiliado.getSemanas_cotizadas());
+				bean.setMontoPension(afiliado.getMonto_pension());
 				bean.setAfiliadoId(afiliado.getAfiliadoId());
 				beans.add(bean);
 			}

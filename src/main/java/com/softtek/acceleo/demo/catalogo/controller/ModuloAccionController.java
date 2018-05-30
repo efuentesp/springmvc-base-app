@@ -189,7 +189,7 @@ public class ModuloAccionController {
 	private ModuloAccion prepareModel(ModuloAccionBean moduloaccionBean) {
 		ModuloAccion moduloaccion = new ModuloAccion();
 
-		moduloaccion.setIdModuloAccion(moduloaccionBean.getIdModuloAccion());
+		moduloaccion.setIdModuloAccion(moduloaccionBean.getId());
 		moduloaccion.setIdModulo(moduloaccionBean.getIdModulo());
 		moduloaccion.setIdAccion(moduloaccionBean.getIdAccion());
 		moduloaccion.setEstatus(moduloaccionBean.getEstatus());
@@ -208,7 +208,7 @@ public class ModuloAccionController {
 			for (ModuloAccion moduloaccion : moduloaccions) {
 				bean = new ModuloAccionBean();
 
-                bean.setIdModuloAccion(moduloaccion.getIdModuloAccion());
+                bean.setId(moduloaccion.getIdModuloAccion());
                 bean.setIdModulo(moduloaccion.getIdModulo());
                 bean.setIdAccion(moduloaccion.getIdAccion());
                 bean.setEstatus(moduloaccion.getEstatus());

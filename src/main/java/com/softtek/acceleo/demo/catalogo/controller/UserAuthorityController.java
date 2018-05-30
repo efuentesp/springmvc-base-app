@@ -189,7 +189,7 @@ public class UserAuthorityController {
 	private UserAuthority prepareModel(UserAuthorityBean userauthorityBean) {
 		UserAuthority userauthority = new UserAuthority();
 
-		userauthority.setIdUserAuthority(userauthorityBean.getIdUserAuthority());
+		userauthority.setIdUserAuthority(userauthorityBean.getId());
 		userauthority.setIdUser(userauthorityBean.getIdUser());
 		userauthority.setIdRol(userauthorityBean.getIdRol());
 		userauthority.setEstatus(userauthorityBean.getEstatus());
@@ -208,7 +208,7 @@ public class UserAuthorityController {
 			for (UserAuthority userauthority : userauthoritys) {
 				bean = new UserAuthorityBean();
 
-                bean.setIdUserAuthority(userauthority.getIdUserAuthority());
+                bean.setId(userauthority.getIdUserAuthority());
                 bean.setIdUser(userauthority.getIdUser());
                 bean.setIdRol(userauthority.getIdRol());
                 bean.setEstatus(userauthority.getEstatus());

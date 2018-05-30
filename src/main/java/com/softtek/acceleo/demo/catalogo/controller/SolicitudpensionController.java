@@ -185,7 +185,7 @@ public class SolicitudpensionController {
 		solicitudpension.setAfiliadoId(solicitudpensionBean.getAfiliadoId());
 		solicitudpension.setTipopensionId(solicitudpensionBean.getTipopensionId());
 		solicitudpension.setNumero(solicitudpensionBean.getNumero());
-		solicitudpension.setFecha_solicitud(solicitudpensionBean.getFecha_solicitud());
+		solicitudpension.setFecha_solicitud(solicitudpensionBean.getFechaSolicitud());
 		solicitudpension.setObservaciones(solicitudpensionBean.getObservaciones());
 		solicitudpension.setSolicitudpensionId(solicitudpensionBean.getSolicitudpensionId());
 		solicitudpensionBean.setSolicitudpensionId(null);
@@ -204,7 +204,7 @@ public class SolicitudpensionController {
 				bean.setAfiliadoId(solicitudpension.getAfiliadoId());
 				bean.setTipopensionId(solicitudpension.getTipopensionId());
 				bean.setNumero(solicitudpension.getNumero());
-				bean.setFecha_solicitud(solicitudpension.getFecha_solicitud());
+				bean.setFechaSolicitud(solicitudpension.getFecha_solicitud());
 				bean.setObservaciones(solicitudpension.getObservaciones());
 				bean.setSolicitudpensionId(solicitudpension.getSolicitudpensionId());
 				beans.add(bean);

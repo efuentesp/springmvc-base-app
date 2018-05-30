@@ -1,4 +1,9 @@
-
+/**
+ * Autor: PSG.
+ * Proyecto:
+ * Version: 0.1 
+ * Clase para generar consultas de las acciones. 
+ */
 package com.softtek.acceleo.demo.repository.impl;
 
 import java.util.List;
@@ -19,15 +24,24 @@ public class AccionRepositoryImpl implements AccionRepository {
 	@Autowired
 	private SessionFactory sessionFactory;
 
+	/**
+	 * Agrega una accion.
+	 */
 	public void addAccion(Accion accion) {
 		sessionFactory.getCurrentSession().persist(accion);
 	}
 
+	/**
+	 * Edita una accion.
+	 */
 	public void editAccion(Accion accion) {
 		sessionFactory.getCurrentSession().update(accion);
 
 	}
 
+	/**
+	 * Consulta informacion de acciones.
+	 */
 	@SuppressWarnings({ "unchecked" })
 	public List<Accion> listAccionss(Accion accion) {
 
@@ -53,6 +67,9 @@ public class AccionRepositoryImpl implements AccionRepository {
 	}
 
 
+	/**
+	 * Consulta informacion de acciones.
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Accion> listAccionssQuery(Accion accion, String query, int page, int size) {
 			//accionProxy.set#columnsGrid(accion.get#columnsGrid());
@@ -68,7 +85,9 @@ public class AccionRepositoryImpl implements AccionRepository {
 ).list();
 	}
 
-
+	/**
+	 * Consulta informacion de acciones, y pagina la informacion obtenida.
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Accion> listAccionsPagination(Accion accion, int page, int size) {
 			//cuentaProxy.set#columnsGrid(cuenta.get#columnsGrid());
@@ -78,6 +97,9 @@ public class AccionRepositoryImpl implements AccionRepository {
 				.setMaxResults(size).list();
 	}
 
+	/**
+	 * Obtiene el numero de acciones consultadas.
+	 */
 	@SuppressWarnings({ "unchecked" })
 	public long getTotalRows() {
 		
@@ -88,6 +110,9 @@ public class AccionRepositoryImpl implements AccionRepository {
 		return totalRows;  
 	}
 
+	/**
+	 * Obtiene el numero de acciones consultadas.
+	 */
 	@SuppressWarnings({ "unchecked" })
 	public long getTotalRowsSearch(String query) {
 		
@@ -105,7 +130,9 @@ public class AccionRepositoryImpl implements AccionRepository {
 		return totalRows;  
 	}
 
-
+	/**
+	 * Obtiene el numero de acciones consultadas.
+	 */
 	@SuppressWarnings({ "unchecked" })
 	public long getTotalRows(String query) {
 		
@@ -118,12 +145,17 @@ public class AccionRepositoryImpl implements AccionRepository {
 	}
 
 	
-
+	/**
+	 * Obtiene informacion de una accion.
+	 */
 	public Accion getAccion(int empid) {
 		return (Accion) sessionFactory.getCurrentSession().get(
 				Accion.class, empid);
 	}
 
+	/**
+	 * Elimina una accion.
+	 */
 	public void deleteAccion(Accion accion) {
 		sessionFactory.getCurrentSession().delete(accion);
 	}

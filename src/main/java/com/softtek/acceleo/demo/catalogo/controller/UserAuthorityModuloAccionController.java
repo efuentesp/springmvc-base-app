@@ -189,7 +189,7 @@ public class UserAuthorityModuloAccionController {
 	private UserAuthorityModuloAccion prepareModel(UserAuthorityModuloAccionBean userauthoritymoduloaccionBean) {
 		UserAuthorityModuloAccion userauthoritymoduloaccion = new UserAuthorityModuloAccion();
 
-		userauthoritymoduloaccion.setIdUserAuthorityModuloAccion(userauthoritymoduloaccionBean.getIdUserAuthorityModuloAccion());
+		userauthoritymoduloaccion.setIdUserAuthorityModuloAccion(userauthoritymoduloaccionBean.getId());
 		userauthoritymoduloaccion.setIdUserAuthority(userauthoritymoduloaccionBean.getIdUserAuthority());
 		userauthoritymoduloaccion.setIdModuloAccion(userauthoritymoduloaccionBean.getIdModuloAccion());
 		userauthoritymoduloaccion.setEstatus(userauthoritymoduloaccionBean.getEstatus());
@@ -208,7 +208,7 @@ public class UserAuthorityModuloAccionController {
 			for (UserAuthorityModuloAccion userauthoritymoduloaccion : userauthoritymoduloaccions) {
 				bean = new UserAuthorityModuloAccionBean();
 
-                bean.setIdUserAuthorityModuloAccion(userauthoritymoduloaccion.getIdUserAuthorityModuloAccion());
+                bean.setId(userauthoritymoduloaccion.getIdUserAuthorityModuloAccion());
                 bean.setIdUserAuthority(userauthoritymoduloaccion.getIdUserAuthority());
                 bean.setIdModuloAccion(userauthoritymoduloaccion.getIdModuloAccion());
                 bean.setEstatus(userauthoritymoduloaccion.getEstatus());
