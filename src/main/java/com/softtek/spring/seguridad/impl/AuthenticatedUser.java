@@ -1,3 +1,9 @@
+/**
+ * Autor: PSG.
+ * Proyecto:
+ * Version: 0.1
+ * Clase para encapsular informacion de AuthenticatedUser. 
+ */
 package com.softtek.spring.seguridad.impl;
 
 import java.util.Collection;
@@ -8,6 +14,11 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+/**
+ * Clase AuthenticatedUser.
+ * @author PSG.
+ *
+ */
 @Component("authenticatedUser")
 public class AuthenticatedUser implements UserDetails {
     /**
@@ -22,6 +33,9 @@ public class AuthenticatedUser implements UserDetails {
     //private final Collection<? extends GrantedAuthority> authorities;
     private final Collection<GrantedAuthority> authorities;
     
+    /**
+     * Constructor por default de la clase AuthenticatedUser.
+     */
     public AuthenticatedUser() {
     	this.id = null;
     	this.username = null;
@@ -30,6 +44,14 @@ public class AuthenticatedUser implements UserDetails {
     	this.authorities = null;
     }
 
+    /**
+     * Constructor con parametros de la clase AuthenticatedUser.
+     * @param id.
+     * @param username.
+     * @param password.
+     * @param token.
+     * @param authorities.
+     */
     public AuthenticatedUser(String id, String username, String password, String token, Collection</*? extends */GrantedAuthority> authorities) {
         this.id = id;
         this.username = username;
@@ -38,16 +60,27 @@ public class AuthenticatedUser implements UserDetails {
         this.authorities = authorities;
     }
 
+    /**
+     * Obtiene el id del user autenticado.
+     * @return String.
+     */
     @JsonIgnore
     public String getId() {
         return id;
     }
 
+    /**
+     * Asigna el id del user autenticado.
+     */
     @Override
     public String getUsername() {
         return username;
     }
 
+    /**
+     * Determina si la cuenta esta expirada.
+     * @return boolean. (true -> no expirada, false -> expirada)
+     */
     @Override
     @JsonIgnore
     public boolean isAccountNonExpired() {
@@ -58,6 +91,10 @@ public class AuthenticatedUser implements UserDetails {
     	}
     }
 
+    /**
+     * Determina si la cuenta esta bloqueada.
+     * @return boolean. (true -> no bloqueada, false -> bloqueada)
+     */
     @Override
     @JsonIgnore
     public boolean isAccountNonLocked() {
@@ -68,6 +105,10 @@ public class AuthenticatedUser implements UserDetails {
     	}
     }
 
+    /**
+     * Determina si la cuenta ha expirado.
+     * @return boolean. (true -> no expirada, false -> expirada)
+     */
     @Override
     @JsonIgnore
     public boolean isCredentialsNonExpired() {
@@ -78,6 +119,10 @@ public class AuthenticatedUser implements UserDetails {
     	}
     }
 
+    /**
+     * Determina si el token esta habilitado.
+     * @return boolean. (true -> habilitado, false -> deshabilitado)
+     */
     @Override
     @JsonIgnore
     public boolean isEnabled() {
@@ -88,20 +133,27 @@ public class AuthenticatedUser implements UserDetails {
     	}
     }
 
-    public String getToken() {
+    /**
+     * Obtiene el token del usuario.
+     * @return String.
+     */
+    protected String getToken() {
         return token;
     }
 
-//    @Override
-//    public Collection<? extends GrantedAuthority> getAuthorities() {
-//        return authorities;
-//    }
+    /**
+     * Obtiene los roles relacionados al usuario autenticado.
+     * @return Collection<GrantedAuthority>.  
+     */
     @Override
     public Collection<GrantedAuthority> getAuthorities() {
     	return authorities;
     }
 
-    
+    /**
+     * Obtiene el password del usuario autenticado.
+     * @return String.
+     */
     @Override
     public String getPassword() {
         return this.password;

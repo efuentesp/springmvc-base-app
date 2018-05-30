@@ -39,10 +39,10 @@ public class JwtAuthenticationProviderTest extends AbstractTransactionalJUnit4Sp
 	public void testRetrieveUserStringUsernamePasswordAuthenticationToken() {
 		try {
 			//User capturado en pantalla.
-			String userName = "user02";
+			String userName = "user01";
 			
 			//Password capturado en pantalla.
-			String password = "user02";//user01 - OK   --- userTest - NO OK
+			String password = "user01";//user01 - OK   --- userTest - NO OK
 			
 			/**
 			 * Genera token de pruebas JUnit cuando no se conoce el token del password. (ESTE TOKEN ES EL EQUIVALENTE AL QUE SE DEBE OBTENER DE BASE DE DATOS)

@@ -1,3 +1,9 @@
+/**
+ * Autor: PSG.
+ * Proyecto:
+ * Version: 0.1 
+ * Clase para invocar servicios del modulo de seguridad. 
+ */
 package com.softtek.spring.seguridad.controller;
 
 import java.util.List;
@@ -18,6 +24,11 @@ import com.softtek.spring.seguridad.JwtAuthenticationProvider;
 import com.softtek.spring.seguridad.UserBusiness;
 import com.softtek.spring.seguridad.impl.AuthenticatedUser;
 
+/**
+ * Clase SeguridadController.
+ * @author PSG.
+ *
+ */
 @Controller
 public class SeguridadController {
 	private static final Logger logger = Logger.getLogger(SeguridadController.class);
@@ -29,8 +40,12 @@ public class SeguridadController {
 	@Autowired
 	UserBusiness userBsnss;
 	
-	UserDetails userDetails;
-	
+	/**
+	 * Valida informacion del usuario es correcta, si la informacion es correcta, entonces se le deja autenticar exitosamente, 
+	 * de lo contrario no se le permite la autenticacion.
+	 * @param user.
+	 * @return ResponseEntity<UserDetails>.
+	 */
 	@RequestMapping(value = "/api/authenticate", method = RequestMethod.POST)
 	public ResponseEntity<UserDetails> autenticarUser(@RequestBody User user) {
 		String userName = user.getUserName();
@@ -50,6 +65,11 @@ public class SeguridadController {
 		}
 	}
 	
+	/**
+	 * Consulta informacion del usuario.
+	 * @param user.
+	 * @return ResponseEntity<User>.
+	 */
 	@RequestMapping(value = "/api/users", method = RequestMethod.POST)
 	public ResponseEntity<User> consultarInformacionUser(@RequestBody User user) {
 		String userName = user.getUserName();
@@ -64,35 +84,5 @@ public class SeguridadController {
 			
 			return new ResponseEntity<User>(lstUser.get(0), HttpStatus.OK);
 		}
-	}
-	
-	
-/**
- * @RequestMapping(value = "/afiliado", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody  List<Afiliado> getAfiliados(@RequestParam Map<String,String> requestParams, HttpServletRequest request, HttpServletResponse response) {
-
-       	String query=requestParams.get("q");
-		int _page= requestParams.get("_page")==null?0:new Integer(requestParams.get("_page")).intValue();
-		long rows = 0;
-
-		List<Afiliado> listAfiliado = null;
-
-		if (query==null && _page == 0) {
-       		listAfiliado = afiliadoService.listAfiliados(afiliado);
-			rows = afiliadoService.getTotalRows();
-		} else if (query!= null){
-			listAfiliado = afiliadoService.listAfiliadosQuery(afiliado, query, _page, 10);
-			rows = afiliadoService.getTotalRowsSearch(query);
-		} else if (_page != 0){
-			listAfiliado = afiliadoService.listAfiliadosPagination(afiliado, _page, 10);
-			rows = afiliadoService.getTotalRows();
-		}
-
-		response.setHeader("Access-Control-Expose-Headers", "x-total-count");
-		response.setHeader("x-total-count", String.valueOf(rows).toString());	
-
-		return listAfiliado;
-	}
-	
- */
+	}	
 }
