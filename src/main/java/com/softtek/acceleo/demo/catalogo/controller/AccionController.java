@@ -90,7 +90,7 @@ public class AccionController {
 	@RequestMapping(value = "/accion/{id}", method = RequestMethod.GET, produces = "application/json")
 	    public @ResponseBody  Accion getAccion(@PathVariable("id") int id) {
 	        
-	        accion.setId(id);
+	        accion.setIdAccion(id);
 	        
 	        Accion accion = null;
 	        accion = accionService.getAccion(id);
@@ -109,7 +109,7 @@ public class AccionController {
 	        accionService.addAccion(accion);
 	 
 	        HttpHeaders headers = new HttpHeaders();
-	        headers.setLocation(ucBuilder.path("/accion/{id}").buildAndExpand(accion.getId()).toUri());
+	        headers.setLocation(ucBuilder.path("/accion/{id}").buildAndExpand(accion.getIdAccion()).toUri());
 	        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 	 }
 		
@@ -135,8 +135,7 @@ public class AccionController {
 				accionFound.setEstatus(accion.getEstatus());
 				accionFound.setFechaCreacion(accion.getFechaCreacion());
 				accionFound.setFechaModificacion(accion.getFechaModificacion());
-			accion.setId(null);
-	        
+			
 	        accionService.editAccion(accionFound);
 	        return new ResponseEntity<Accion>(accionFound, HttpStatus.OK);
 	  } 	
@@ -231,7 +230,7 @@ public class AccionController {
 	public ModelAndView deleteAccion(
 			@ModelAttribute("command") AccionBean accionBean,
 			BindingResult result) {
-		System.out.println("delete " + accionBean.getId());
+		System.out.println("delete " + accionBean.getIdAccion());
 		accionService.deleteAccion(prepareModel(accionBean));
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("accion", null);
@@ -257,13 +256,11 @@ public class AccionController {
 	private Accion prepareModel(AccionBean accionBean) {
 		Accion accion = new Accion();
 
-		accion.setIdAccion(accionBean.getId());
+		accion.setIdAccion(accionBean.getIdAccion());
 		accion.setAccion(accionBean.getAccion());
 		accion.setEstatus(accionBean.getEstatus());
 		accion.setFechaCreacion(accionBean.getFechaCreacion());
 		accion.setFechaModificacion(accionBean.getFechaModificacion());
-		accion.setId(accionBean.getId());
-		accionBean.setId(null);
 		return accion;
 	}
 
@@ -280,12 +277,11 @@ public class AccionController {
 			for (Accion accion : accions) {
 				bean = new AccionBean();
 
-                bean.setId(accion.getIdAccion());
+                bean.setIdAccion(accion.getIdAccion());
                 bean.setAccion(accion.getAccion());
                 bean.setEstatus(accion.getEstatus());
                 bean.setFechaCreacion(accion.getFechaCreacion());
                 bean.setFechaModificacion(accion.getFechaModificacion());
-				bean.setId(accion.getId());
 				beans.add(bean);
 			}
 		}

@@ -22,9 +22,6 @@ public class Modulo implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id")
-	private Integer id;
-
     @Column(name = "idmodulo") 
 	private Integer idmodulo;
     @Column(name = "modulo") 
@@ -35,14 +32,6 @@ public class Modulo implements Serializable {
 	private Boolean estatus;
     @Column(name = "fechacreacion") 
 	private Date fechacreacion;
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
 
 	public Integer getIdModulo () {
 	    return idmodulo;  		

@@ -15,26 +15,20 @@ import java.util.Date;
  */
 public class ModuloBean {
 
-	private Integer id;
+	private Integer idModulo;
 	private String modulo;
 	private Date fechamodificacion;
 	private Boolean estatus;
 	private Date fechacreacion;
 
-	/**
-	 * Obtiene el id del modulo.
-	 * @return Integer.
-	 */
-	public Integer getId() {
-		return id;
+
+
+	public Integer getIdModulo() {
+		return idModulo;
 	}
 
-	/**
-	 * Asigna el id del modulo.
-	 * @param id.
-	 */
-	public void setId(Integer id) {
-		this.id = id;
+	public void setIdModulo(Integer idModulo) {
+		this.idModulo = idModulo;
 	}
 
 	/**

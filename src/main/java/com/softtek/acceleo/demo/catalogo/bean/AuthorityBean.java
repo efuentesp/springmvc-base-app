@@ -15,8 +15,6 @@ import java.util.Date;
  */
 public class AuthorityBean {
 
-	private Integer id;
-
 	private Date fechamodificacion;
 	private Date fechacreacion;
 	private Boolean estatus;
@@ -27,16 +25,16 @@ public class AuthorityBean {
 	 * Obtine el id authority (ROL).
 	 * @return Integer.
 	 */
-	public Integer getId() {
-		return id;
+	public Integer getIdrol() {
+		return idrol;
 	}
 
 	/**
 	 * Asigna el id authority (ROL).
 	 * @param id.
 	 */
-	public void setId(Integer id) {
-		this.id = id;
+	public void setIdrol(Integer idrol) {
+		this.idrol = idrol;
 	}
 
 	/**
@@ -102,4 +100,6 @@ public class AuthorityBean {
 	public void setRol(String rol) {
 		this.rol = rol;
 	}
+
+
 }

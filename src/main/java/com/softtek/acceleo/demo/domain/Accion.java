@@ -22,9 +22,8 @@ public class Accion implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id")
-	private Integer id;
-
+    @Column(name = "idaccion") 
+	private Integer idaccion;
     @Column(name = "fechacreacion") 
 	private Date fechacreacion;
     @Column(name = "fechamodificacion") 
@@ -33,16 +32,7 @@ public class Accion implements Serializable {
 	private Boolean estatus;
     @Column(name = "accion") 
 	private String accion;
-    @Column(name = "idaccion") 
-	private Integer idaccion;
 
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
 
 	public Date getFechaCreacion () {
 	    return fechacreacion;  		

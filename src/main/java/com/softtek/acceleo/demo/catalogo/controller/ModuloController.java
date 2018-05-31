@@ -67,8 +67,7 @@ public class ModuloController {
 	@RequestMapping(value = "/modulo/{id}", method = RequestMethod.GET, produces = "application/json")
 	    public @ResponseBody  Modulo getModulo(@PathVariable("id") int id) {
 	        
-	        modulo.setId(id);
-	        
+	        modulo.setIdModulo(id);
 	        Modulo modulo = null;
 	        modulo = moduloService.getModulo(id);
 			return modulo;
@@ -82,7 +81,7 @@ public class ModuloController {
 	        moduloService.addModulo(modulo);
 	 
 	        HttpHeaders headers = new HttpHeaders();
-	        headers.setLocation(ucBuilder.path("/modulo/{id}").buildAndExpand(modulo.getId()).toUri());
+	        headers.setLocation(ucBuilder.path("/modulo/{id}").buildAndExpand(modulo.getIdModulo()).toUri());
 	        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 	 }
 		
@@ -102,7 +101,6 @@ public class ModuloController {
 				moduloFound.setEstatus(modulo.getEstatus());
 				moduloFound.setFechaCreacion(modulo.getFechaCreacion());
 				moduloFound.setFechaModificacion(modulo.getFechaModificacion());
-			modulo.setId(null);
 	        
 	        moduloService.editModulo(moduloFound);
 	        return new ResponseEntity<Modulo>(moduloFound, HttpStatus.OK);
@@ -171,7 +169,7 @@ public class ModuloController {
 	public ModelAndView deleteModulo(
 			@ModelAttribute("command") ModuloBean moduloBean,
 			BindingResult result) {
-		System.out.println("delete " + moduloBean.getId());
+		System.out.println("delete " + moduloBean.getIdModulo());
 		moduloService.deleteModulo(prepareModel(moduloBean));
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("modulo", null);
@@ -188,13 +186,11 @@ public class ModuloController {
 	private Modulo prepareModel(ModuloBean moduloBean) {
 		Modulo modulo = new Modulo();
 
-		modulo.setIdModulo(moduloBean.getId());
+		modulo.setIdModulo(moduloBean.getIdModulo());
 		modulo.setModulo(moduloBean.getModulo());
 		modulo.setEstatus(moduloBean.getEstatus());
 		modulo.setFechaCreacion(moduloBean.getFechaCreacion());
 		modulo.setFechaModificacion(moduloBean.getFechaModificacion());
-		modulo.setId(moduloBean.getId());
-		moduloBean.setId(null);
 		return modulo;
 	}
 
@@ -206,12 +202,11 @@ public class ModuloController {
 			for (Modulo modulo : modulos) {
 				bean = new ModuloBean();
 
-                bean.setId(modulo.getIdModulo());
+                bean.setIdModulo(modulo.getIdModulo());
                 bean.setModulo(modulo.getModulo());
                 bean.setEstatus(modulo.getEstatus());
                 bean.setFechaCreacion(modulo.getFechaCreacion());
                 bean.setFechaModificacion(modulo.getFechaModificacion());
-				bean.setId(modulo.getId());
 				beans.add(bean);
 			}
 		}

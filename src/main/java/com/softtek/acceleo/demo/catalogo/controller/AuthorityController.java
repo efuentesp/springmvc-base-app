@@ -69,7 +69,7 @@ public class AuthorityController {
 	@RequestMapping(value = "/authority/{id}", method = RequestMethod.GET, produces = "application/json")
 	    public @ResponseBody  Authority getAuthority(@PathVariable("id") int id) {
 	        
-	        authority.setId(id);
+	        authority.setIdRol(id);
 	        
 	        Authority authority = null;
 	        authority = authorityService.getAuthority(id);
@@ -84,7 +84,7 @@ public class AuthorityController {
 	        authorityService.addAuthority(authority);
 	 
 	        HttpHeaders headers = new HttpHeaders();
-	        headers.setLocation(ucBuilder.path("/authority/{id}").buildAndExpand(authority.getId()).toUri());
+	        headers.setLocation(ucBuilder.path("/authority/{id}").buildAndExpand(authority.getIdRol()).toUri());
 	        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 	 }
 		
@@ -104,7 +104,6 @@ public class AuthorityController {
 				authorityFound.setEstatus(authority.getEstatus());
 				authorityFound.setFechaCreacion(authority.getFechaCreacion());
 				authorityFound.setFechaModificacion(authority.getFechaModificacion());
-			authority.setId(null);
 	        
 	        authorityService.editAuthority(authorityFound);
 	        return new ResponseEntity<Authority>(authorityFound, HttpStatus.OK);
@@ -173,7 +172,7 @@ public class AuthorityController {
 	public ModelAndView deleteAuthority(
 			@ModelAttribute("command") AuthorityBean authorityBean,
 			BindingResult result) {
-		System.out.println("delete " + authorityBean.getId());
+		System.out.println("delete " + authorityBean.getIdrol());
 		authorityService.deleteAuthority(prepareModel(authorityBean));
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("authority", null);
@@ -190,13 +189,11 @@ public class AuthorityController {
 	private Authority prepareModel(AuthorityBean authorityBean) {
 		Authority authority = new Authority();
 
-		authority.setIdRol(authorityBean.getId());
+		authority.setIdRol(authorityBean.getIdrol());
 		authority.setRol(authorityBean.getRol());
 		authority.setEstatus(authorityBean.getEstatus());
 		authority.setFechaCreacion(authorityBean.getFechaCreacion());
 		authority.setFechaModificacion(authorityBean.getFechaModificacion());
-		authority.setId(authorityBean.getId());
-		authorityBean.setId(null);
 		return authority;
 	}
 
@@ -208,12 +205,11 @@ public class AuthorityController {
 			for (Authority authority : authoritys) {
 				bean = new AuthorityBean();
 
-                bean.setId(authority.getIdRol());
+                bean.setIdrol(authority.getIdRol());
                 bean.setRol(authority.getRol());
                 bean.setEstatus(authority.getEstatus());
                 bean.setFechaCreacion(authority.getFechaCreacion());
                 bean.setFechaModificacion(authority.getFechaModificacion());
-				bean.setId(authority.getId());
 				beans.add(bean);
 			}
 		}

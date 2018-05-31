@@ -15,29 +15,28 @@ import java.util.Date;
  */
 public class AccionBean {
 
-	private Integer id;
 	private Date fechacreacion;
 	private Date fechamodificacion;
 	private Boolean estatus;
 	private String accion;
-	private Integer idaccion;
+	private Integer idAccion;
 
 	/**
 	 * Obtiene el id de la accion.
 	 * @return Integer.
 	 */
-	public Integer getId() {
-		return id;
+	public Integer getIdAccion() {
+		return idAccion;
 	}
-
+	
 	/**
 	 * Asigna el id de la accion.
 	 * @param id.
 	 */
-	public void setId(Integer id) {
-		this.id = id;
+	public void setIdAccion(Integer idAccion) {
+		this.idAccion = idAccion;
 	}
-
+	
 	/**
 	 * Obtiene la fecha de creacion de la accion.
 	 * @return Date.
@@ -101,5 +100,7 @@ public class AccionBean {
 	public void setAccion(String accion) {
 		this.accion = accion;
 	}
+
+
 	
 }

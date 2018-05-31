@@ -22,8 +22,8 @@ public class Authority implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id")
-	private Integer id;
+    @Column(name = "idrol") 
+	private Integer idrol;
 
     @Column(name = "fechamodificacion") 
 	private Date fechamodificacion;
@@ -31,18 +31,10 @@ public class Authority implements Serializable {
 	private Date fechacreacion;
     @Column(name = "estatus") 
 	private Boolean estatus;
-    @Column(name = "idrol") 
-	private Integer idrol;
     @Column(name = "rol") 
 	private String rol;
 
-	public Integer getId() {
-		return id;
-	}
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
 
 	public Date getFechaModificacion () {
 	    return fechamodificacion;  		
