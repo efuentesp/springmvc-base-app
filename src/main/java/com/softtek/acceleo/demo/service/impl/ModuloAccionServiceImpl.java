@@ -85,8 +85,7 @@ public class ModuloAccionServiceImpl implements ModuloAccionService {
 
 	@Override
 	public List<ModuloAccion> listModuloAccion(int idModulo, int idAccion) {
-		// TODO Auto-generated method stub
-		return null;
+		return moduloaccionRepository.listModuloAccion(idModulo, idAccion);
 	}
 
 

@@ -44,6 +44,9 @@
     <bean id="testJwtUtil" class="com.softtek.spring.seguridad.impl.JwtUtilImpl" />
     <bean id="testUserServiceImpl" class="com.softtek.acceleo.demo.service.impl.UserServiceImpl" />
     <bean id="testUserRepositoryImpl" class="com.softtek.acceleo.demo.repository.impl.UserRepositoryImpl" />
+    <bean id="testModuloAccionServiceImpl" class="com.softtek.acceleo.demo.service.impl.ModuloAccionServiceImpl" />
+    <bean id="testModuloAccionRepositoryImpl" class="com.softtek.acceleo.demo.repository.impl.ModuloAccionRepositoryImpl" />
+    
     <!-- <bean id="testUserServiceImpl" class="com.softtek.spring.seguridad.impl.UserServiceImpl" /> -->
     <!-- <bean id="testUserRepositoryImpl" class="com.softtek.spring.seguridad.impl.UserRepositoryImpl" /> -->
     

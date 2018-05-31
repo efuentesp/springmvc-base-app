@@ -1,5 +1,6 @@
 package com.softtek.spring.seguridad.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -14,7 +15,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.softtek.acceleo.demo.domain.ModuloAccion;
 import com.softtek.acceleo.demo.domain.User;
+import com.softtek.acceleo.demo.service.ModuloAccionService;
 import com.softtek.acceleo.demo.service.UserService;
 import com.softtek.spring.seguridad.JwtAuthenticationProvider;
 
@@ -24,12 +27,15 @@ import com.softtek.spring.seguridad.JwtAuthenticationProvider;
 @Transactional
 public class VariosTest extends AbstractTransactionalJUnit4SpringContextTests {
 	private static final Logger logger = Logger.getLogger(VariosTest.class);
+		
+	@Autowired
+	JwtAuthenticationProvider jwtap;
 	
 	@Autowired
-	private UserService userService;
+	private UserService userService;	
 	
 	@Autowired
-	JwtAuthenticationProvider jwtap;	
+	private ModuloAccionService moduloaccionService;	
 	
 
 	@Before
@@ -37,8 +43,8 @@ public class VariosTest extends AbstractTransactionalJUnit4SpringContextTests {
 		logger.info("****** Iniciando prueba de JUnit - VariosTest... ******");
 	}
 	
-	@Test
-	public void test() {
+	//@Test
+	public void testUserServices() {
 		User user = new User();
 		//user.setIdUser(new Integer(5));
 		user.setUserName("user05");
@@ -76,6 +82,31 @@ public class VariosTest extends AbstractTransactionalJUnit4SpringContextTests {
 			
 			//Se actualiza la informacion del user persistido anteriormente, se sustituye el password temporal, por el token generado con base a la informacion del user.
 			userService.editUser(userPrst);
+		}
+		
+	}
+	
+	@Test
+	public void testModuloAccionService() {
+		int idmodulo = 3;
+		int idaccion = 1;
+		
+		ModuloAccion moduloAccion = new ModuloAccion();
+		moduloAccion.setIdModuloAccion(null);
+		moduloAccion.setIdModulo(idmodulo);
+		moduloAccion.setIdAccion(idaccion);
+		moduloAccion.setEstatus(true);
+		moduloAccion.setFechaCreacion(new Date());
+		moduloAccion.setFechaModificacion(null);
+	 
+	 	//Se almacena la informacion del user, con un password temporal al cual no se le genero un token.
+		moduloaccionService.addModuloAccion(moduloAccion);
+
+		List<ModuloAccion> lstModuloAccion = moduloaccionService.listModuloAccion(idmodulo, idaccion);
+		if( lstModuloAccion == null || lstModuloAccion.isEmpty()  ) {
+			logger.info("NO EXISTE INFORMACION DEL REGISTRO.");
+		}else {
+			logger.info("SI EXISTE INFORMACION DEL REGISTRO.");
 		}
 		
 	}

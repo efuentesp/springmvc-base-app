@@ -137,7 +137,7 @@ public class AuthenticatedUser implements UserDetails {
      * Obtiene el token del usuario.
      * @return String.
      */
-    protected String getToken() {
+    public String getToken() {
         return token;
     }
 
