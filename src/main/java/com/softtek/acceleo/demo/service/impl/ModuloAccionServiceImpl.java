@@ -83,6 +83,12 @@ public class ModuloAccionServiceImpl implements ModuloAccionService {
 		return moduloaccionRepository.listModuloAccionssQuery(moduloaccion, query, page, size);
 	}
 
+	@Override
+	public List<ModuloAccion> listModuloAccion(int idModulo, int idAccion) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 	
 

@@ -23,19 +23,19 @@ DROP TABLE IF EXISTS `userauthoritymoduloaccion`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `userauthoritymoduloaccion` (
-  `iduserauthoritymoduloaccion` int(11) NOT NULL,
+  `iduserauthoritymoduloaccion` int(11) NOT NULL AUTO_INCREMENT,
   `iduserauthority` int(11) NOT NULL,
   `idmoduloaccion` int(11) NOT NULL,
   `estatus` tinyint(4) NOT NULL,
   `fechacreacion` datetime NOT NULL,
   `fechamodificacion` datetime DEFAULT NULL,
   PRIMARY KEY (`iduserauthoritymoduloaccion`),
-  UNIQUE KEY `uk_userauthority_moduloaccion` (`iduserauthority`,`idmoduloaccion`),
-  KEY `fk_userauthority_idx` (`iduserauthority`),
-  KEY `fk_moduloaccion_idx` (`idmoduloaccion`),
-  CONSTRAINT `fk_moduloaccion` FOREIGN KEY (`idmoduloaccion`) REFERENCES `moduloaccion` (`idmoduloaccion`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_userauthority` FOREIGN KEY (`iduserauthority`) REFERENCES `userauthority` (`iduserauthority`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Se almacenan todas las acciones que se pueden ejecutar en los modulos para cada uno de los usuarios.';
+  UNIQUE KEY `uk_iduserauthority_idmoduloaccion` (`iduserauthority`,`idmoduloaccion`),
+  KEY `fk_iduserauthority_idx` (`iduserauthority`),
+  KEY `fk_idmoduloaccion_idx` (`idmoduloaccion`),
+  CONSTRAINT `fk_idmoduloaccion` FOREIGN KEY (`idmoduloaccion`) REFERENCES `moduloaccion` (`idmoduloaccion`) ON UPDATE CASCADE,
+  CONSTRAINT `fk_iduserauthority` FOREIGN KEY (`iduserauthority`) REFERENCES `userauthority` (`iduserauthority`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1 COMMENT='Se almacenan todas las acciones que se pueden ejecutar en los modulos para cada uno de los usuarios.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -44,7 +44,7 @@ CREATE TABLE `userauthoritymoduloaccion` (
 
 LOCK TABLES `userauthoritymoduloaccion` WRITE;
 /*!40000 ALTER TABLE `userauthoritymoduloaccion` DISABLE KEYS */;
-INSERT INTO `userauthoritymoduloaccion` VALUES (1,1,1,1,'2018-05-29 19:17:44',NULL),(2,1,2,1,'2018-05-29 19:19:07',NULL),(3,1,3,1,'2018-05-29 19:19:17',NULL),(4,1,4,1,'2018-05-29 19:19:27',NULL);
+INSERT INTO `userauthoritymoduloaccion` VALUES (1,1,1,1,'2018-05-30 17:20:45',NULL),(2,1,2,1,'2018-05-30 17:20:59',NULL),(3,1,3,1,'2018-05-30 17:21:10',NULL),(4,1,4,1,'2018-05-30 17:21:22',NULL);
 /*!40000 ALTER TABLE `userauthoritymoduloaccion` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -57,4 +57,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-05-29 19:20:57
+-- Dump completed on 2018-05-30 20:41:36

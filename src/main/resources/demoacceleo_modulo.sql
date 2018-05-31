@@ -23,13 +23,13 @@ DROP TABLE IF EXISTS `modulo`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `modulo` (
-  `idmodulo` int(11) NOT NULL,
+  `idmodulo` int(11) NOT NULL AUTO_INCREMENT,
   `modulo` varchar(100) NOT NULL,
   `estatus` tinyint(4) NOT NULL,
   `fechacreacion` datetime NOT NULL,
   `fechamodificacion` datetime DEFAULT NULL,
   PRIMARY KEY (`idmodulo`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Catalogo en el que se almacenan modulo (Ejemplo: pensionados, afiliados, etc...)';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1 COMMENT='Catalogo en el que se almacenan modulo (Ejemplo: pensionados, afiliados, etc...)';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -51,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-05-29 19:20:57
+-- Dump completed on 2018-05-30 20:41:36

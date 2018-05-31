@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.softtek.acceleo.demo.repository.UserRepository;
 import com.softtek.acceleo.demo.domain.User;
+import com.softtek.acceleo.demo.repository.UserRepository;
 import com.softtek.acceleo.demo.service.UserService;
 
 @Service("userService")

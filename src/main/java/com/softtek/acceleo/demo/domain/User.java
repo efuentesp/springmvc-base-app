@@ -21,7 +21,7 @@ public class User implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "iduser", nullable = false)	
-	private String idUser;
+	private Integer idUser;
 	
 	@Column(name = "username", nullable = false) 
 	private String userName;
@@ -36,10 +36,10 @@ public class User implements Serializable {
     private String imagen;
 	
 		
-	public String getIdUser() {
+	public Integer getIdUser() {
 		return idUser;
 	}
-	public void setIdUser(String idUser) {
+	public void setIdUser(Integer idUser) {
 		this.idUser = idUser;
 	}
 	public String getUserName() {

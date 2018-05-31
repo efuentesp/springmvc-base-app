@@ -13,6 +13,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.softtek.acceleo.demo.domain.User;
 import com.softtek.spring.seguridad.JwtAuthenticationProvider;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -38,20 +39,23 @@ public class JwtAuthenticationProviderTest extends AbstractTransactionalJUnit4Sp
 	@Test
 	public void testRetrieveUserStringUsernamePasswordAuthenticationToken() {
 		try {
-			//User capturado en pantalla.
-			String userName = "user01";
-			
-			//Password capturado en pantalla.
-			String password = "user01";//user01 - OK   --- userTest - NO OK
-			
+	    	User user = new User();
+	    	//user.setIdUser(1);
+	    	user.setUserName("user01");//User capturado en pantalla.
+	    	user.setPassword("user01");//Password capturado en pantalla.
+	    	user.setRol("administrador");
+						
 			/**
 			 * Genera token de pruebas JUnit cuando no se conoce el token del password. (ESTE TOKEN ES EL EQUIVALENTE AL QUE SE DEBE OBTENER DE BASE DE DATOS)
 			 * El token generado se debe sustituir en el metodo jwtap.validarAutenticacionUser(password, userName) donde se obtiene el token de base de datos.
 			 **/
-			//String passwordToken = jwtap.makerToken(userName, password); 
+			//String passwordToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMDEiLCJ1c2VySWQiOiIxIiwicm9sZSI6ImFkbWluIn0.ssZU4ybtaPVkgRHsvxM3rGZ6QQN7gi2cFU42mmJ-1ooVV9zxlJfxarJ9omCLi5Nd3qSPcF2QCBVLPNSzf9KRuw";//user01
+			//String passwordToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMDIiLCJ1c2VySWQiOiIxIiwicm9sZSI6IkFkbWluaXN0cmFkb3IifQ.lCVVfVgFlMq7FIRUHZs9adC2YrmgOJ5MdcDbvdjQh9FD53AC8mLqgFr_PND5uvGWBUU7nPGhYsu46GB1sxJwMw";//user02
+			//String passwordToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMDMiLCJ1c2VySWQiOiIxIiwicm9sZSI6IkFkbWluaXN0cmFkb3IifQ.Yx78P6YRQcJkiA04ldaWqUjtxTyiZOPztBpbVkoUKabiC_A2U7jKT0IAE1FigKYy1jrUCjsnooEqwkWp6SO4BQ";//user03		
+			//String passwordToken = jwtap.makerToken(user); 
 			//logger.info("passwordToken: " + passwordToken);
 			
-			AuthenticatedUser ud = (AuthenticatedUser) jwtap.validarAutenticacionUser(password, userName);
+			AuthenticatedUser ud = (AuthenticatedUser) jwtap.validarAutenticacionUser(user.getPassword(), user.getUserName());
 			logger.info("---->>>> token: " + ud.getToken());
 			logger.info("---->>>> roles: " + ud.getAuthorities());	
 			logger.info("-_-_-_-_-_-_-_-_-_-_-_-_-_-_ Exito: Autenticación de usuario OK. -_-_-_-_-_-_-_-_-_-_-_-_-_-_");

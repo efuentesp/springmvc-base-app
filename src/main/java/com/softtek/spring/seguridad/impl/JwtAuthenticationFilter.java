@@ -1,3 +1,9 @@
+/**
+ * Autor: PSG.
+ * Proyecto:
+ * Version: 0.1
+ * Clase para encapsular informacion de AuthenticatedUser. 
+ */
 package com.softtek.spring.seguridad.impl;
 
 import java.io.IOException;
@@ -12,16 +18,27 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.stereotype.Component;
 
+/**
+ * Clase JwtAuthenticationFilter.
+ * @author PSG.
+ *
+ */
 public class JwtAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
     public JwtAuthenticationFilter() {
         super("/**");
     }
 
+    /**
+     * @return boolean.
+     */
     @Override
     protected boolean requiresAuthentication(HttpServletRequest request, HttpServletResponse response) {
         return true;
     }
 
+    /**
+     * @return Authentication.
+     */
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
 
@@ -38,6 +55,9 @@ public class JwtAuthenticationFilter extends AbstractAuthenticationProcessingFil
         return getAuthenticationManager().authenticate(authRequest);
     }
 
+    /**
+     * 
+     */
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult)
             throws IOException, ServletException {

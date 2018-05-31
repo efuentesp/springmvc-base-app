@@ -1,6 +1,7 @@
 package com.softtek.acceleo.demo.catalogo.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +28,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.softtek.acceleo.demo.catalogo.bean.ModuloAccionBean;
 import com.softtek.acceleo.demo.domain.ModuloAccion;
+import com.softtek.acceleo.demo.domain.User;
 import com.softtek.acceleo.demo.service.ModuloAccionService;
 
 @Controller
@@ -63,6 +65,29 @@ public class ModuloAccionController {
 
 		return listModuloAccion;
 	}
+	
+	 @RequestMapping(value = "/moduloaccion/{idmodulo}/{idaccion}", method = RequestMethod.GET, produces = "application/json")
+	    public @ResponseBody ModuloAccion createModuloAccion(@PathVariable("idmodulo") int idmodulo, @PathVariable("idaccion") int idaccion) {
+	   
+			ModuloAccion moduloAccion = new ModuloAccion();
+			moduloAccion.setIdModuloAccion(null);
+			moduloAccion.setIdModulo(idmodulo);
+			moduloAccion.setIdAccion(idaccion);
+			moduloAccion.setEstatus(true);
+			moduloAccion.setFechaCreacion(new Date());
+			moduloAccion.setFechaModificacion(null);
+		 
+		 	//Se almacena la informacion del user, con un password temporal al cual no se le genero un token.
+			moduloaccionService.addModuloAccion(moduloAccion);
+
+			List<ModuloAccion> lstModuloAccion = moduloaccionService.listModuloAccion(idmodulo, idaccion);
+			if( lstModuloAccion == null || lstModuloAccion.isEmpty()  ) {
+				return null;
+			}else {
+				return lstModuloAccion.get(0);
+			}
+	 }
+	 
 	
 	@RequestMapping(value = "/moduloaccion/{id}", method = RequestMethod.GET, produces = "application/json")
 	    public @ResponseBody  ModuloAccion getModuloAccion(@PathVariable("id") int id) {

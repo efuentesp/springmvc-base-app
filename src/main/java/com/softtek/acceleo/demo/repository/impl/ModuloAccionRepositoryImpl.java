@@ -3,6 +3,8 @@ package com.softtek.acceleo.demo.repository.impl;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Example;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -129,6 +131,18 @@ public class ModuloAccionRepositoryImpl implements ModuloAccionRepository {
 
 	public void deleteModuloAccion(ModuloAccion moduloaccion) {
 		sessionFactory.getCurrentSession().delete(moduloaccion);
+	}
+
+	@SuppressWarnings({ "unchecked" })
+	@Override
+	public List<ModuloAccion> listModuloAccion(int idModulo, int idAccion) {
+		Session session = sessionFactory.getCurrentSession();
+		Criteria criteria = session.createCriteria(ModuloAccion.class);
+		criteria.add(Restrictions.eq("idmodulo", idModulo))
+				.add(Restrictions.eq("idaccion", idAccion)).list();
+		List<ModuloAccion> lstModuloAccion = (List<ModuloAccion>) criteria.list();
+
+		return lstModuloAccion;
 	}
 
 

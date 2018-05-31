@@ -14,5 +14,7 @@ public interface JwtAuthenticationProvider {
     
     public UserDetails validarAutenticacionUser(String password, String userName) throws AuthenticationException;
     
-    public String makerToken(String userName, String password);
+    public String makerToken(String userName, String password, String rol);
+    
+    public String makerToken(User user);
 }

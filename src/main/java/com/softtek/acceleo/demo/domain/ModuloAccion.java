@@ -9,6 +9,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Type;
+
 import java.util.Date;
 
 @Entity
@@ -27,8 +30,11 @@ public class ModuloAccion implements Serializable {
 
     @Column(name = "idaccion") 
 	private Integer idaccion;
-    @Column(name = "estatus") 
+    
+    @Column(name = "estatus")
+    @Type(type = "org.hibernate.type.NumericBooleanType")
 	private Boolean estatus;
+    
     @Column(name = "fechacreacion") 
 	private Date fechacreacion;
     @Column(name = "fechamodificacion") 

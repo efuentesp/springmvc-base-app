@@ -42,7 +42,7 @@ public class JwtUtilImpl implements JwtUtil {
 
             User user = new User();
             user.setUserName(body.getSubject());
-            user.setIdUser((String) body.get("userId"));
+            user.setIdUser(Integer.parseInt((String) body.get("userId")));
             user.setRol((String) body.get("role"));            
             logger.info("Finalizando parseToken(...)");
             

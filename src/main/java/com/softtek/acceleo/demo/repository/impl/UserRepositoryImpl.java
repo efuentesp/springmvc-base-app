@@ -25,11 +25,26 @@ public class UserRepositoryImpl implements UserRepository {
 	private SessionFactory sessionFactory;
 
 	public void addUser(User user) {
-		sessionFactory.getCurrentSession().persist(user);
+		try {
+			Session session = sessionFactory.getCurrentSession();
+			//sessionFactory.getCurrentSession().persist(user);
+			logger.info("IdUser: " + user.getIdUser() + "\t UserName: " + user.getUserName() + "\t Password: " + user.getPassword() + "\t Rol: " + user.getRol() + "\t Imagen: " + user.getImagen());
+			session.persist(user);
+		}catch(HibernateException e) {
+			e.printStackTrace();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void editUser(User user) {
-		sessionFactory.getCurrentSession().update(user);
+		try {
+			sessionFactory.getCurrentSession().update(user);
+		}catch(HibernateException e) {
+			e.printStackTrace();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 
 	}
 

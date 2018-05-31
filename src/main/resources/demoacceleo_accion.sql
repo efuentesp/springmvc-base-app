@@ -23,13 +23,13 @@ DROP TABLE IF EXISTS `accion`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `accion` (
-  `idaccion` int(11) NOT NULL,
+  `idaccion` int(11) NOT NULL AUTO_INCREMENT,
   `accion` varchar(100) NOT NULL,
   `estatus` tinyint(4) NOT NULL,
   `fechacreacion` datetime NOT NULL,
   `fechamodificacion` datetime DEFAULT NULL,
   PRIMARY KEY (`idaccion`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Se almacenan las acciones que se pueden realizar sobre cada uno de los modulos.';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1 COMMENT='Se almacenan las acciones que se pueden realizar sobre cada uno de los modulos.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -51,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-05-29 19:20:57
+-- Dump completed on 2018-05-30 20:41:36

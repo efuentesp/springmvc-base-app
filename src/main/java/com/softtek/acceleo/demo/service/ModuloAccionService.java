@@ -10,6 +10,8 @@ public interface ModuloAccionService {
 	public void editModuloAccion(ModuloAccion moduloaccion);
 	
 	public List<ModuloAccion> listModuloAccionss(ModuloAccion moduloaccion);
+	
+	public List<ModuloAccion> listModuloAccion(int idModulo, int idAccion);
 
 	public ModuloAccion getModuloAccion(int empid);
 

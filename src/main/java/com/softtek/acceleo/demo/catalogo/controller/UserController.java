@@ -8,6 +8,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -28,12 +30,19 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.softtek.acceleo.demo.catalogo.bean.UserBean;
 import com.softtek.acceleo.demo.domain.User;
 import com.softtek.acceleo.demo.service.UserService;
+import com.softtek.spring.seguridad.JwtAuthenticationProvider;
+import com.softtek.spring.seguridad.controller.SeguridadController;
 
 @Controller
 public class UserController {
-/**
+	private static final Logger logger = Logger.getLogger(UserController.class);
+	
+/**/
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	JwtAuthenticationProvider jwtap;	
 	
 	User user = new User();
 
@@ -67,7 +76,7 @@ public class UserController {
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.GET, produces = "application/json")
 	    public @ResponseBody  User getUser(@PathVariable("id") int id) {
 	        
-	        user.setId(id);
+	        user.setIdUser(id);
 	        
 	        User user = null;
 	        user = userService.getUser(id);
@@ -79,10 +88,27 @@ public class UserController {
 	 @RequestMapping(value = "/user", method = RequestMethod.POST)
 	    public ResponseEntity<Void> createUser(@RequestBody User user,    UriComponentsBuilder ucBuilder) {
 	   
-	        userService.addUser(user);
+			//Se almacena la informacion del user, con un password temporal al cual no se le genero un token.
+			userService.addUser(user);
+			
+			//Se consulta la informacion del user persistido anteriormente, esto con la finalidad de obtener el iduser
+			List<User> lstUser = userService.consultarUser(user.getUserName());
+			if( lstUser == null || lstUser.isEmpty() ) {
+				logger.info("Error: No se pudo obtener la informacion del usuario.");
+			}else {
+				User userPrst = lstUser.get(0);
+				
+				String token = jwtap.makerToken(userPrst);
+				userPrst.setPassword(token);
+				
+				//Se actualiza la informacion del user persistido anteriormente, se sustituye el password temporal, por el token generado con base a la informacion del user.
+				userService.editUser(userPrst);
+			}
+		 
+	        //userService.addUser(user);
 	 
 	        HttpHeaders headers = new HttpHeaders();
-	        headers.setLocation(ucBuilder.path("/user/{id}").buildAndExpand(user.getId()).toUri());
+	        headers.setLocation(ucBuilder.path("/user/{id}").buildAndExpand(user.getIdUser()).toUri());
 	        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 	 }
 		
@@ -97,13 +123,13 @@ public class UserController {
 	            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
 	        }
 	 
-				userFound.setIdUser(user.getIdUser());
-				userFound.setUserName(user.getUserName());
-				userFound.setPassword(user.getPassword());
-				userFound.setEstatus(user.getEstatus());
-				userFound.setFechaCreacion(user.getFechaCreacion());
-				userFound.setFechaModificacion(user.getFechaModificacion());
-			user.setId(null);
+			userFound.setIdUser(user.getIdUser());
+			userFound.setUserName(user.getUserName());
+			userFound.setPassword(user.getPassword());
+			//userFound.setEstatus(user.getEstatus());
+			//userFound.setFechaCreacion(user.getFechaCreacion());
+			//userFound.setFechaModificacion(user.getFechaModificacion());
+			user.setIdUser(null);
 	        
 	        userService.editUser(userFound);
 	        return new ResponseEntity<User>(userFound, HttpStatus.OK);
@@ -136,10 +162,29 @@ public class UserController {
 	@RequestMapping(value = "/saveUser", method = RequestMethod.POST)
 	public @ResponseBody String saveUser(
 			@ModelAttribute("command") UserBean userBean) {
-
-
+		
 		User user = prepareModel(userBean);
+		user.setPassword("temporal");
+		
+		//Se almacena la informacion del user, con un password temporal al cual no se le genero un token.
 		userService.addUser(user);
+		
+		//Se consulta la informacion del user persistido anteriormente, esto con la finalidad de obtener el iduser
+		List<User> lstUser = userService.consultarUser(user.getUserName());
+		if( lstUser == null || lstUser.isEmpty() ) {
+			logger.info("Error: No se pudo obtener la informacion del usuario.");
+		}else {
+			User userPrst = lstUser.get(0);
+			userPrst.setPassword(userBean.getPassword());
+			
+			String token = jwtap.makerToken(userPrst);
+			userPrst.setPassword(token);
+			
+			//Se actualiza la informacion del user persistido anteriormente, se sustituye el password temporal, por el token generado con base a la informacion del user.
+			userService.editUser(userPrst);
+		}
+		
+		
 
 		return "SUCCESS";
 	}
@@ -189,13 +234,14 @@ public class UserController {
 	private User prepareModel(UserBean userBean) {
 		User user = new User();
 
-		user.setIdUser(userBean.getIdUser());
+		user.setIdUser(userBean.getId());
 		user.setUserName(userBean.getUserName());
 		user.setPassword(userBean.getPassword());
-		user.setEstatus(userBean.getEstatus());
-		user.setFechaCreacion(userBean.getFechaCreacion());
-		user.setFechaModificacion(userBean.getFechaModificacion());
-		user.setId(userBean.getId());
+		user.setRol(userBean.getRol());
+		//user.setEstatus(userBean.getEstatus());
+		//user.setFechaCreacion(userBean.getFechaCreacion());
+		//user.setFechaModificacion(userBean.getFechaModificacion());
+		//user.setId(userBean.getId());
 		userBean.setId(null);
 		return user;
 	}
@@ -208,13 +254,13 @@ public class UserController {
 			for (User user : users) {
 				bean = new UserBean();
 
-                bean.setIdUser(user.getIdUser());
+                bean.setId(user.getIdUser());
                 bean.setUserName(user.getUserName());
                 bean.setPassword(user.getPassword());
-                bean.setEstatus(user.getEstatus());
-                bean.setFechaCreacion(user.getFechaCreacion());
-                bean.setFechaModificacion(user.getFechaModificacion());
-				bean.setId(user.getId());
+                //bean.setEstatus(user.getEstatus());
+                //bean.setFechaCreacion(user.getFechaCreacion());
+                //bean.setFechaModificacion(user.getFechaModificacion());
+				//bean.setId(user.getId());
 				beans.add(bean);
 			}
 		}

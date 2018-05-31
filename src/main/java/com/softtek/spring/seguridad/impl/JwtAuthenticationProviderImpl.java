@@ -56,14 +56,9 @@ public class JwtAuthenticationProviderImpl extends AbstractUserDetailsAuthentica
     
 	@Override
 	public UserDetails validarAutenticacionUser(String password, String userName) throws AuthenticationException {
-		jwtUtil.setSecret(password);//Se pasa como parametro, el password capturado en pantalla, mismo que se debe autenticar.
+		jwtUtil.setSecret(password);//Password capturado en pantalla.
 		
-		//Este password se debe obtener de la base de datos. (En base al userName)
-		//String passwordToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMDEiLCJ1c2VySWQiOiIxIiwicm9sZSI6ImFkbWluIn0.ssZU4ybtaPVkgRHsvxM3rGZ6QQN7gi2cFU42mmJ-1ooVV9zxlJfxarJ9omCLi5Nd3qSPcF2QCBVLPNSzf9KRuw";//user01
-		//String passwordToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMDIiLCJ1c2VySWQiOiIxIiwicm9sZSI6IkFkbWluaXN0cmFkb3IifQ.lCVVfVgFlMq7FIRUHZs9adC2YrmgOJ5MdcDbvdjQh9FD53AC8mLqgFr_PND5uvGWBUU7nPGhYsu46GB1sxJwMw";//user02
-		//String passwordToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMDMiLCJ1c2VySWQiOiIxIiwicm9sZSI6IkFkbWluaXN0cmFkb3IifQ.Yx78P6YRQcJkiA04ldaWqUjtxTyiZOPztBpbVkoUKabiC_A2U7jKT0IAE1FigKYy1jrUCjsnooEqwkWp6SO4BQ";//user03		
-		//String passwordToken = makerToken(userName, password);//No borrar estas lineas, se ocupan para generar token de pruebas JUnit cuando no se conoce el token del password.
-		String passwordToken = this.consultarTokenForUserName(userName);//Se obtiene de base de datos el token del usuario, la informacion se obtine al userName proporcionado.
+		String passwordToken = this.consultarTokenForUserName(userName);//El token se obtiene de base de datos.
 						
 		if( passwordToken != null ) {
 			JwtAuthenticationToken jwtat = new JwtAuthenticationToken(passwordToken);
@@ -98,19 +93,19 @@ public class JwtAuthenticationProviderImpl extends AbstractUserDetailsAuthentica
 	}
 	
 	/**
-	 * Metodo implementado en fase de pruebas JUnit, para generar Tokens, de los password proporcionados.
+	 * Metodo para generar Tokens con base a la informacion del , de los password proporcionados.
 	 * @param password Password proporcionado por el usuario que intenta autenticarse.
 	 * @return Token del password proporcionado.
 	 */
 	@Override
-	public String makerToken(String userName, String password) {
+	public String makerToken(String userName, String password, String rol) {
 		String token = null;
 		
     	User user = new User();
-    	user.setIdUser("1");
+    	//user.setIdUser(1);
     	user.setUserName(userName);
     	user.setPassword(password);
-    	user.setRol("admin");
+    	user.setRol(rol);
 		
     	try {
 	    	token = jwtUtil.generateToken(user);
@@ -124,4 +119,27 @@ public class JwtAuthenticationProviderImpl extends AbstractUserDetailsAuthentica
 
 		return token;
 	}
+	
+	/**
+	 * Metodo para generar tokens con base a la informacion del usuario. 
+	 * @param user contiene informacion del usuario.
+	 * @return Token del password proporcionado.
+	 */
+	@Override
+	public String makerToken(User user) {
+		String token = null;
+				
+    	try {
+	    	token = jwtUtil.generateToken(user);
+	    	
+	    	logger.info("-_-_-_-_-_-_-_-_-_-_-_-_-_-_****** user.Id: " + user.getIdUser());
+	    	logger.info("-_-_-_-_-_-_-_-_-_-_-_-_-_-_****** user.Username: " + user.getUserName());
+	    	logger.info("-_-_-_-_-_-_-_-_-_-_-_-_-_-_****** user.Role: " + user.getRol());
+    	}catch(UnsupportedEncodingException e) {
+    		logger.error("Error: " + e);
+    	}
+
+		return token;
+	}
+	
 }

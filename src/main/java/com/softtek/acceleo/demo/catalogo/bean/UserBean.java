@@ -18,9 +18,18 @@ public class UserBean {
 	private Integer id;
 	private Date fechamodificacion;
 	private String password;
+	private String rol;
 	private Date fechacreacion;
 	private Boolean estatus;
 	private String username;
+	
+	public String getRol() {
+		return rol;
+	}
+
+	public void setRol(String rol) {
+		this.rol = rol;
+	}	
 
 	/**
 	 * Obtiene el id del user.

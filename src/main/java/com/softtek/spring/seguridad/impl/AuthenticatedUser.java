@@ -26,7 +26,7 @@ public class AuthenticatedUser implements UserDetails {
 	 */
 	private static final long serialVersionUID = 6690681491291701161L;
 	
-	private final String id;
+	private final Integer id;
     private final String username;
     private final String password;
     private final String token;
@@ -52,7 +52,7 @@ public class AuthenticatedUser implements UserDetails {
      * @param token.
      * @param authorities.
      */
-    public AuthenticatedUser(String id, String username, String password, String token, Collection</*? extends */GrantedAuthority> authorities) {
+    public AuthenticatedUser(Integer id, String username, String password, String token, Collection</*? extends */GrantedAuthority> authorities) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -65,7 +65,7 @@ public class AuthenticatedUser implements UserDetails {
      * @return String.
      */
     @JsonIgnore
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 

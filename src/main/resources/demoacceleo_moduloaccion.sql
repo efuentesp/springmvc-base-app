@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS `moduloaccion`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `moduloaccion` (
-  `idmoduloaccion` int(11) NOT NULL,
+  `idmoduloaccion` int(11) NOT NULL AUTO_INCREMENT,
   `idmodulo` int(11) NOT NULL,
   `idaccion` int(11) NOT NULL,
   `estatus` tinyint(4) NOT NULL,
@@ -35,7 +35,7 @@ CREATE TABLE `moduloaccion` (
   KEY `fk_idaccion_idx` (`idaccion`),
   CONSTRAINT `fk_idaccion` FOREIGN KEY (`idaccion`) REFERENCES `accion` (`idaccion`) ON UPDATE CASCADE,
   CONSTRAINT `fk_idmodulo` FOREIGN KEY (`idmodulo`) REFERENCES `modulo` (`idmodulo`) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Se almacena todas las acciones que se pueden realizar sobre cada uno de los modulos.';
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1 COMMENT='Se almacena todas las acciones que se pueden realizar sobre cada uno de los modulos.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -57,4 +57,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-05-29 19:20:57
+-- Dump completed on 2018-05-30 20:41:37
