@@ -22,6 +22,8 @@ public interface ModuloAccionRepository {
 	 public List<ModuloAccion> listModuloAccionsPagination(ModuloAccion moduloaccion, int page, int size);
 	 
 	 public List<ModuloAccion> listModuloAccion(int idModulo, int idAccion);
+	 
+	 public List<ModuloAccion> listModuloAccion(int idModulo);
 
      public long getTotalRows();
 

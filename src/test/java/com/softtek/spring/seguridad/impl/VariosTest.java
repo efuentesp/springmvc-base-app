@@ -92,7 +92,7 @@ public class VariosTest extends AbstractTransactionalJUnit4SpringContextTests {
 		int idaccion = 1;
 		
 		ModuloAccion moduloAccion = new ModuloAccion();
-		moduloAccion.setIdModuloAccion(null);
+		moduloAccion.setId(null);
 		moduloAccion.setIdModulo(idmodulo);
 		moduloAccion.setIdAccion(idaccion);
 		moduloAccion.setEstatus(true);

@@ -14,6 +14,8 @@ public interface ModuloAccionService {
 	public List<ModuloAccion> listModuloAccion(int idModulo, int idAccion);
 
 	public ModuloAccion getModuloAccion(int empid);
+	
+	public List<ModuloAccion> getModuloAccionPorIdModulo(int idModulo);
 
 	public void deleteModuloAccion(ModuloAccion moduloaccion);
 	

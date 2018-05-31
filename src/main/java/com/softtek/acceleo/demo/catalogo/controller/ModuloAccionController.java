@@ -70,7 +70,7 @@ public class ModuloAccionController {
 	    public @ResponseBody ModuloAccion createModuloAccion(@PathVariable("idmodulo") int idmodulo, @PathVariable("idaccion") int idaccion) {
 	   
 			ModuloAccion moduloAccion = new ModuloAccion();
-			moduloAccion.setIdModuloAccion(null);
+			moduloAccion.setId(null);
 			moduloAccion.setIdModulo(idmodulo);
 			moduloAccion.setIdAccion(idaccion);
 			moduloAccion.setEstatus(true);
@@ -87,8 +87,7 @@ public class ModuloAccionController {
 				return lstModuloAccion.get(0);
 			}
 	 }
-	 
-	
+	 	
 	@RequestMapping(value = "/moduloaccion/{id}", method = RequestMethod.GET, produces = "application/json")
 	    public @ResponseBody  ModuloAccion getModuloAccion(@PathVariable("id") int id) {
 	        
@@ -99,7 +98,13 @@ public class ModuloAccionController {
 			return moduloaccion;
 	 }
 
-
+	@RequestMapping(value = "/moduloaccion/{idModulo}", method = RequestMethod.GET, produces = "application/json")
+    public @ResponseBody  List<ModuloAccion> getModuloAccionPorIdModulo(@PathVariable("idModulo") int idModulo) {
+        
+        List<ModuloAccion> lstModuloAccion = moduloaccionService.getModuloAccionPorIdModulo(idModulo);
+        
+		return lstModuloAccion;
+	}
 
 	 @RequestMapping(value = "/moduloaccion", method = RequestMethod.POST)
 	    public ResponseEntity<Void> createModuloAccion(@RequestBody ModuloAccion moduloaccion,    UriComponentsBuilder ucBuilder) {
@@ -122,7 +127,7 @@ public class ModuloAccionController {
 	            return new ResponseEntity<ModuloAccion>(HttpStatus.NOT_FOUND);
 	        }
 	 
-				moduloaccionFound.setIdModuloAccion(moduloaccion.getIdModuloAccion());
+				moduloaccionFound.setId(moduloaccion.getId());
 				moduloaccionFound.setIdModulo(moduloaccion.getIdModulo());
 				moduloaccionFound.setIdAccion(moduloaccion.getIdAccion());
 				moduloaccionFound.setEstatus(moduloaccion.getEstatus());
@@ -214,7 +219,7 @@ public class ModuloAccionController {
 	private ModuloAccion prepareModel(ModuloAccionBean moduloaccionBean) {
 		ModuloAccion moduloaccion = new ModuloAccion();
 
-		moduloaccion.setIdModuloAccion(moduloaccionBean.getId());
+		moduloaccion.setId(moduloaccionBean.getId());
 		moduloaccion.setIdModulo(moduloaccionBean.getIdModulo());
 		moduloaccion.setIdAccion(moduloaccionBean.getIdAccion());
 		moduloaccion.setEstatus(moduloaccionBean.getEstatus());
@@ -233,7 +238,7 @@ public class ModuloAccionController {
 			for (ModuloAccion moduloaccion : moduloaccions) {
 				bean = new ModuloAccionBean();
 
-                bean.setId(moduloaccion.getIdModuloAccion());
+                bean.setId(moduloaccion.getId());
                 bean.setIdModulo(moduloaccion.getIdModulo());
                 bean.setIdAccion(moduloaccion.getIdAccion());
                 bean.setEstatus(moduloaccion.getEstatus());

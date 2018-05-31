@@ -25,7 +25,7 @@ public class ModuloAccion implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id")
+	@Column(name = "idmoduloaccion", nullable = false)
 	private Integer id;
 
     @Column(name = "idaccion") 
@@ -37,13 +37,13 @@ public class ModuloAccion implements Serializable {
     
     @Column(name = "fechacreacion") 
 	private Date fechacreacion;
+    
     @Column(name = "fechamodificacion") 
 	private Date fechamodificacion;
+    
     @Column(name = "idmodulo") 
 	private Integer idmodulo;
-    @Column(name = "idmoduloaccion") 
-	private Integer idmoduloaccion;
-
+    
 	public Integer getId() {
 		return id;
 	}
@@ -86,13 +86,6 @@ public class ModuloAccion implements Serializable {
 
 	public void setIdModulo(Integer idmodulo) {
 		this.idmodulo = idmodulo;
-	}
-	public Integer getIdModuloAccion () {
-	    return idmoduloaccion;  		
-    }
-
-	public void setIdModuloAccion(Integer idmoduloaccion) {
-		this.idmoduloaccion = idmoduloaccion;
 	}
 
 }			

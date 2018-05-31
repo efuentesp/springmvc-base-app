@@ -138,8 +138,18 @@ public class ModuloAccionRepositoryImpl implements ModuloAccionRepository {
 	public List<ModuloAccion> listModuloAccion(int idModulo, int idAccion) {
 		Session session = sessionFactory.getCurrentSession();
 		Criteria criteria = session.createCriteria(ModuloAccion.class);
-		criteria.add(Restrictions.eq("idmodulo", idModulo))
-				.add(Restrictions.eq("idaccion", idAccion)).list();
+		criteria.add(Restrictions.and(Restrictions.eq("idmodulo", idModulo), Restrictions.eq("idaccion", idAccion))).list();
+		List<ModuloAccion> lstModuloAccion = (List<ModuloAccion>) criteria.list();
+
+		return lstModuloAccion;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<ModuloAccion> listModuloAccion(int idModulo) {
+		Session session = sessionFactory.getCurrentSession();
+		Criteria criteria = session.createCriteria(ModuloAccion.class);
+		criteria.add(Restrictions.eq("idmodulo", idModulo)).list();
 		List<ModuloAccion> lstModuloAccion = (List<ModuloAccion>) criteria.list();
 
 		return lstModuloAccion;

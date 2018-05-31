@@ -88,10 +88,12 @@ public class ModuloAccionServiceImpl implements ModuloAccionService {
 		return moduloaccionRepository.listModuloAccion(idModulo, idAccion);
 	}
 
+	@Override
+	public List<ModuloAccion> getModuloAccionPorIdModulo(int idModulo) {
+		return moduloaccionRepository.listModuloAccion(idModulo);
+	}
 
-	
 
-	
 
 }
 
