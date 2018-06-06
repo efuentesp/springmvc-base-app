@@ -52,10 +52,7 @@ public class SeguridadController {
 		String password = user.getPassword();
 		UserDetails userDetails = null;
 		
-		try {
-			SeguridadInterceptor segIntrcptr = new SeguridadInterceptor();
-			logger.info("Se imprime objeto interceptor: " + segIntrcptr);
-			
+		try {			
 			userDetails = jwtap.validarAutenticacionUser(password, userName);
 			logger.info("-_-_-_-_-_-_-_-_-_-_-_-_-_-_ Exito: Autenticación de usuario OK. -_-_-_-_-_-_-_-_-_-_-_-_-_-_");        
 	        

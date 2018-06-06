@@ -77,16 +77,44 @@
 
 	<mvc:annotation-driven />
 	
-	<!-- -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- -->
-	<!-- -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_ Para invocacion de interceptores -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_  -->
-	<!-- -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- -->
-<!--
- 	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:prefix="/WEB-INF/jsp/" p:suffix=".jsp" />
-	<bean id="handlerMapping" class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping" p:interceptors-ref="seguridadInterceptor" />
+  <!-- -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- -->
+  <!-- -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_ Para el manejo de los interceptores -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_ -->
+  <!-- -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- -->
+	<context:component-scan base-package="com.softtek.acceleo.demo.catalogo.controller" />
+	<context:component-scan base-package="com.softtek.spring.seguridad.controller" />
+		
+	<bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<property name="suffix" value=".html, .xhtml, .ts, .jsp" />
+	</bean>
+  
+  
+	<bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="mappings">
+			<props>
+		    	<prop key="/api/authenticate">seguridadController</prop>
+	   		</props>
+	   	</property>
+	   	<property name="interceptors">
+			<list>
+				<ref bean="seguridadInterceptor" />
+			</list>
+	   	</property>
+	</bean>
+
+	<bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping" >
+		<property name="interceptors">
+			<list>
+				<ref bean="seguridadInterceptor" />
+			</list>
+		</property>
+	</bean>	
+	
+	<bean id="seguridadController" class="com.softtek.spring.seguridad.controller.SeguridadController" />
+	<!-- <bean class="com.softtek.spring.seguridad.controller.SeguridadController" /> -->
 	<bean id="seguridadInterceptor" class="com.softtek.spring.seguridad.controller.SeguridadInterceptor" />
- -->
- 	
- 
-	<!-- -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- -->	
+  
+  <!-- -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_ -->
 
 </beans>
