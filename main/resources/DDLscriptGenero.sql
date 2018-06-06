@@ -1,8 +1,0 @@
-
-DROP TABLE IF EXISTS genero;
-
-CREATE TABLE genero ( id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-						male VARCHAR(100)
-,						female VARCHAR(100)
-);
-

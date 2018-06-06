@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS `authority`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `authority` (
-  `idrol` int(11) NOT NULL,
+  `idrol` int(11)  NOT NULL AUTO_INCREMENT,
   `rol` varchar(100) NOT NULL,
   `estatus` tinyint(4) NOT NULL,
   `fechacreacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
