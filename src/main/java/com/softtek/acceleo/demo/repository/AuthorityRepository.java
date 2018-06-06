@@ -3,6 +3,7 @@ package com.softtek.acceleo.demo.repository;
 
 import java.util.List;
 import com.softtek.acceleo.demo.domain.Authority;
+import com.softtek.acceleo.demo.exception.GenericException;
 
 public interface AuthorityRepository {
 
@@ -15,7 +16,7 @@ public interface AuthorityRepository {
 	    
 	 public Authority getAuthority(int empid);   
 	    
-	 public void deleteAuthority(Authority authority); 
+	 public void deleteAuthority(Authority authority) throws GenericException; 
 
 	 public List<Authority> listAuthorityssQuery(Authority authority, String query, int page, int size);
 

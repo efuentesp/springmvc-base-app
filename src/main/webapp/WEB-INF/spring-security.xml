@@ -9,11 +9,12 @@
     <http pattern="/api/login" security="none"/>
     <http pattern="/api/signup" security="none"/>
 
-    <http pattern="/api/**" entry-point-ref="restAuthenticationEntryPoint" create-session="stateless">
+<!--
+     <http pattern="/api/**" entry-point-ref="restAuthenticationEntryPoint" create-session="stateless">
         <csrf disabled="true"/>
         <custom-filter before="FORM_LOGIN_FILTER" ref="jwtAuthenticationFilter"/>
     </http>
-    
+ -->    
 <!--     
 	<beans:bean id="jwtAuthenticationFilter" class="com.softtek.spring.seguridad.impl.JwtAuthenticationFilter">
         <beans:property name="authenticationManager" ref="authenticationManager" />
@@ -24,4 +25,5 @@
         <authentication-provider ref="jwtAuthenticationProvider" />
     </authentication-manager>
  -->    
+ 
 </beans:beans>

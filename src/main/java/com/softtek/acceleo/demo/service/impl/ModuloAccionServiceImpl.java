@@ -4,6 +4,7 @@ package com.softtek.acceleo.demo.service.impl;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -11,12 +12,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.softtek.acceleo.demo.repository.ModuloAccionRepository;
 import com.softtek.acceleo.demo.domain.ModuloAccion;
+import com.softtek.acceleo.demo.exception.GenericException;
 import com.softtek.acceleo.demo.service.ModuloAccionService;
 
 @Service("moduloaccionService")
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 public class ModuloAccionServiceImpl implements ModuloAccionService {
-
+	private static final Logger logger = Logger.getLogger(ModuloAccionServiceImpl.class);
+	
 	@Autowired
 	private ModuloAccionRepository moduloaccionRepository;
 
@@ -44,8 +47,8 @@ public class ModuloAccionServiceImpl implements ModuloAccionService {
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-	public void deleteModuloAccion(ModuloAccion moduloaccion) {
-		System.out.println("Entrando al deleteModuloAccion");
+	public void deleteModuloAccion(ModuloAccion moduloaccion) throws GenericException {
+		logger.info("Entrando al deleteModuloAccion");
 
 		 moduloaccionRepository.deleteModuloAccion(moduloaccion);
 	}
@@ -79,7 +82,7 @@ public class ModuloAccionServiceImpl implements ModuloAccionService {
 
 
 	public List<ModuloAccion> listModuloAccionssQuery(ModuloAccion moduloaccion, String query, int page, int size) {
-		// TODO Auto-generated method stub
+
 		return moduloaccionRepository.listModuloAccionssQuery(moduloaccion, query, page, size);
 	}
 

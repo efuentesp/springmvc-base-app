@@ -4,6 +4,7 @@ package com.softtek.acceleo.demo.service.impl;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -11,12 +12,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.softtek.acceleo.demo.repository.UserAuthorityRepository;
 import com.softtek.acceleo.demo.domain.UserAuthority;
+import com.softtek.acceleo.demo.exception.GenericException;
 import com.softtek.acceleo.demo.service.UserAuthorityService;
 
 @Service("userauthorityService")
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 public class UserAuthorityServiceImpl implements UserAuthorityService {
-
+	private static final Logger logger = Logger.getLogger(UserAuthorityServiceImpl.class);
+	
 	@Autowired
 	private UserAuthorityRepository userauthorityRepository;
 
@@ -44,8 +47,8 @@ public class UserAuthorityServiceImpl implements UserAuthorityService {
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-	public void deleteUserAuthority(UserAuthority userauthority) {
-		System.out.println("Entrando al deleteUserAuthority");
+	public void deleteUserAuthority(UserAuthority userauthority) throws GenericException {
+		logger.info("Entrando al deleteUserAuthority");
 
 		 userauthorityRepository.deleteUserAuthority(userauthority);
 	}
@@ -79,7 +82,7 @@ public class UserAuthorityServiceImpl implements UserAuthorityService {
 
 
 	public List<UserAuthority> listUserAuthorityssQuery(UserAuthority userauthority, String query, int page, int size) {
-		// TODO Auto-generated method stub
+
 		return userauthorityRepository.listUserAuthorityssQuery(userauthority, query, page, size);
 	}
 

@@ -1,10 +1,15 @@
+/**
+ * Autor: PSG.
+ * Proyecto:
+ * Version: 0.1 
+ * Clase para invocar servicios de los User. 
+ */
 package com.softtek.acceleo.demo.catalogo.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,13 +31,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.UriComponentsBuilder;
 
-
 import com.softtek.acceleo.demo.catalogo.bean.UserBean;
 import com.softtek.acceleo.demo.domain.User;
+import com.softtek.acceleo.demo.exception.GenericException;
 import com.softtek.acceleo.demo.service.UserService;
 import com.softtek.spring.seguridad.JwtAuthenticationProvider;
-import com.softtek.spring.seguridad.controller.SeguridadController;
 
+/**
+ * Clase UserController.
+ * @author PSG.
+ *
+ */
 @Controller
 public class UserController {
 	private static final Logger logger = Logger.getLogger(UserController.class);
@@ -44,40 +53,36 @@ public class UserController {
 	@Autowired
 	JwtAuthenticationProvider jwtap;	
 	
-	User user = new User();
-
 	@RequestMapping(value = "/user", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody  List<User> getUsers(@RequestParam Map<String,String> requestParams, HttpServletRequest request, HttpServletResponse response) {
+		User user = new User();
 
        	String query=requestParams.get("q");
-		int _page= requestParams.get("_page")==null?0:new Integer(requestParams.get("_page")).intValue();
+		int page= requestParams.get("_page")==null?0:Integer.parseInt(requestParams.get("_page"));
 		long rows = 0;
 
 		
 
 		List<User> listUser = null;
 
-		if (query==null && _page == 0 ) {
+		if (query==null && page == 0 ) {
        		listUser = userService.listUserss(user);
 			rows = userService.getTotalRows();
-		} else if (query!= null){
+		} /**else if (query!= null){
 			
-		} else if (_page != 0){
-			listUser = userService.listUsersPagination(user, _page, 10);
+		}**/ else /**if (page != 0)**/{
+			listUser = userService.listUsersPagination(user, page, 10);
 			rows = userService.getTotalRows();
 		} 	
 
 		response.setHeader("Access-Control-Expose-Headers", "x-total-count");
-		response.setHeader("x-total-count", String.valueOf(rows).toString());	
+		response.setHeader("x-total-count", String.valueOf(rows));	
 
 		return listUser;
 	}
 	
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.GET, produces = "application/json")
 	    public @ResponseBody  User getUser(@PathVariable("id") int id) {
-	        
-	        user.setIdUser(id);
-	        
 	        User user = null;
 	        user = userService.getUser(id);
 			return user;
@@ -104,12 +109,10 @@ public class UserController {
 				//Se actualiza la informacion del user persistido anteriormente, se sustituye el password temporal, por el token generado con base a la informacion del user.
 				userService.editUser(userPrst);
 			}
-		 
-	        //userService.addUser(user);
-	 
+		 	 
 	        HttpHeaders headers = new HttpHeaders();
 	        headers.setLocation(ucBuilder.path("/user/{id}").buildAndExpand(user.getIdUser()).toUri());
-	        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+	        return new ResponseEntity<>(headers, HttpStatus.CREATED);
 	 }
 		
 	 @RequestMapping(value = "/user/{id}", method = RequestMethod.PUT)
@@ -119,41 +122,39 @@ public class UserController {
 	        User userFound = userService.getUser(id);
 	         
 	        if (userFound==null) {
-	            System.out.println("User with id " + id + " not found");
-	            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+	            logger.info("User with id " + id + " not found");
+	            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	        }
 	 
 			userFound.setIdUser(user.getIdUser());
 			userFound.setUserName(user.getUserName());
 			userFound.setPassword(user.getPassword());
-			//userFound.setEstatus(user.getEstatus());
-			//userFound.setFechaCreacion(user.getFechaCreacion());
-			//userFound.setFechaModificacion(user.getFechaModificacion());
+			userFound.setRol(user.getRol());
+			/**userFound.setEstatus(user.getEstatus());
+			userFound.setFechaCreacion(user.getFechaCreacion());
+			userFound.setFechaModificacion(user.getFechaModificacion());**/
 			user.setIdUser(null);
 	        
 	        userService.editUser(userFound);
-	        return new ResponseEntity<User>(userFound, HttpStatus.OK);
+	        return new ResponseEntity<>(userFound, HttpStatus.OK);
 	  } 	
 	
 		
 		@RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
 	    public ResponseEntity<User> deleteUser(@PathVariable("id") int id) {
-	    	 System.out.println("Fetching & Deleting User with id " + id);
-			 long rows = 0;	
+	    	 logger.info("Fetching & Deleting User with id " + id);
 	    	 
-	         User user = userService.getUser(id);
-	         if (user == null) {
-	             System.out.println("Unable to delete. Cuenta with id " + id + " not found");
-	             return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
-	         }
-	  
-             
-
-             if (rows==0){
+             try{
+    	         User user = userService.getUser(id);
+    	         if (user == null) {
+    	             logger.info("Unable to delete. Cuenta with id " + id + " not found");
+    	             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    	         }
+            	 
 	             userService.deleteUser(user);
-            	 return new ResponseEntity<User>(HttpStatus.OK);
-             } else {
-            	 return new ResponseEntity<User>(HttpStatus.PRECONDITION_FAILED);
+            	 return new ResponseEntity<>(HttpStatus.OK);
+             } catch(GenericException e) {
+            	 return new ResponseEntity<>(HttpStatus.PRECONDITION_FAILED);
              }
 			
 		}
@@ -204,25 +205,12 @@ public class UserController {
 			@ModelAttribute("command") UserBean userBean,
 			BindingResult result) {
 
-		Map<String, Object> model = new HashMap<String, Object>();
+		Map<String, Object> model = new HashMap<>();
 		User user = null;
 		if (userBean != null)
 			user = prepareModel(userBean);
 		model.put("users",
 				prepareListofBean(userService.listUserss(user)));
-		return new ModelAndView("searchUser", model);
-	}
-
-	@RequestMapping(value = "/deleteUser", method = RequestMethod.POST)
-	public ModelAndView deleteUser(
-			@ModelAttribute("command") UserBean userBean,
-			BindingResult result) {
-		System.out.println("delete " + userBean.getId());
-		userService.deleteUser(prepareModel(userBean));
-		Map<String, Object> model = new HashMap<String, Object>();
-		model.put("user", null);
-		model.put("users",
-				prepareListofBean(userService.listUserss(null)));
 		return new ModelAndView("searchUser", model);
 	}
 
@@ -238,10 +226,10 @@ public class UserController {
 		user.setUserName(userBean.getUserName());
 		user.setPassword(userBean.getPassword());
 		user.setRol(userBean.getRol());
-		//user.setEstatus(userBean.getEstatus());
-		//user.setFechaCreacion(userBean.getFechaCreacion());
-		//user.setFechaModificacion(userBean.getFechaModificacion());
-		//user.setId(userBean.getId());
+		/**user.setEstatus(userBean.getEstatus());
+		user.setFechaCreacion(userBean.getFechaCreacion());
+		user.setFechaModificacion(userBean.getFechaModificacion());
+		user.setId(userBean.getId());**/
 		userBean.setId(null);
 		return user;
 	}
@@ -249,7 +237,7 @@ public class UserController {
 	private List<UserBean> prepareListofBean(List<User> users) {
 		List<UserBean> beans = null;
 		if (users != null && !users.isEmpty()) {
-			beans = new ArrayList<UserBean>();
+			beans = new ArrayList<>();
 			UserBean bean = null;
 			for (User user : users) {
 				bean = new UserBean();
@@ -257,10 +245,10 @@ public class UserController {
                 bean.setId(user.getIdUser());
                 bean.setUserName(user.getUserName());
                 bean.setPassword(user.getPassword());
-                //bean.setEstatus(user.getEstatus());
-                //bean.setFechaCreacion(user.getFechaCreacion());
-                //bean.setFechaModificacion(user.getFechaModificacion());
-				//bean.setId(user.getId());
+                /**bean.setEstatus(user.getEstatus());
+                bean.setFechaCreacion(user.getFechaCreacion());
+                bean.setFechaModificacion(user.getFechaModificacion());
+				bean.setId(user.getId());**/
 				beans.add(bean);
 			}
 		}

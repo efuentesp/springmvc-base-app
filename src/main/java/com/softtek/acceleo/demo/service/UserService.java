@@ -1,6 +1,8 @@
 package com.softtek.acceleo.demo.service;
 
 import com.softtek.acceleo.demo.domain.User;
+import com.softtek.acceleo.demo.exception.GenericException;
+
 import java.util.List;
 
 public interface UserService {
@@ -13,7 +15,7 @@ public interface UserService {
 
 	public User getUser(int empid);
 
-	public void deleteUser(User user);
+	public void deleteUser(User user) throws GenericException;
 	
 	public List<User> listUserssQuery(User user, String query, int page, int size);
 

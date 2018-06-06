@@ -1,6 +1,8 @@
 package com.softtek.acceleo.demo.service;
 
 import com.softtek.acceleo.demo.domain.Tipopension;
+import com.softtek.acceleo.demo.exception.GenericException;
+
 import java.util.List;
 
 public interface TipopensionService {
@@ -13,7 +15,7 @@ public interface TipopensionService {
 
 	public Tipopension getTipopension(int empid);
 
-	public void deleteTipopension(Tipopension tipopension);
+	public void deleteTipopension(Tipopension tipopension) throws GenericException;
 	
 	public List<Tipopension> listTipopensionsQuery(Tipopension tipopension, String query, int page, int size);
 

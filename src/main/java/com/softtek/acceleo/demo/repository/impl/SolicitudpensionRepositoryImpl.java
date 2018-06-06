@@ -11,6 +11,7 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 import com.softtek.acceleo.demo.domain.Solicitudpension;
+import com.softtek.acceleo.demo.exception.GenericException;
 import com.softtek.acceleo.demo.repository.SolicitudpensionRepository;
 
 @Repository("solicitudpensionRepository")
@@ -66,7 +67,7 @@ Restrictions.like("fecha_solicitud", "%" + query +"%"))
 
 	@SuppressWarnings("unchecked")
 	public List<Solicitudpension> listSolicitudpensionsPagination(Solicitudpension solicitudpension, int page, int size) {
-			//cuentaProxy.set#columnsGrid(cuenta.get#columnsGrid());
+
 			return (List<Solicitudpension>) sessionFactory.getCurrentSession()
 				.createCriteria(Solicitudpension.class).setFirstResult((page - 1) * size)
 				.setMaxResults(size).list();
@@ -119,7 +120,7 @@ Restrictions.like("fecha_solicitud", "%" + query +"%"))
 				Solicitudpension.class, empid);
 	}
 
-	public void deleteSolicitudpension(Solicitudpension solicitudpension) {
+	public void deleteSolicitudpension(Solicitudpension solicitudpension) throws GenericException {
 		sessionFactory.getCurrentSession().delete(solicitudpension);
 	}
 

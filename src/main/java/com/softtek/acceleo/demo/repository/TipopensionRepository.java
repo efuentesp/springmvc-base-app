@@ -3,6 +3,7 @@ package com.softtek.acceleo.demo.repository;
 
 import java.util.List;
 import com.softtek.acceleo.demo.domain.Tipopension;
+import com.softtek.acceleo.demo.exception.GenericException;
 
 public interface TipopensionRepository {
 
@@ -15,7 +16,7 @@ public interface TipopensionRepository {
 	    
 	 public Tipopension getTipopension(int empid);   
 	    
-	 public void deleteTipopension(Tipopension tipopension); 
+	 public void deleteTipopension(Tipopension tipopension) throws GenericException; 
 
 	 public List<Tipopension> listTipopensionsQuery(Tipopension tipopension, String query, int page, int size);
 

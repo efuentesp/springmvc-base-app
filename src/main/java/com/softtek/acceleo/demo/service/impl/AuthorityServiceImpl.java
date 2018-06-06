@@ -4,6 +4,7 @@ package com.softtek.acceleo.demo.service.impl;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -11,12 +12,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.softtek.acceleo.demo.repository.AuthorityRepository;
 import com.softtek.acceleo.demo.domain.Authority;
+import com.softtek.acceleo.demo.exception.GenericException;
 import com.softtek.acceleo.demo.service.AuthorityService;
 
 @Service("authorityService")
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 public class AuthorityServiceImpl implements AuthorityService {
-
+	private static final Logger logger = Logger.getLogger(AuthorityServiceImpl.class);
+	
 	@Autowired
 	private AuthorityRepository authorityRepository;
 
@@ -44,8 +47,8 @@ public class AuthorityServiceImpl implements AuthorityService {
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-	public void deleteAuthority(Authority authority) {
-		System.out.println("Entrando al deleteAuthority");
+	public void deleteAuthority(Authority authority)  throws GenericException {
+		logger.info("Entrando al deleteAuthority");
 
 		 authorityRepository.deleteAuthority(authority);
 	}
@@ -79,7 +82,7 @@ public class AuthorityServiceImpl implements AuthorityService {
 
 
 	public List<Authority> listAuthorityssQuery(Authority authority, String query, int page, int size) {
-		// TODO Auto-generated method stub
+
 		return authorityRepository.listAuthorityssQuery(authority, query, page, size);
 	}
 

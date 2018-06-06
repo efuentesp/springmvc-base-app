@@ -4,19 +4,22 @@ package com.softtek.acceleo.demo.service.impl;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.softtek.acceleo.demo.domain.User;
+import com.softtek.acceleo.demo.exception.GenericException;
 import com.softtek.acceleo.demo.repository.UserRepository;
 import com.softtek.acceleo.demo.service.UserService;
 
 @Service("userService")
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 public class UserServiceImpl implements UserService {
-
+	private static final Logger logger = Logger.getLogger(UserServiceImpl.class);
+	
 	@Autowired
 	private UserRepository userRepository;
 
@@ -44,8 +47,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-	public void deleteUser(User user) {
-		System.out.println("Entrando al deleteUser");
+	public void deleteUser(User user) throws GenericException {
+		logger.info("Entrando al deleteUser");
 
 		 userRepository.deleteUser(user);
 	}
@@ -79,7 +82,7 @@ public class UserServiceImpl implements UserService {
 
 
 	public List<User> listUserssQuery(User user, String query, int page, int size) {
-		// TODO Auto-generated method stub
+
 		return userRepository.listUserssQuery(user, query, page, size);
 	}
 

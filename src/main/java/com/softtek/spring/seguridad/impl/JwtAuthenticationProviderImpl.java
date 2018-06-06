@@ -35,6 +35,7 @@ public class JwtAuthenticationProviderImpl extends AbstractUserDetailsAuthentica
 
     @Override
     protected void additionalAuthenticationChecks(UserDetails userDetails, UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
+    	logger.info("Construyendo contenido del metodo...");
     }
 
     @Override
@@ -102,7 +103,7 @@ public class JwtAuthenticationProviderImpl extends AbstractUserDetailsAuthentica
 		String token = null;
 		
     	User user = new User();
-    	//user.setIdUser(1);
+    	/**user.setIdUser(1);**/
     	user.setUserName(userName);
     	user.setPassword(password);
     	user.setRol(rol);

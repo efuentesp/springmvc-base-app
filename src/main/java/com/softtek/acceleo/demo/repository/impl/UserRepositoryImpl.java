@@ -15,25 +15,29 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 import com.softtek.acceleo.demo.domain.User;
+import com.softtek.acceleo.demo.exception.GenericException;
 import com.softtek.acceleo.demo.repository.UserRepository;
 
 @Repository("userRepository")
 public class UserRepositoryImpl implements UserRepository {
 	private static final Logger logger = Logger.getLogger(UserRepositoryImpl.class);
 	
+	static final String USER_NAME = "userName";
+	
 	@Autowired
 	private SessionFactory sessionFactory;
 
 	public void addUser(User user) {
 		try {
-			Session session = sessionFactory.getCurrentSession();
-			//sessionFactory.getCurrentSession().persist(user);
 			logger.info("IdUser: " + user.getIdUser() + "\t UserName: " + user.getUserName() + "\t Password: " + user.getPassword() + "\t Rol: " + user.getRol() + "\t Imagen: " + user.getImagen());
+			
+			/**sessionFactory.getCurrentSession().persist(user);**/
+			Session session = sessionFactory.getCurrentSession();
 			session.persist(user);
 		}catch(HibernateException e) {
-			e.printStackTrace();
+			logger.error("Erro HibernateException - " + e);
 		}catch(Exception e) {
-			e.printStackTrace();
+			logger.error("Erro Exception - " + e);
 		}
 	}
 
@@ -41,9 +45,9 @@ public class UserRepositoryImpl implements UserRepository {
 		try {
 			sessionFactory.getCurrentSession().update(user);
 		}catch(HibernateException e) {
-			e.printStackTrace();
+			logger.error(e);
 		}catch(Exception e) {
-			e.printStackTrace();
+			logger.error("Erro - " + e);
 		}
 
 	}
@@ -76,12 +80,12 @@ public class UserRepositoryImpl implements UserRepository {
 
 	@SuppressWarnings("unchecked")
 	public List<User> listUserssQuery(User user, String query, int page, int size) {
-			//userProxy.set#columnsGrid(user.get#columnsGrid());
+
 			return (List<User>) sessionFactory.getCurrentSession()
 					.createCriteria(User.class).setFirstResult((page - 1) * size)
 					.add(	
 							Restrictions.or(Restrictions.or(Restrictions.or(Restrictions.or(Restrictions.or(	
-						Restrictions.like("iduser", "%" + query +"%"),Restrictions.like("fechamodificacion", "%" + query +"%")),Restrictions.like("password", "%" + query +"%")),Restrictions.like("fechacreacion", "%" + query +"%")),Restrictions.like("estatus", "%" + query +"%")),Restrictions.like("username", "%" + query +"%"))	
+						Restrictions.like("iduser", "%" + query +"%"),Restrictions.like("fechamodificacion", "%" + query +"%")),Restrictions.like("password", "%" + query +"%")),Restrictions.like("fechacreacion", "%" + query +"%")),Restrictions.like("estatus", "%" + query +"%")),Restrictions.like(USER_NAME, "%" + query +"%"))	
 	
 	
 	
@@ -93,7 +97,7 @@ public class UserRepositoryImpl implements UserRepository {
 
 	@SuppressWarnings("unchecked")
 	public List<User> listUsersPagination(User user, int page, int size) {
-			//cuentaProxy.set#columnsGrid(cuenta.get#columnsGrid());
+
 			return (List<User>) sessionFactory.getCurrentSession()
 				.createCriteria(User.class).setFirstResult((page - 1) * size)
 				
@@ -147,7 +151,7 @@ public class UserRepositoryImpl implements UserRepository {
 				User.class, empid);
 	}
 
-	public void deleteUser(User user) {
+	public void deleteUser(User user) throws GenericException {
 		sessionFactory.getCurrentSession().delete(user);
 	}
 
@@ -162,15 +166,15 @@ public class UserRepositoryImpl implements UserRepository {
 			/**/
 			Session session = sessionFactory.getCurrentSession();
 			Criteria criteria = session.createCriteria(User.class);
-			criteria.add(Restrictions.eq("userName", user.getUserName())).list();
+			criteria.add(Restrictions.eq(USER_NAME, user.getUserName())).list();
 			lstUser = (List<User>) criteria.list();
 			/**/
 			
-			//lstUser = (List<User>) sessionFactory.getCurrentSession().createCriteria(User.class).add(Restrictions.eq("userName", user.getUserName())).list();
+			/**lstUser = (List<User>) sessionFactory.getCurrentSession().createCriteria(User.class).add(Restrictions.eq("userName", user.getUserName())).list();**/
 		}catch(HibernateException e) {
-			logger.error("Error al ejecutar la consulta para obtener los User. - " + e);
+			logger.error("HibernateException - " + e);
 		}catch(Exception e) {
-			logger.error("Error al ejecutar la consulta para obtener los User. - " + e);
+			logger.error("Exception - " + e);
 		}
 		
 		return lstUser;
@@ -184,8 +188,7 @@ public class UserRepositoryImpl implements UserRepository {
 			User userProxy = new User();
 			return (List<User>) sessionFactory.getCurrentSession()
 					.createCriteria(User.class)
-					.add(Example.create(userProxy)).add(Restrictions.eq("userName", user.getUserName())).list();
-					//.add(Example.create(userProxy)).add(Restrictions.eq("idUser", user.getIdUser())).list();
+					.add(Example.create(userProxy)).add(Restrictions.eq(USER_NAME, user.getUserName())).list();
 		}
 
 		return (List<User>) sessionFactory.getCurrentSession()
@@ -201,11 +204,11 @@ public class UserRepositoryImpl implements UserRepository {
 		List<User> lstUser = null;
 		
 		try {
-			lstUser = (List<User>) sessionFactory.getCurrentSession().createCriteria(User.class).add(Restrictions.eq("userName", userName)).list();
+			lstUser = (List<User>) sessionFactory.getCurrentSession().createCriteria(User.class).add(Restrictions.eq(USER_NAME, userName)).list();
 		}catch(HibernateException e) {
-			logger.error("Error al ejecutar la consulta para obtener los User. - " + e);
+			logger.error("HibernateException - " + e);
 		}catch(Exception e) {
-			logger.error("Error al ejecutar la consulta para obtener los User. - " + e);
+			logger.error("Exception - " + e);
 		}
 		
 		return lstUser;

@@ -4,6 +4,7 @@ package com.softtek.acceleo.demo.service.impl;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -11,12 +12,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.softtek.acceleo.demo.repository.ModuloRepository;
 import com.softtek.acceleo.demo.domain.Modulo;
+import com.softtek.acceleo.demo.exception.GenericException;
 import com.softtek.acceleo.demo.service.ModuloService;
 
 @Service("moduloService")
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 public class ModuloServiceImpl implements ModuloService {
-
+	private static final Logger logger = Logger.getLogger(ModuloServiceImpl.class);
+	
 	@Autowired
 	private ModuloRepository moduloRepository;
 
@@ -44,8 +47,8 @@ public class ModuloServiceImpl implements ModuloService {
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-	public void deleteModulo(Modulo modulo) {
-		System.out.println("Entrando al deleteModulo");
+	public void deleteModulo(Modulo modulo) throws GenericException {
+		logger.info("Entrando al deleteModulo");
 
 		 moduloRepository.deleteModulo(modulo);
 	}
@@ -79,7 +82,7 @@ public class ModuloServiceImpl implements ModuloService {
 
 
 	public List<Modulo> listModulossQuery(Modulo modulo, String query, int page, int size) {
-		// TODO Auto-generated method stub
+
 		return moduloRepository.listModulossQuery(modulo, query, page, size);
 	}
 

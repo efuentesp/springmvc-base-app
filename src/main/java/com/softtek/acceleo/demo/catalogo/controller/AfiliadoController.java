@@ -14,6 +14,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -32,6 +33,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.softtek.acceleo.demo.catalogo.bean.AfiliadoBean;
 import com.softtek.acceleo.demo.domain.Afiliado;
+import com.softtek.acceleo.demo.exception.GenericException;
 import com.softtek.acceleo.demo.service.AfiliadoService;
 
 /**
@@ -41,12 +43,11 @@ import com.softtek.acceleo.demo.service.AfiliadoService;
  */
 @Controller
 public class AfiliadoController {
-
+	private static final Logger logger = Logger.getLogger(AfiliadoController.class);
+	
 	@Autowired
 	private AfiliadoService afiliadoService;	
 	
-	Afiliado afiliado = new Afiliado();
-
 	/**
 	 * Obtiene informacion de los afilliados.
 	 * @param requestParams.
@@ -56,26 +57,27 @@ public class AfiliadoController {
 	 */
 	@RequestMapping(value = "/afiliado", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody  List<Afiliado> getAfiliados(@RequestParam Map<String,String> requestParams, HttpServletRequest request, HttpServletResponse response) {
-
+		Afiliado afiliado = new Afiliado();
+		
        	String query=requestParams.get("q");
-		int _page= requestParams.get("_page")==null?0:new Integer(requestParams.get("_page")).intValue();
+		int page= requestParams.get("_page")==null?0:Integer.parseInt(requestParams.get("_page"));
 		long rows = 0;
 
 		List<Afiliado> listAfiliado = null;
 
-		if (query==null && _page == 0) {
+		if (query==null && page == 0) {
        		listAfiliado = afiliadoService.listAfiliados(afiliado);
 			rows = afiliadoService.getTotalRows();
 		} else if (query!= null){
-			listAfiliado = afiliadoService.listAfiliadosQuery(afiliado, query, _page, 10);
+			listAfiliado = afiliadoService.listAfiliadosQuery(afiliado, query, page, 10);
 			rows = afiliadoService.getTotalRowsSearch(query);
-		} else if (_page != 0){
-			listAfiliado = afiliadoService.listAfiliadosPagination(afiliado, _page, 10);
+		} else /**if (page != 0)**/{
+			listAfiliado = afiliadoService.listAfiliadosPagination(afiliado, page, 10);
 			rows = afiliadoService.getTotalRows();
 		}
 
 		response.setHeader("Access-Control-Expose-Headers", "x-total-count");
-		response.setHeader("x-total-count", String.valueOf(rows).toString());	
+		response.setHeader("x-total-count", String.valueOf(rows));	
 
 		return listAfiliado;
 	}
@@ -87,9 +89,7 @@ public class AfiliadoController {
 	 */
 	@RequestMapping(value = "/afiliado/{id}", method = RequestMethod.GET, produces = "application/json")
 	    public @ResponseBody  Afiliado getAfiliado(@PathVariable("id") int id) {
-	        
-		System.out.println("Inicio Afiliado");
-	        afiliado.setAfiliadoId(id);
+			logger.info("Inicio Afiliado");
 	        
 	        Afiliado afiliado = null;
 	        afiliado = afiliadoService.getAfiliado(id);
@@ -127,7 +127,7 @@ public class AfiliadoController {
 	        Afiliado afiliadoFound = afiliadoService.getAfiliado(id);
 	         
 	        if (afiliadoFound==null) {
-	            System.out.println("User with id " + id + " not found");
+	            logger.info("User with id " + id + " not found");
 	            return new ResponseEntity<Afiliado>(HttpStatus.NOT_FOUND);
 	        }
 	 
@@ -159,19 +159,20 @@ public class AfiliadoController {
 		 */
 		@RequestMapping(value = "/afiliado/{id}", method = RequestMethod.DELETE)
 	    public ResponseEntity<Afiliado> deleteAfiliado(@PathVariable("id") int id) {
-			 long rows = 0;	
-	    	 
-	         Afiliado afiliado = afiliadoService.getAfiliado(id);
-	         if (afiliado == null) {
-	             return new ResponseEntity<Afiliado>(HttpStatus.NOT_FOUND);
-	         }
-	  
-             if (rows==0){
+			
+	         try {
+		         Afiliado afiliado = afiliadoService.getAfiliado(id);
+		         if (afiliado == null) {
+		             return new ResponseEntity<Afiliado>(HttpStatus.NOT_FOUND);
+		         }
+	        	 
+	        	 
 	             afiliadoService.deleteAfiliado(afiliado);
             	 return new ResponseEntity<Afiliado>(HttpStatus.OK);
-             } else {
-            	 return new ResponseEntity<Afiliado>(HttpStatus.PRECONDITION_FAILED);
-             }
+	        	 
+	         }catch(GenericException e) {
+	        	 return new ResponseEntity<Afiliado>(HttpStatus.PRECONDITION_FAILED);
+	         }
 		}
 
 	/**
@@ -225,25 +226,6 @@ public class AfiliadoController {
 	}
 
 	/**
-	 * Elimina un afiliado.
-	 * @param afiliadoBean.
-	 * @param result.
-	 * @return ModelAndView.
-	 */
-	@RequestMapping(value = "/deleteAfiliado", method = RequestMethod.POST)
-	public ModelAndView deleteAfiliado(
-			@ModelAttribute("command") AfiliadoBean afiliadoBean,
-			BindingResult result) {
-		System.out.println("delete " + afiliadoBean.getAfiliadoId());
-		afiliadoService.deleteAfiliado(prepareModel(afiliadoBean));
-		Map<String, Object> model = new HashMap<String, Object>();
-		model.put("afiliado", null);
-		model.put("afiliados",
-				prepareListofBean(afiliadoService.listAfiliados(null)));
-		return new ModelAndView("searchAfiliado", model);
-	}
-
-	/**
 	 * 
 	 * @return ModelAndView.
 	 */
@@ -260,7 +242,7 @@ public class AfiliadoController {
 	private Afiliado prepareModel(AfiliadoBean afiliadoBean) {
 		Afiliado afiliado = new Afiliado();
 
-		//afiliado.setGeneroId(afiliadoBean.getGeneroId());
+		/**afiliadoTmp.setGeneroId(afiliadoBean.getGeneroId());**/
 		afiliado.setBeneficiarioId(afiliadoBean.getBeneficiarioId());
 		afiliado.setNss(afiliadoBean.getNss());
 		afiliado.setNombre(afiliadoBean.getNombre());
@@ -292,7 +274,7 @@ public class AfiliadoController {
 			for (Afiliado afiliado : afiliados) {
 				bean = new AfiliadoBean();
 
-				//bean.setGeneroId(afiliado.getGeneroId());
+				/**bean.setGeneroId(afiliadoTmp.getGeneroId());**/
 				bean.setBeneficiarioId(afiliado.getBeneficiarioId());
 				bean.setNss(afiliado.getNss());
 				bean.setNombre(afiliado.getNombre());

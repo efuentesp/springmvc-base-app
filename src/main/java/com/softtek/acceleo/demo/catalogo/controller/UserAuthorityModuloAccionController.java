@@ -1,3 +1,9 @@
+/**
+ * Autor: PSG.
+ * Proyecto:
+ * Version: 0.1 
+ * Clase para invocar servicios de los UserAuthorityModuloAccion. 
+ */
 package com.softtek.acceleo.demo.catalogo.controller;
 
 import java.util.ArrayList;
@@ -8,6 +14,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -27,48 +35,51 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.softtek.acceleo.demo.catalogo.bean.UserAuthorityModuloAccionBean;
 import com.softtek.acceleo.demo.domain.UserAuthorityModuloAccion;
+import com.softtek.acceleo.demo.exception.GenericException;
 import com.softtek.acceleo.demo.service.UserAuthorityModuloAccionService;
 
+/**
+ * Clase UserAuthorityModuloAccionController.
+ * @author PSG.
+ *
+ */
 @Controller
 public class UserAuthorityModuloAccionController {
-
+	private static final Logger logger = Logger.getLogger(UserAuthorityModuloAccionController.class);
+	
 	@Autowired
 	private UserAuthorityModuloAccionService userauthoritymoduloaccionService;
-	
-	UserAuthorityModuloAccion userauthoritymoduloaccion = new UserAuthorityModuloAccion();
 
 	@RequestMapping(value = "/userauthoritymoduloaccion", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody  List<UserAuthorityModuloAccion> getUserAuthorityModuloAccions(@RequestParam Map<String,String> requestParams, HttpServletRequest request, HttpServletResponse response) {
-
+		UserAuthorityModuloAccion userauthoritymoduloaccion = new UserAuthorityModuloAccion();
+		
        	String query=requestParams.get("q");
-		int _page= requestParams.get("_page")==null?0:new Integer(requestParams.get("_page")).intValue();
+		int page= requestParams.get("_page")==null?0:Integer.parseInt(requestParams.get("_page"));
 		long rows = 0;
 
 		
 
 		List<UserAuthorityModuloAccion> listUserAuthorityModuloAccion = null;
 
-		if (query==null && _page == 0 ) {
+		if (query==null && page == 0 ) {
        		listUserAuthorityModuloAccion = userauthoritymoduloaccionService.listUserAuthorityModuloAccionss(userauthoritymoduloaccion);
 			rows = userauthoritymoduloaccionService.getTotalRows();
-		} else if (query!= null){
+		} /**else if (query!= null){
 			
-		} else if (_page != 0){
-			listUserAuthorityModuloAccion = userauthoritymoduloaccionService.listUserAuthorityModuloAccionsPagination(userauthoritymoduloaccion, _page, 10);
+		}**/ else /**if (page != 0)**/{
+			listUserAuthorityModuloAccion = userauthoritymoduloaccionService.listUserAuthorityModuloAccionsPagination(userauthoritymoduloaccion, page, 10);
 			rows = userauthoritymoduloaccionService.getTotalRows();
 		} 	
 
 		response.setHeader("Access-Control-Expose-Headers", "x-total-count");
-		response.setHeader("x-total-count", String.valueOf(rows).toString());	
+		response.setHeader("x-total-count", String.valueOf(rows));	
 
 		return listUserAuthorityModuloAccion;
 	}
 	
 	@RequestMapping(value = "/userauthoritymoduloaccion/{id}", method = RequestMethod.GET, produces = "application/json")
 	    public @ResponseBody  UserAuthorityModuloAccion getUserAuthorityModuloAccion(@PathVariable("id") int id) {
-	        
-	        userauthoritymoduloaccion.setId(id);
-	        
 	        UserAuthorityModuloAccion userauthoritymoduloaccion = null;
 	        userauthoritymoduloaccion = userauthoritymoduloaccionService.getUserAuthorityModuloAccion(id);
 			return userauthoritymoduloaccion;
@@ -83,7 +94,7 @@ public class UserAuthorityModuloAccionController {
 	 
 	        HttpHeaders headers = new HttpHeaders();
 	        headers.setLocation(ucBuilder.path("/userauthoritymoduloaccion/{id}").buildAndExpand(userauthoritymoduloaccion.getId()).toUri());
-	        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+	        return new ResponseEntity<>(headers, HttpStatus.CREATED);
 	 }
 		
 	 @RequestMapping(value = "/userauthoritymoduloaccion/{id}", method = RequestMethod.PUT)
@@ -93,8 +104,8 @@ public class UserAuthorityModuloAccionController {
 	        UserAuthorityModuloAccion userauthoritymoduloaccionFound = userauthoritymoduloaccionService.getUserAuthorityModuloAccion(id);
 	         
 	        if (userauthoritymoduloaccionFound==null) {
-	            System.out.println("User with id " + id + " not found");
-	            return new ResponseEntity<UserAuthorityModuloAccion>(HttpStatus.NOT_FOUND);
+	            logger.info("User with id " + id + " not found");
+	            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	        }
 	 
 				userauthoritymoduloaccionFound.setIdUserAuthorityModuloAccion(userauthoritymoduloaccion.getIdUserAuthorityModuloAccion());
@@ -106,28 +117,25 @@ public class UserAuthorityModuloAccionController {
 			userauthoritymoduloaccion.setId(null);
 	        
 	        userauthoritymoduloaccionService.editUserAuthorityModuloAccion(userauthoritymoduloaccionFound);
-	        return new ResponseEntity<UserAuthorityModuloAccion>(userauthoritymoduloaccionFound, HttpStatus.OK);
+	        return new ResponseEntity<>(userauthoritymoduloaccionFound, HttpStatus.OK);
 	  } 	
 	
 		
 		@RequestMapping(value = "/userauthoritymoduloaccion/{id}", method = RequestMethod.DELETE)
 	    public ResponseEntity<UserAuthorityModuloAccion> deleteUserAuthorityModuloAccion(@PathVariable("id") int id) {
-	    	 System.out.println("Fetching & Deleting User with id " + id);
-			 long rows = 0;	
+	    	 logger.info("Fetching & Deleting User with id " + id);
 	    	 
-	         UserAuthorityModuloAccion userauthoritymoduloaccion = userauthoritymoduloaccionService.getUserAuthorityModuloAccion(id);
-	         if (userauthoritymoduloaccion == null) {
-	             System.out.println("Unable to delete. Cuenta with id " + id + " not found");
-	             return new ResponseEntity<UserAuthorityModuloAccion>(HttpStatus.NOT_FOUND);
-	         }
-	  
-             
-
-             if (rows==0){
+             try{
+    	         UserAuthorityModuloAccion userauthoritymoduloaccion = userauthoritymoduloaccionService.getUserAuthorityModuloAccion(id);
+    	         if (userauthoritymoduloaccion == null) {
+    	             logger.info("Unable to delete. Cuenta with id " + id + " not found");
+    	             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    	         }
+            	 
 	             userauthoritymoduloaccionService.deleteUserAuthorityModuloAccion(userauthoritymoduloaccion);
-            	 return new ResponseEntity<UserAuthorityModuloAccion>(HttpStatus.OK);
-             } else {
-            	 return new ResponseEntity<UserAuthorityModuloAccion>(HttpStatus.PRECONDITION_FAILED);
+            	 return new ResponseEntity<>(HttpStatus.OK);
+             } catch(GenericException e) {
+            	 return new ResponseEntity<>(HttpStatus.PRECONDITION_FAILED);
              }
 			
 		}
@@ -159,25 +167,12 @@ public class UserAuthorityModuloAccionController {
 			@ModelAttribute("command") UserAuthorityModuloAccionBean userauthoritymoduloaccionBean,
 			BindingResult result) {
 
-		Map<String, Object> model = new HashMap<String, Object>();
+		Map<String, Object> model = new HashMap<>();
 		UserAuthorityModuloAccion userauthoritymoduloaccion = null;
 		if (userauthoritymoduloaccionBean != null)
 			userauthoritymoduloaccion = prepareModel(userauthoritymoduloaccionBean);
 		model.put("userauthoritymoduloaccions",
 				prepareListofBean(userauthoritymoduloaccionService.listUserAuthorityModuloAccionss(userauthoritymoduloaccion)));
-		return new ModelAndView("searchUserAuthorityModuloAccion", model);
-	}
-
-	@RequestMapping(value = "/deleteUserAuthorityModuloAccion", method = RequestMethod.POST)
-	public ModelAndView deleteUserAuthorityModuloAccion(
-			@ModelAttribute("command") UserAuthorityModuloAccionBean userauthoritymoduloaccionBean,
-			BindingResult result) {
-		System.out.println("delete " + userauthoritymoduloaccionBean.getId());
-		userauthoritymoduloaccionService.deleteUserAuthorityModuloAccion(prepareModel(userauthoritymoduloaccionBean));
-		Map<String, Object> model = new HashMap<String, Object>();
-		model.put("userauthoritymoduloaccion", null);
-		model.put("userauthoritymoduloaccions",
-				prepareListofBean(userauthoritymoduloaccionService.listUserAuthorityModuloAccionss(null)));
 		return new ModelAndView("searchUserAuthorityModuloAccion", model);
 	}
 
@@ -203,7 +198,7 @@ public class UserAuthorityModuloAccionController {
 	private List<UserAuthorityModuloAccionBean> prepareListofBean(List<UserAuthorityModuloAccion> userauthoritymoduloaccions) {
 		List<UserAuthorityModuloAccionBean> beans = null;
 		if (userauthoritymoduloaccions != null && !userauthoritymoduloaccions.isEmpty()) {
-			beans = new ArrayList<UserAuthorityModuloAccionBean>();
+			beans = new ArrayList<>();
 			UserAuthorityModuloAccionBean bean = null;
 			for (UserAuthorityModuloAccion userauthoritymoduloaccion : userauthoritymoduloaccions) {
 				bean = new UserAuthorityModuloAccionBean();

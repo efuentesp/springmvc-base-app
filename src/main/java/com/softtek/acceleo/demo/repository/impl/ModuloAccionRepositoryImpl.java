@@ -13,10 +13,13 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 import com.softtek.acceleo.demo.domain.ModuloAccion;
+import com.softtek.acceleo.demo.exception.GenericException;
 import com.softtek.acceleo.demo.repository.ModuloAccionRepository;
 
 @Repository("moduloaccionRepository")
 public class ModuloAccionRepositoryImpl implements ModuloAccionRepository {
+	static final String ID_ACCION = "idaccion";
+	static final String ID_MODULO = "idmodulo";
 
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -58,12 +61,12 @@ public class ModuloAccionRepositoryImpl implements ModuloAccionRepository {
 
 	@SuppressWarnings("unchecked")
 	public List<ModuloAccion> listModuloAccionssQuery(ModuloAccion moduloaccion, String query, int page, int size) {
-			//moduloaccionProxy.set#columnsGrid(moduloaccion.get#columnsGrid());
+
 			return (List<ModuloAccion>) sessionFactory.getCurrentSession()
 					.createCriteria(ModuloAccion.class).setFirstResult((page - 1) * size)
 					.add(	
 							Restrictions.or(Restrictions.or(Restrictions.or(Restrictions.or(Restrictions.or(	
-						Restrictions.like("idaccion", "%" + query +"%"),Restrictions.like("estatus", "%" + query +"%")),Restrictions.like("fechacreacion", "%" + query +"%")),Restrictions.like("fechamodificacion", "%" + query +"%")),Restrictions.like("idmodulo", "%" + query +"%")),Restrictions.like("idmoduloaccion", "%" + query +"%"))	
+						Restrictions.like(ID_ACCION, "%" + query +"%"),Restrictions.like("estatus", "%" + query +"%")),Restrictions.like("fechacreacion", "%" + query +"%")),Restrictions.like("fechamodificacion", "%" + query +"%")),Restrictions.like(ID_MODULO, "%" + query +"%")),Restrictions.like("idmoduloaccion", "%" + query +"%"))	
 	
 	
 	
@@ -75,7 +78,7 @@ public class ModuloAccionRepositoryImpl implements ModuloAccionRepository {
 
 	@SuppressWarnings("unchecked")
 	public List<ModuloAccion> listModuloAccionsPagination(ModuloAccion moduloaccion, int page, int size) {
-			//cuentaProxy.set#columnsGrid(cuenta.get#columnsGrid());
+
 			return (List<ModuloAccion>) sessionFactory.getCurrentSession()
 				.createCriteria(ModuloAccion.class).setFirstResult((page - 1) * size)
 				
@@ -100,7 +103,7 @@ public class ModuloAccionRepositoryImpl implements ModuloAccionRepository {
 		.createCriteria(ModuloAccion.class).setProjection(Projections.rowCount())
 					.add(	
 							Restrictions.or(Restrictions.or(Restrictions.or(Restrictions.or(Restrictions.or(	
-						Restrictions.like("idaccion", "%" + query +"%"),Restrictions.like("estatus", "%" + query +"%")),Restrictions.like("fechacreacion", "%" + query +"%")),Restrictions.like("fechamodificacion", "%" + query +"%")),Restrictions.like("idmodulo", "%" + query +"%")),Restrictions.like("idmoduloaccion", "%" + query +"%"))	
+						Restrictions.like(ID_ACCION, "%" + query +"%"),Restrictions.like("estatus", "%" + query +"%")),Restrictions.like("fechacreacion", "%" + query +"%")),Restrictions.like("fechamodificacion", "%" + query +"%")),Restrictions.like(ID_MODULO, "%" + query +"%")),Restrictions.like("idmoduloaccion", "%" + query +"%"))	
 	
 	
 	
@@ -129,7 +132,7 @@ public class ModuloAccionRepositoryImpl implements ModuloAccionRepository {
 				ModuloAccion.class, empid);
 	}
 
-	public void deleteModuloAccion(ModuloAccion moduloaccion) {
+	public void deleteModuloAccion(ModuloAccion moduloaccion) throws GenericException {
 		sessionFactory.getCurrentSession().delete(moduloaccion);
 	}
 
@@ -138,9 +141,11 @@ public class ModuloAccionRepositoryImpl implements ModuloAccionRepository {
 	public List<ModuloAccion> listModuloAccion(int idModulo, int idAccion) {
 		Session session = sessionFactory.getCurrentSession();
 		Criteria criteria = session.createCriteria(ModuloAccion.class);
-		criteria.add(Restrictions.and(Restrictions.eq("idmodulo", idModulo), Restrictions.eq("idaccion", idAccion))).list();
-		List<ModuloAccion> lstModuloAccion = (List<ModuloAccion>) criteria.list();
+		criteria.add(Restrictions.and(Restrictions.eq(ID_MODULO, idModulo), Restrictions.eq(ID_ACCION, idAccion))).list();
+		List<ModuloAccion> lstModuloAccion = null;
 
+		lstModuloAccion = (List<ModuloAccion>) criteria.list();
+		
 		return lstModuloAccion;
 	}
 
@@ -149,9 +154,11 @@ public class ModuloAccionRepositoryImpl implements ModuloAccionRepository {
 	public List<ModuloAccion> listModuloAccion(int idModulo) {
 		Session session = sessionFactory.getCurrentSession();
 		Criteria criteria = session.createCriteria(ModuloAccion.class);
-		criteria.add(Restrictions.eq("idmodulo", idModulo)).list();
-		List<ModuloAccion> lstModuloAccion = (List<ModuloAccion>) criteria.list();
+		criteria.add(Restrictions.eq(ID_MODULO, idModulo)).list();
+		List<ModuloAccion> lstModuloAccion = null;
 
+		lstModuloAccion = (List<ModuloAccion>) criteria.list();
+		
 		return lstModuloAccion;
 	}
 

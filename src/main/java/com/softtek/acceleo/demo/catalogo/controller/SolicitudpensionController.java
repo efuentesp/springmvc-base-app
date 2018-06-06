@@ -1,3 +1,9 @@
+/**
+ * Autor: PSG.
+ * Proyecto:
+ * Version: 0.1 
+ * Clase para invocar servicios de los Solicitudpension. 
+ */
 package com.softtek.acceleo.demo.catalogo.controller;
 
 import java.util.ArrayList;
@@ -7,6 +13,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -25,48 +33,53 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.softtek.acceleo.demo.catalogo.bean.SolicitudpensionBean;
 import com.softtek.acceleo.demo.domain.Solicitudpension;
+import com.softtek.acceleo.demo.exception.GenericException;
 import com.softtek.acceleo.demo.service.SolicitudpensionService;
 
+/**
+ * Clase SolicitudpensionController.
+ * @author PSG.
+ *
+ */
 @Controller
 public class SolicitudpensionController {
-
+	private static final Logger logger = Logger.getLogger(SolicitudpensionController.class);
+	
 	@Autowired
 	private SolicitudpensionService solicitudpensionService;
 	
-	Solicitudpension solicitudpension = new Solicitudpension();
-
+	
 	@RequestMapping(value = "/solicitudpension", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody  List<Solicitudpension> getSolicitudpensions(@RequestParam Map<String,String> requestParams, HttpServletRequest request, HttpServletResponse response) {
+		Solicitudpension solicitudpension = new Solicitudpension();
 
        	String query=requestParams.get("q");
-		int _page= requestParams.get("_page")==null?0:new Integer(requestParams.get("_page")).intValue();
+		int page= requestParams.get("_page")==null?0:Integer.parseInt(requestParams.get("_page"));
 		long rows = 0;
 
 		List<Solicitudpension> listSolicitudpension = null;
 
-		if (query==null && _page == 0) {
+		if (query==null && page == 0) {
        		listSolicitudpension = solicitudpensionService.listSolicitudpensions(solicitudpension);
 			rows = solicitudpensionService.getTotalRows();
 		} else if (query!= null){
-			listSolicitudpension = solicitudpensionService.listSolicitudpensionsQuery(solicitudpension, query, _page, 10);
+			listSolicitudpension = solicitudpensionService.listSolicitudpensionsQuery(solicitudpension, query, page, 10);
 			rows = solicitudpensionService.getTotalRowsSearch(query);
-		} else if (_page != 0){
-			listSolicitudpension = solicitudpensionService.listSolicitudpensionsPagination(solicitudpension, _page, 10);
+		} else /**if (page != 0)**/{
+			listSolicitudpension = solicitudpensionService.listSolicitudpensionsPagination(solicitudpension, page, 10);
 			rows = solicitudpensionService.getTotalRows();
 		}
 
 		response.setHeader("Access-Control-Expose-Headers", "x-total-count");
-		response.setHeader("x-total-count", String.valueOf(rows).toString());	
+		response.setHeader("x-total-count", String.valueOf(rows));	
 
 		return listSolicitudpension;
 	}
 	
 	@RequestMapping(value = "/solicitudpension/{id}", method = RequestMethod.GET, produces = "application/json")
 	    public @ResponseBody  Solicitudpension getSolicitudpension(@PathVariable("id") int id) {
-	        
-	        solicitudpension.setSolicitudpensionId(id);
-	        
-	        Solicitudpension solicitudpension = null;
+
+			Solicitudpension solicitudpension = null;
 	        solicitudpension = solicitudpensionService.getSolicitudpension(id);
 			return solicitudpension;
 	 }
@@ -80,7 +93,7 @@ public class SolicitudpensionController {
 	 
 	        HttpHeaders headers = new HttpHeaders();
 	        headers.setLocation(ucBuilder.path("/solicitudpension/{id}").buildAndExpand(solicitudpension.getSolicitudpensionId()).toUri());
-	        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+	        return new ResponseEntity<>(headers, HttpStatus.CREATED);
 	 }
 		
 	 @RequestMapping(value = "/solicitudpension/{id}", method = RequestMethod.PUT)
@@ -91,8 +104,8 @@ public class SolicitudpensionController {
 	        Solicitudpension solicitudpensionFound = solicitudpensionService.getSolicitudpension(id);
 	         
 	        if (solicitudpensionFound==null) {
-	            System.out.println("User with id " + id + " not found");
-	            return new ResponseEntity<Solicitudpension>(HttpStatus.NOT_FOUND);
+	            logger.info("User with id " + id + " not found");
+	            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	        }
 	 
 				solicitudpensionFound.setAfiliadoId(solicitudpension.getAfiliadoId());
@@ -105,24 +118,23 @@ public class SolicitudpensionController {
 			solicitudpensionFound.setSolicitudpensionId(solicitudpension.getSolicitudpensionId());
 
 		    solicitudpensionService.editSolicitudpension(solicitudpensionFound);
-	        return new ResponseEntity<Solicitudpension>(solicitudpensionFound, HttpStatus.OK);
+	        return new ResponseEntity<>(solicitudpensionFound, HttpStatus.OK);
 	  } 	
 	
 		
 		@RequestMapping(value = "/solicitudpension/{id}", method = RequestMethod.DELETE)
 	    public ResponseEntity<Solicitudpension> deleteSolicitudpension(@PathVariable("id") int id) {
-			 long rows = 0;	
-	    	 
-	         Solicitudpension solicitudpension = solicitudpensionService.getSolicitudpension(id);
-	         if (solicitudpension == null) {
-	             return new ResponseEntity<Solicitudpension>(HttpStatus.NOT_FOUND);
-	         }
 	  
-             if (rows==0){
+             try{
+    	         Solicitudpension solicitudpension = solicitudpensionService.getSolicitudpension(id);
+    	         if (solicitudpension == null) {
+    	             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    	         }
+            	 
 	             solicitudpensionService.deleteSolicitudpension(solicitudpension);
-            	 return new ResponseEntity<Solicitudpension>(HttpStatus.OK);
-             } else {
-            	 return new ResponseEntity<Solicitudpension>(HttpStatus.PRECONDITION_FAILED);
+            	 return new ResponseEntity<>(HttpStatus.OK);
+             } catch(GenericException e) {
+            	 return new ResponseEntity<>(HttpStatus.PRECONDITION_FAILED);
              }
 		}
 
@@ -152,25 +164,12 @@ public class SolicitudpensionController {
 			@ModelAttribute("command") SolicitudpensionBean solicitudpensionBean,
 			BindingResult result) {
 
-		Map<String, Object> model = new HashMap<String, Object>();
+		Map<String, Object> model = new HashMap<>();
 		Solicitudpension solicitudpension = null;
 		if (solicitudpensionBean != null)
 			solicitudpension = prepareModel(solicitudpensionBean);
 		model.put("solicitudpensions",
 				prepareListofBean(solicitudpensionService.listSolicitudpensions(solicitudpension)));
-		return new ModelAndView("searchSolicitudpension", model);
-	}
-
-	@RequestMapping(value = "/deleteSolicitudpension", method = RequestMethod.POST)
-	public ModelAndView deleteSolicitudpension(
-			@ModelAttribute("command") SolicitudpensionBean solicitudpensionBean,
-			BindingResult result) {
-		System.out.println("delete " + solicitudpensionBean.getSolicitudpensionId());
-		solicitudpensionService.deleteSolicitudpension(prepareModel(solicitudpensionBean));
-		Map<String, Object> model = new HashMap<String, Object>();
-		model.put("solicitudpension", null);
-		model.put("solicitudpensions",
-				prepareListofBean(solicitudpensionService.listSolicitudpensions(null)));
 		return new ModelAndView("searchSolicitudpension", model);
 	}
 
@@ -196,7 +195,7 @@ public class SolicitudpensionController {
 	private List<SolicitudpensionBean> prepareListofBean(List<Solicitudpension> solicitudpensions) {
 		List<SolicitudpensionBean> beans = null;
 		if (solicitudpensions != null && !solicitudpensions.isEmpty()) {
-			beans = new ArrayList<SolicitudpensionBean>();
+			beans = new ArrayList<>();
 			SolicitudpensionBean bean = null;
 			for (Solicitudpension solicitudpension : solicitudpensions) {
 				bean = new SolicitudpensionBean();

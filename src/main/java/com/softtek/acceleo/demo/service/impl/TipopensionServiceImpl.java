@@ -4,6 +4,7 @@ package com.softtek.acceleo.demo.service.impl;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -11,12 +12,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.softtek.acceleo.demo.repository.TipopensionRepository;
 import com.softtek.acceleo.demo.domain.Tipopension;
+import com.softtek.acceleo.demo.exception.GenericException;
 import com.softtek.acceleo.demo.service.TipopensionService;
 
 @Service("tipopensionService")
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 public class TipopensionServiceImpl implements TipopensionService {
-
+	private static final Logger logger = Logger.getLogger(TipopensionServiceImpl.class);
+	
 	@Autowired
 	private TipopensionRepository tipopensionRepository;
 
@@ -44,8 +47,8 @@ public class TipopensionServiceImpl implements TipopensionService {
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-	public void deleteTipopension(Tipopension tipopension) {
-		System.out.println("Entrando al deleteTipopension");
+	public void deleteTipopension(Tipopension tipopension) throws GenericException {
+		logger.info("Entrando al deleteTipopension");
 
 		 tipopensionRepository.deleteTipopension(tipopension);
 	}
@@ -76,7 +79,7 @@ public class TipopensionServiceImpl implements TipopensionService {
 	}
 
 	public List<Tipopension> listTipopensionsQuery(Tipopension tipopension, String query, int page, int size) {
-		// TODO Auto-generated method stub
+
 		return tipopensionRepository.listTipopensionsQuery(tipopension, query, page, size);
 	}
 

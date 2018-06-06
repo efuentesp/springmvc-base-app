@@ -14,6 +14,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -33,6 +35,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.softtek.acceleo.demo.catalogo.bean.AccionBean;
 import com.softtek.acceleo.demo.domain.Accion;
+import com.softtek.acceleo.demo.exception.GenericException;
 import com.softtek.acceleo.demo.service.AccionService;
 
 /**
@@ -42,12 +45,11 @@ import com.softtek.acceleo.demo.service.AccionService;
  */
 @Controller
 public class AccionController {
-
+	private static final Logger logger = Logger.getLogger(AccionController.class);
+	
 	@Autowired
 	private AccionService accionService;
 	
-	Accion accion = new Accion();
-
 	/**
 	 * Obtiene informacion de las acciones.
 	 * @param requestParams.
@@ -57,27 +59,28 @@ public class AccionController {
 	 */
 	@RequestMapping(value = "/accion", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody  List<Accion> getAccions(@RequestParam Map<String,String> requestParams, HttpServletRequest request, HttpServletResponse response) {
+		Accion accion = new Accion();
 
        	String query=requestParams.get("q");
-		int _page= requestParams.get("_page")==null?0:new Integer(requestParams.get("_page")).intValue();
+		int page = requestParams.get("_page")==null?0:Integer.parseInt(requestParams.get("_page"));
 		long rows = 0;
 
 		
 
 		List<Accion> listAccion = null;
 
-		if (query==null && _page == 0 ) {
+		if (query==null && page == 0 ) {
        		listAccion = accionService.listAccionss(accion);
 			rows = accionService.getTotalRows();
-		} else if (query!= null){
+		}/** else if (query!= null){
 			
-		} else if (_page != 0){
-			listAccion = accionService.listAccionsPagination(accion, _page, 10);
+		}**/ else /**if (page != 0)**/{
+			listAccion = accionService.listAccionsPagination(accion, page, 10);
 			rows = accionService.getTotalRows();
 		} 	
 
 		response.setHeader("Access-Control-Expose-Headers", "x-total-count");
-		response.setHeader("x-total-count", String.valueOf(rows).toString());	
+		response.setHeader("x-total-count", String.valueOf(rows));	
 
 		return listAccion;
 	}
@@ -89,8 +92,6 @@ public class AccionController {
 	 */
 	@RequestMapping(value = "/accion/{id}", method = RequestMethod.GET, produces = "application/json")
 	    public @ResponseBody  Accion getAccion(@PathVariable("id") int id) {
-	        
-	        accion.setIdAccion(id);
 	        
 	        Accion accion = null;
 	        accion = accionService.getAccion(id);
@@ -110,7 +111,7 @@ public class AccionController {
 	 
 	        HttpHeaders headers = new HttpHeaders();
 	        headers.setLocation(ucBuilder.path("/accion/{id}").buildAndExpand(accion.getIdAccion()).toUri());
-	        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+	        return new ResponseEntity<>(headers, HttpStatus.CREATED);
 	 }
 		
 	 /**
@@ -126,8 +127,8 @@ public class AccionController {
 	        Accion accionFound = accionService.getAccion(id);
 	         
 	        if (accionFound==null) {
-	            System.out.println("User with id " + id + " not found");
-	            return new ResponseEntity<Accion>(HttpStatus.NOT_FOUND);
+	            logger.info("User with id " + id + " not found");
+	            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	        }
 	 
 				accionFound.setIdAccion(accion.getIdAccion());
@@ -137,7 +138,7 @@ public class AccionController {
 				accionFound.setFechaModificacion(accion.getFechaModificacion());
 			
 	        accionService.editAccion(accionFound);
-	        return new ResponseEntity<Accion>(accionFound, HttpStatus.OK);
+	        return new ResponseEntity<>(accionFound, HttpStatus.OK);
 	  } 	
 	
 		
@@ -148,31 +149,27 @@ public class AccionController {
 	  */
 	 @RequestMapping(value = "/accion/{id}", method = RequestMethod.DELETE)
 	    public ResponseEntity<Accion> deleteAccion(@PathVariable("id") int id) {
-	    	 System.out.println("Fetching & Deleting User with id " + id);
-			 long rows = 0;	
-	    	 
-	         Accion accion = accionService.getAccion(id);
-	         if (accion == null) {
-	             System.out.println("Unable to delete. Cuenta with id " + id + " not found");
-	             return new ResponseEntity<Accion>(HttpStatus.NOT_FOUND);
+	    	 logger.info("Fetching & Deleting User with id " + id);
+	    	 	  
+	         try {
+		         Accion accion = accionService.getAccion(id);
+		         if (accion == null) {
+		        	 logger.info("Unable to delete. Cuenta with id " + id + " not found");
+		             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		         }
+	        	 
+				 accionService.deleteAccion(accion);				 
+				 return new ResponseEntity<>(HttpStatus.OK);
+	         }catch(GenericException e) {
+	        	 return new ResponseEntity<>(HttpStatus.PRECONDITION_FAILED);
 	         }
-	  
-             
-
-             if (rows==0){
-	             accionService.deleteAccion(accion);
-            	 return new ResponseEntity<Accion>(HttpStatus.OK);
-             } else {
-            	 return new ResponseEntity<Accion>(HttpStatus.PRECONDITION_FAILED);
-             }
-			
 		}
 
 
 	 /**
 	  * Guarda informacion de una accion.
 	  * @param accionBean.
-	  * @return String. (SUCCESS -> Si todo se ejecuta exitosamente)
+	  * @return String.
 	  */
 	@RequestMapping(value = "/saveAccion", method = RequestMethod.POST)
 	public @ResponseBody String saveAccion(
@@ -188,7 +185,7 @@ public class AccionController {
 	/**
 	 * Modifica la informacion de una accion.
 	 * @param accionBean.
-	 * @return String. (SUCCESS -> Si todo se ejecuta exitosamente)
+	 * @return String.
 	 */
 	@RequestMapping(value = "/editAccion", method = RequestMethod.POST)
 	public @ResponseBody String editAccion(
@@ -211,31 +208,12 @@ public class AccionController {
 			@ModelAttribute("command") AccionBean accionBean,
 			BindingResult result) {
 
-		Map<String, Object> model = new HashMap<String, Object>();
+		Map<String, Object> model = new HashMap<>();
 		Accion accion = null;
 		if (accionBean != null)
 			accion = prepareModel(accionBean);
 		model.put("accions",
 				prepareListofBean(accionService.listAccionss(accion)));
-		return new ModelAndView("searchAccion", model);
-	}
-
-	/**
-	 * Elimina una accion.
-	 * @param accionBean.
-	 * @param result.
-	 * @return ModelAndView.
-	 */
-	@RequestMapping(value = "/deleteAccion", method = RequestMethod.POST)
-	public ModelAndView deleteAccion(
-			@ModelAttribute("command") AccionBean accionBean,
-			BindingResult result) {
-		System.out.println("delete " + accionBean.getIdAccion());
-		accionService.deleteAccion(prepareModel(accionBean));
-		Map<String, Object> model = new HashMap<String, Object>();
-		model.put("accion", null);
-		model.put("accions",
-				prepareListofBean(accionService.listAccionss(null)));
 		return new ModelAndView("searchAccion", model);
 	}
 
@@ -272,7 +250,7 @@ public class AccionController {
 	private List<AccionBean> prepareListofBean(List<Accion> accions) {
 		List<AccionBean> beans = null;
 		if (accions != null && !accions.isEmpty()) {
-			beans = new ArrayList<AccionBean>();
+			beans = new ArrayList<>();
 			AccionBean bean = null;
 			for (Accion accion : accions) {
 				bean = new AccionBean();

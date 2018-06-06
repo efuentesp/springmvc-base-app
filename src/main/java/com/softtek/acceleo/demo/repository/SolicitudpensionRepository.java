@@ -3,6 +3,7 @@ package com.softtek.acceleo.demo.repository;
 
 import java.util.List;
 import com.softtek.acceleo.demo.domain.Solicitudpension;
+import com.softtek.acceleo.demo.exception.GenericException;
 
 public interface SolicitudpensionRepository {
 
@@ -15,7 +16,7 @@ public interface SolicitudpensionRepository {
 	    
 	 public Solicitudpension getSolicitudpension(int empid);   
 	    
-	 public void deleteSolicitudpension(Solicitudpension solicitudpension); 
+	 public void deleteSolicitudpension(Solicitudpension solicitudpension) throws GenericException; 
 
 	 public List<Solicitudpension> listSolicitudpensionsQuery(Solicitudpension solicitudpension, String query, int page, int size);
 

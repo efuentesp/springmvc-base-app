@@ -16,6 +16,7 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 import com.softtek.acceleo.demo.domain.Accion;
+import com.softtek.acceleo.demo.exception.GenericException;
 import com.softtek.acceleo.demo.repository.AccionRepository;
 
 @Repository("accionRepository")
@@ -72,7 +73,6 @@ public class AccionRepositoryImpl implements AccionRepository {
 	 */
 	@SuppressWarnings("unchecked")
 	public List<Accion> listAccionssQuery(Accion accion, String query, int page, int size) {
-			//accionProxy.set#columnsGrid(accion.get#columnsGrid());
 			return (List<Accion>) sessionFactory.getCurrentSession()
 					.createCriteria(Accion.class).setFirstResult((page - 1) * size)
 					.add(	
@@ -90,7 +90,6 @@ public class AccionRepositoryImpl implements AccionRepository {
 	 */
 	@SuppressWarnings("unchecked")
 	public List<Accion> listAccionsPagination(Accion accion, int page, int size) {
-			//cuentaProxy.set#columnsGrid(cuenta.get#columnsGrid());
 			return (List<Accion>) sessionFactory.getCurrentSession()
 				.createCriteria(Accion.class).setFirstResult((page - 1) * size)
 				
@@ -156,7 +155,7 @@ public class AccionRepositoryImpl implements AccionRepository {
 	/**
 	 * Elimina una accion.
 	 */
-	public void deleteAccion(Accion accion) {
+	public void deleteAccion(Accion accion) throws GenericException {
 		sessionFactory.getCurrentSession().delete(accion);
 	}
 

@@ -1,6 +1,5 @@
 package com.softtek.acceleo.demo.domain;
 
-import java.awt.Image;
 import java.io.Serializable;
 
 import javax.persistence.Column;

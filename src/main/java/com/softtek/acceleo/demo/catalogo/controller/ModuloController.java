@@ -8,6 +8,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -27,39 +29,41 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.softtek.acceleo.demo.catalogo.bean.ModuloBean;
 import com.softtek.acceleo.demo.domain.Modulo;
+import com.softtek.acceleo.demo.exception.GenericException;
 import com.softtek.acceleo.demo.service.ModuloService;
 
 @Controller
 public class ModuloController {
-
+	private static final Logger logger = Logger.getLogger(ModuloController.class);
+	
 	@Autowired
 	private ModuloService moduloService;
 	
-	Modulo modulo = new Modulo();
-
+	
 	@RequestMapping(value = "/modulo", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody  List<Modulo> getModulos(@RequestParam Map<String,String> requestParams, HttpServletRequest request, HttpServletResponse response) {
+		Modulo modulo = new Modulo();
 
        	String query=requestParams.get("q");
-		int _page= requestParams.get("_page")==null?0:new Integer(requestParams.get("_page")).intValue();
+		int page= requestParams.get("_page")==null?0:Integer.parseInt(requestParams.get("_page"));
 		long rows = 0;
 
 		
 
 		List<Modulo> listModulo = null;
 
-		if (query==null && _page == 0 ) {
+		if (query==null && page == 0 ) {
        		listModulo = moduloService.listModuloss(modulo);
 			rows = moduloService.getTotalRows();
-		} else if (query!= null){
+		}/** else if (query!= null){
 			
-		} else if (_page != 0){
-			listModulo = moduloService.listModulosPagination(modulo, _page, 10);
+		}**/ else if (page != 0){
+			listModulo = moduloService.listModulosPagination(modulo, page, 10);
 			rows = moduloService.getTotalRows();
 		} 	
 
 		response.setHeader("Access-Control-Expose-Headers", "x-total-count");
-		response.setHeader("x-total-count", String.valueOf(rows).toString());	
+		response.setHeader("x-total-count", String.valueOf(rows));	
 
 		return listModulo;
 	}
@@ -67,7 +71,6 @@ public class ModuloController {
 	@RequestMapping(value = "/modulo/{id}", method = RequestMethod.GET, produces = "application/json")
 	    public @ResponseBody  Modulo getModulo(@PathVariable("id") int id) {
 	        
-	        modulo.setIdModulo(id);
 	        Modulo modulo = null;
 	        modulo = moduloService.getModulo(id);
 			return modulo;
@@ -82,7 +85,7 @@ public class ModuloController {
 	 
 	        HttpHeaders headers = new HttpHeaders();
 	        headers.setLocation(ucBuilder.path("/modulo/{id}").buildAndExpand(modulo.getIdModulo()).toUri());
-	        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+	        return new ResponseEntity<>(headers, HttpStatus.CREATED);
 	 }
 		
 	 @RequestMapping(value = "/modulo/{id}", method = RequestMethod.PUT)
@@ -92,8 +95,8 @@ public class ModuloController {
 	        Modulo moduloFound = moduloService.getModulo(id);
 	         
 	        if (moduloFound==null) {
-	            System.out.println("User with id " + id + " not found");
-	            return new ResponseEntity<Modulo>(HttpStatus.NOT_FOUND);
+	            logger.info("User with id " + id + " not found");
+	            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	        }
 	 
 				moduloFound.setIdModulo(modulo.getIdModulo());
@@ -103,30 +106,26 @@ public class ModuloController {
 				moduloFound.setFechaModificacion(modulo.getFechaModificacion());
 	        
 	        moduloService.editModulo(moduloFound);
-	        return new ResponseEntity<Modulo>(moduloFound, HttpStatus.OK);
+	        return new ResponseEntity<>(moduloFound, HttpStatus.OK);
 	  } 	
 	
 		
 		@RequestMapping(value = "/modulo/{id}", method = RequestMethod.DELETE)
 	    public ResponseEntity<Modulo> deleteModulo(@PathVariable("id") int id) {
-	    	 System.out.println("Fetching & Deleting User with id " + id);
-			 long rows = 0;	
-	    	 
-	         Modulo modulo = moduloService.getModulo(id);
-	         if (modulo == null) {
-	             System.out.println("Unable to delete. Cuenta with id " + id + " not found");
-	             return new ResponseEntity<Modulo>(HttpStatus.NOT_FOUND);
-	         }
-	  
-             
-
-             if (rows==0){
+	    	 logger.info("Fetching & Deleting User with id " + id);
+	    	 	  
+             try{
+    	         Modulo modulo = moduloService.getModulo(id);
+    	         if (modulo == null) {
+    	             logger.info("Unable to delete. Cuenta with id " + id + " not found");
+    	             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    	         }
+            	 
 	             moduloService.deleteModulo(modulo);
-            	 return new ResponseEntity<Modulo>(HttpStatus.OK);
-             } else {
-            	 return new ResponseEntity<Modulo>(HttpStatus.PRECONDITION_FAILED);
+            	 return new ResponseEntity<>(HttpStatus.OK);
+             } catch(GenericException e) {
+            	 return new ResponseEntity<>(HttpStatus.PRECONDITION_FAILED);
              }
-			
 		}
 
 
@@ -156,25 +155,12 @@ public class ModuloController {
 			@ModelAttribute("command") ModuloBean moduloBean,
 			BindingResult result) {
 
-		Map<String, Object> model = new HashMap<String, Object>();
+		Map<String, Object> model = new HashMap<>();
 		Modulo modulo = null;
 		if (moduloBean != null)
 			modulo = prepareModel(moduloBean);
 		model.put("modulos",
 				prepareListofBean(moduloService.listModuloss(modulo)));
-		return new ModelAndView("searchModulo", model);
-	}
-
-	@RequestMapping(value = "/deleteModulo", method = RequestMethod.POST)
-	public ModelAndView deleteModulo(
-			@ModelAttribute("command") ModuloBean moduloBean,
-			BindingResult result) {
-		System.out.println("delete " + moduloBean.getIdModulo());
-		moduloService.deleteModulo(prepareModel(moduloBean));
-		Map<String, Object> model = new HashMap<String, Object>();
-		model.put("modulo", null);
-		model.put("modulos",
-				prepareListofBean(moduloService.listModuloss(null)));
 		return new ModelAndView("searchModulo", model);
 	}
 
@@ -197,7 +183,7 @@ public class ModuloController {
 	private List<ModuloBean> prepareListofBean(List<Modulo> modulos) {
 		List<ModuloBean> beans = null;
 		if (modulos != null && !modulos.isEmpty()) {
-			beans = new ArrayList<ModuloBean>();
+			beans = new ArrayList<>();
 			ModuloBean bean = null;
 			for (Modulo modulo : modulos) {
 				bean = new ModuloBean();

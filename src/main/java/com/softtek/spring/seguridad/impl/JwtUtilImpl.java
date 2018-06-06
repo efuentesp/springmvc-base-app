@@ -20,6 +20,7 @@ public class JwtUtilImpl implements JwtUtil {
 	
 	@Value("${jwt.secret}")
     private String secret;
+	
 
     /**
      * Tries to parse specified String as a JWT token. If successful, returns User object with username, id and role prefilled (extracted from token).
@@ -100,13 +101,13 @@ public class JwtUtilImpl implements JwtUtil {
 	}
 	
 	
-	/*
+	/**
 	private String generateToken(int id, String login, int role) {
 		long EXPIRATION_TIME = 60000;
 	    long nowMillis = System.currentTimeMillis();
 	    Date now = new Date(nowMillis);
 
-	    //TODO generate key (or retrieve it from file/database?)
+
 	    Key key;
 
 	    String jwtToken = Jwts.builder()
@@ -119,7 +120,7 @@ public class JwtUtilImpl implements JwtUtil {
 	            .compact();
 	    return jwtToken;
 	    }
-	*/
+	/**/
 	
 	
 }

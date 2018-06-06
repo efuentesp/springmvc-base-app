@@ -4,6 +4,7 @@ package com.softtek.acceleo.demo.service.impl;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -11,12 +12,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.softtek.acceleo.demo.repository.UserAuthorityModuloAccionRepository;
 import com.softtek.acceleo.demo.domain.UserAuthorityModuloAccion;
+import com.softtek.acceleo.demo.exception.GenericException;
 import com.softtek.acceleo.demo.service.UserAuthorityModuloAccionService;
 
 @Service("userauthoritymoduloaccionService")
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 public class UserAuthorityModuloAccionServiceImpl implements UserAuthorityModuloAccionService {
-
+	private static final Logger logger = Logger.getLogger(UserAuthorityModuloAccionServiceImpl.class);
+	
 	@Autowired
 	private UserAuthorityModuloAccionRepository userauthoritymoduloaccionRepository;
 
@@ -44,8 +47,8 @@ public class UserAuthorityModuloAccionServiceImpl implements UserAuthorityModulo
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-	public void deleteUserAuthorityModuloAccion(UserAuthorityModuloAccion userauthoritymoduloaccion) {
-		System.out.println("Entrando al deleteUserAuthorityModuloAccion");
+	public void deleteUserAuthorityModuloAccion(UserAuthorityModuloAccion userauthoritymoduloaccion) throws GenericException {
+		logger.info("Entrando al deleteUserAuthorityModuloAccion");
 
 		 userauthoritymoduloaccionRepository.deleteUserAuthorityModuloAccion(userauthoritymoduloaccion);
 	}
@@ -79,7 +82,7 @@ public class UserAuthorityModuloAccionServiceImpl implements UserAuthorityModulo
 
 
 	public List<UserAuthorityModuloAccion> listUserAuthorityModuloAccionssQuery(UserAuthorityModuloAccion userauthoritymoduloaccion, String query, int page, int size) {
-		// TODO Auto-generated method stub
+
 		return userauthoritymoduloaccionRepository.listUserAuthorityModuloAccionssQuery(userauthoritymoduloaccion, query, page, size);
 	}
 

@@ -1,3 +1,9 @@
+/**
+ * Autor: PSG.
+ * Proyecto:
+ * Version: 0.1 
+ * Clase para invocar servicios de los UserAuthority. 
+ */
 package com.softtek.acceleo.demo.catalogo.controller;
 
 import java.util.ArrayList;
@@ -8,6 +14,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -27,48 +35,51 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.softtek.acceleo.demo.catalogo.bean.UserAuthorityBean;
 import com.softtek.acceleo.demo.domain.UserAuthority;
+import com.softtek.acceleo.demo.exception.GenericException;
 import com.softtek.acceleo.demo.service.UserAuthorityService;
 
+/**
+ * Clase UserAuthorityController.
+ * @author PSG.
+ *
+ */
 @Controller
 public class UserAuthorityController {
-
+	private static final Logger logger = Logger.getLogger(UserAuthorityController.class);
+	
 	@Autowired
 	private UserAuthorityService userauthorityService;
 	
-	UserAuthority userauthority = new UserAuthority();
-
 	@RequestMapping(value = "/userauthority", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody  List<UserAuthority> getUserAuthoritys(@RequestParam Map<String,String> requestParams, HttpServletRequest request, HttpServletResponse response) {
-
+		UserAuthority userauthority = new UserAuthority();
+		
        	String query=requestParams.get("q");
-		int _page= requestParams.get("_page")==null?0:new Integer(requestParams.get("_page")).intValue();
+		int page= requestParams.get("_page")==null?0:Integer.parseInt(requestParams.get("_page"));
 		long rows = 0;
 
 		
 
 		List<UserAuthority> listUserAuthority = null;
 
-		if (query==null && _page == 0 ) {
+		if (query==null && page == 0 ) {
        		listUserAuthority = userauthorityService.listUserAuthorityss(userauthority);
 			rows = userauthorityService.getTotalRows();
-		} else if (query!= null){
+		} /**else if (query!= null){
 			
-		} else if (_page != 0){
-			listUserAuthority = userauthorityService.listUserAuthoritysPagination(userauthority, _page, 10);
+		}**/ else /**if (page != 0)**/{
+			listUserAuthority = userauthorityService.listUserAuthoritysPagination(userauthority, page, 10);
 			rows = userauthorityService.getTotalRows();
 		} 	
 
 		response.setHeader("Access-Control-Expose-Headers", "x-total-count");
-		response.setHeader("x-total-count", String.valueOf(rows).toString());	
+		response.setHeader("x-total-count", String.valueOf(rows));	
 
 		return listUserAuthority;
 	}
 	
 	@RequestMapping(value = "/userauthority/{id}", method = RequestMethod.GET, produces = "application/json")
 	    public @ResponseBody  UserAuthority getUserAuthority(@PathVariable("id") int id) {
-	        
-	        userauthority.setId(id);
-	        
 	        UserAuthority userauthority = null;
 	        userauthority = userauthorityService.getUserAuthority(id);
 			return userauthority;
@@ -83,7 +94,7 @@ public class UserAuthorityController {
 	 
 	        HttpHeaders headers = new HttpHeaders();
 	        headers.setLocation(ucBuilder.path("/userauthority/{id}").buildAndExpand(userauthority.getId()).toUri());
-	        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+	        return new ResponseEntity<>(headers, HttpStatus.CREATED);
 	 }
 		
 	 @RequestMapping(value = "/userauthority/{id}", method = RequestMethod.PUT)
@@ -93,8 +104,8 @@ public class UserAuthorityController {
 	        UserAuthority userauthorityFound = userauthorityService.getUserAuthority(id);
 	         
 	        if (userauthorityFound==null) {
-	            System.out.println("User with id " + id + " not found");
-	            return new ResponseEntity<UserAuthority>(HttpStatus.NOT_FOUND);
+	            logger.info("User with id " + id + " not found");
+	            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	        }
 	 
 				userauthorityFound.setIdUserAuthority(userauthority.getIdUserAuthority());
@@ -106,28 +117,25 @@ public class UserAuthorityController {
 			userauthority.setId(null);
 	        
 	        userauthorityService.editUserAuthority(userauthorityFound);
-	        return new ResponseEntity<UserAuthority>(userauthorityFound, HttpStatus.OK);
+	        return new ResponseEntity<>(userauthorityFound, HttpStatus.OK);
 	  } 	
 	
 		
 		@RequestMapping(value = "/userauthority/{id}", method = RequestMethod.DELETE)
 	    public ResponseEntity<UserAuthority> deleteUserAuthority(@PathVariable("id") int id) {
-	    	 System.out.println("Fetching & Deleting User with id " + id);
-			 long rows = 0;	
+	    	 logger.info("Fetching & Deleting User with id " + id);
 	    	 
-	         UserAuthority userauthority = userauthorityService.getUserAuthority(id);
-	         if (userauthority == null) {
-	             System.out.println("Unable to delete. Cuenta with id " + id + " not found");
-	             return new ResponseEntity<UserAuthority>(HttpStatus.NOT_FOUND);
-	         }
-	  
-             
-
-             if (rows==0){
+             try{
+    	         UserAuthority userauthority = userauthorityService.getUserAuthority(id);
+    	         if (userauthority == null) {
+    	             logger.info("Unable to delete. Cuenta with id " + id + " not found");
+    	             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    	         }
+            	 
 	             userauthorityService.deleteUserAuthority(userauthority);
-            	 return new ResponseEntity<UserAuthority>(HttpStatus.OK);
-             } else {
-            	 return new ResponseEntity<UserAuthority>(HttpStatus.PRECONDITION_FAILED);
+            	 return new ResponseEntity<>(HttpStatus.OK);
+             } catch(GenericException e) {
+            	 return new ResponseEntity<>(HttpStatus.PRECONDITION_FAILED);
              }
 			
 		}
@@ -159,25 +167,12 @@ public class UserAuthorityController {
 			@ModelAttribute("command") UserAuthorityBean userauthorityBean,
 			BindingResult result) {
 
-		Map<String, Object> model = new HashMap<String, Object>();
+		Map<String, Object> model = new HashMap<>();
 		UserAuthority userauthority = null;
 		if (userauthorityBean != null)
 			userauthority = prepareModel(userauthorityBean);
 		model.put("userauthoritys",
 				prepareListofBean(userauthorityService.listUserAuthorityss(userauthority)));
-		return new ModelAndView("searchUserAuthority", model);
-	}
-
-	@RequestMapping(value = "/deleteUserAuthority", method = RequestMethod.POST)
-	public ModelAndView deleteUserAuthority(
-			@ModelAttribute("command") UserAuthorityBean userauthorityBean,
-			BindingResult result) {
-		System.out.println("delete " + userauthorityBean.getId());
-		userauthorityService.deleteUserAuthority(prepareModel(userauthorityBean));
-		Map<String, Object> model = new HashMap<String, Object>();
-		model.put("userauthority", null);
-		model.put("userauthoritys",
-				prepareListofBean(userauthorityService.listUserAuthorityss(null)));
 		return new ModelAndView("searchUserAuthority", model);
 	}
 
@@ -203,7 +198,7 @@ public class UserAuthorityController {
 	private List<UserAuthorityBean> prepareListofBean(List<UserAuthority> userauthoritys) {
 		List<UserAuthorityBean> beans = null;
 		if (userauthoritys != null && !userauthoritys.isEmpty()) {
-			beans = new ArrayList<UserAuthorityBean>();
+			beans = new ArrayList<>();
 			UserAuthorityBean bean = null;
 			for (UserAuthority userauthority : userauthoritys) {
 				bean = new UserAuthorityBean();

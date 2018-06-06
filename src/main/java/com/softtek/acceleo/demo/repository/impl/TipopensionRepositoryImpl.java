@@ -11,6 +11,7 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 import com.softtek.acceleo.demo.domain.Tipopension;
+import com.softtek.acceleo.demo.exception.GenericException;
 import com.softtek.acceleo.demo.repository.TipopensionRepository;
 
 @Repository("tipopensionRepository")
@@ -60,7 +61,7 @@ Restrictions.like("id", "%" + query +"%"))
 
 	@SuppressWarnings("unchecked")
 	public List<Tipopension> listTipopensionsPagination(Tipopension tipopension, int page, int size) {
-			//cuentaProxy.set#columnsGrid(cuenta.get#columnsGrid());
+
 			return (List<Tipopension>) sessionFactory.getCurrentSession()
 				.createCriteria(Tipopension.class).setFirstResult((page - 1) * size)
 				.setMaxResults(size).list();
@@ -110,7 +111,7 @@ Restrictions.like("id", "%" + query +"%"))
 				Tipopension.class, empid);
 	}
 
-	public void deleteTipopension(Tipopension tipopension) {
+	public void deleteTipopension(Tipopension tipopension) throws GenericException {
 		sessionFactory.getCurrentSession().delete(tipopension);
 	}
 

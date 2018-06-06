@@ -1,6 +1,8 @@
 package com.softtek.acceleo.demo.service;
 
 import com.softtek.acceleo.demo.domain.Accion;
+import com.softtek.acceleo.demo.exception.GenericException;
+
 import java.util.List;
 
 public interface AccionService {
@@ -13,7 +15,7 @@ public interface AccionService {
 
 	public Accion getAccion(int empid);
 
-	public void deleteAccion(Accion accion);
+	public void deleteAccion(Accion accion) throws GenericException;
 	
 	public List<Accion> listAccionssQuery(Accion accion, String query, int page, int size);
 

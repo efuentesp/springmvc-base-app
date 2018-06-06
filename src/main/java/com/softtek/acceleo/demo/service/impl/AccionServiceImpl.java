@@ -8,13 +8,15 @@ package com.softtek.acceleo.demo.service.impl;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.softtek.acceleo.demo.repository.AccionRepository;
 import com.softtek.acceleo.demo.domain.Accion;
+import com.softtek.acceleo.demo.exception.GenericException;
+import com.softtek.acceleo.demo.repository.AccionRepository;
 import com.softtek.acceleo.demo.service.AccionService;
 
 /**
@@ -25,7 +27,8 @@ import com.softtek.acceleo.demo.service.AccionService;
 @Service("accionService")
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 public class AccionServiceImpl implements AccionService {
-
+	private static final Logger logger = Logger.getLogger(AccionServiceImpl.class);
+	
 	@Autowired
 	private AccionRepository accionRepository;
 
@@ -66,8 +69,8 @@ public class AccionServiceImpl implements AccionService {
 	 * Elimina una accion.
 	 */
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-	public void deleteAccion(Accion accion) {
-		System.out.println("Entrando al deleteAccion");
+	public void deleteAccion(Accion accion) throws GenericException {
+		logger.info("Entrando al deleteAccion");
 
 		 accionRepository.deleteAccion(accion);
 	}
@@ -112,7 +115,7 @@ public class AccionServiceImpl implements AccionService {
 	 * Consulta informacion de las acciones.
 	 */
 	public List<Accion> listAccionssQuery(Accion accion, String query, int page, int size) {
-		// TODO Auto-generated method stub
+
 		return accionRepository.listAccionssQuery(accion, query, page, size);
 	}
 

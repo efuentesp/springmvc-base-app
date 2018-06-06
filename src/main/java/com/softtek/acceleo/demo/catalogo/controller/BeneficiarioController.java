@@ -1,3 +1,9 @@
+/**
+ * Autor: PSG.
+ * Proyecto:
+ * Version: 0.1 
+ * Clase para invocar servicios de los beneficiarios. 
+ */
 package com.softtek.acceleo.demo.catalogo.controller;
 
 import java.util.ArrayList;
@@ -7,6 +13,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -25,53 +33,56 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.softtek.acceleo.demo.catalogo.bean.BeneficiarioBean;
 import com.softtek.acceleo.demo.domain.Beneficiario;
+import com.softtek.acceleo.demo.exception.GenericException;
 import com.softtek.acceleo.demo.service.BeneficiarioService;
 
+/**
+ * Clase BeneficiarioController.
+ * @author PSG.
+ *
+ */
 @Controller
 public class BeneficiarioController {
-
+	private static final Logger logger = Logger.getLogger(BeneficiarioController.class);
+	
 	@Autowired
 	private BeneficiarioService beneficiarioService;
 	
-	Beneficiario beneficiario = new Beneficiario();
-
+	
 	@RequestMapping(value = "/beneficiario", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody  List<Beneficiario> getBeneficiarios(@RequestParam Map<String,String> requestParams, HttpServletRequest request, HttpServletResponse response) {
-
+		Beneficiario beneficiario = new Beneficiario();
+		
        	String query=requestParams.get("q");
-		int _page= requestParams.get("_page")==null?0:new Integer(requestParams.get("_page")).intValue();
+		int page= requestParams.get("_page")==null?0:Integer.parseInt(requestParams.get("_page"));
 		long rows = 0;
 
 		List<Beneficiario> listBeneficiario = null;
 
-		if (query==null && _page == 0) {
+		if (query==null && page == 0) {
        		listBeneficiario = beneficiarioService.listBeneficiarios(beneficiario);
 			rows = beneficiarioService.getTotalRows();
 		} else if (query!= null){
-			listBeneficiario = beneficiarioService.listBeneficiariosQuery(beneficiario, query, _page, 10);
+			listBeneficiario = beneficiarioService.listBeneficiariosQuery(beneficiario, query, page, 10);
 			rows = beneficiarioService.getTotalRowsSearch(query);
-		} else if (_page != 0){
-			listBeneficiario = beneficiarioService.listBeneficiariosPagination(beneficiario, _page, 10);
+		} else /**if (page != 0)**/{
+			listBeneficiario = beneficiarioService.listBeneficiariosPagination(beneficiario, page, 10);
 			rows = beneficiarioService.getTotalRows();
 		}
 
 		response.setHeader("Access-Control-Expose-Headers", "x-total-count");
-		response.setHeader("x-total-count", String.valueOf(rows).toString());	
+		response.setHeader("x-total-count", String.valueOf(rows));	
 
 		return listBeneficiario;
 	}
 	
 	@RequestMapping(value = "/beneficiario/{id}", method = RequestMethod.GET, produces = "application/json")
-	    public @ResponseBody  Beneficiario getBeneficiario(@PathVariable("id") int id) {
-	        
-	        beneficiario.setBeneficiarioId(id);
-	        
+	    public @ResponseBody  Beneficiario getBeneficiario(@PathVariable("id") int id) {	        
 	        Beneficiario beneficiario = null;
+	        
 	        beneficiario = beneficiarioService.getBeneficiario(id);
 			return beneficiario;
 	 }
-
-
 
 	 @RequestMapping(value = "/beneficiario", method = RequestMethod.POST)
 	    public ResponseEntity<Void> createBeneficiario(@RequestBody Beneficiario beneficiario,    UriComponentsBuilder ucBuilder) {
@@ -80,7 +91,7 @@ public class BeneficiarioController {
 	 
 	        HttpHeaders headers = new HttpHeaders();
 	        headers.setLocation(ucBuilder.path("/beneficiario/{id}").buildAndExpand(beneficiario.getBeneficiarioId()).toUri());
-	        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+	        return new ResponseEntity<>(headers, HttpStatus.CREATED);
 	 }
 		
 	 @RequestMapping(value = "/beneficiario/{id}", method = RequestMethod.PUT)
@@ -91,8 +102,8 @@ public class BeneficiarioController {
 	        Beneficiario beneficiarioFound = beneficiarioService.getBeneficiario(id);
 	         
 	        if (beneficiarioFound==null) {
-	            System.out.println("User with id " + id + " not found");
-	            return new ResponseEntity<Beneficiario>(HttpStatus.NOT_FOUND);
+	            logger.info("User with id " + id + " not found");
+	            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	        }
 	 
 				beneficiarioFound.setParentescoId(beneficiario.getParentescoId());
@@ -106,24 +117,23 @@ public class BeneficiarioController {
 			beneficiarioFound.setBeneficiarioId(beneficiario.getBeneficiarioId());
 
 		    beneficiarioService.editBeneficiario(beneficiarioFound);
-	        return new ResponseEntity<Beneficiario>(beneficiarioFound, HttpStatus.OK);
+	        return new ResponseEntity<>(beneficiarioFound, HttpStatus.OK);
 	  } 	
 	
 		
 		@RequestMapping(value = "/beneficiario/{id}", method = RequestMethod.DELETE)
 	    public ResponseEntity<Beneficiario> deleteBeneficiario(@PathVariable("id") int id) {
-			 long rows = 0;	
-	    	 
-	         Beneficiario beneficiario = beneficiarioService.getBeneficiario(id);
-	         if (beneficiario == null) {
-	             return new ResponseEntity<Beneficiario>(HttpStatus.NOT_FOUND);
-	         }
 	  
-             if (rows==0){
+             try{
+    	         Beneficiario beneficiario = beneficiarioService.getBeneficiario(id);
+    	         if (beneficiario == null) {
+    	             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    	         }
+
 	             beneficiarioService.deleteBeneficiario(beneficiario);
-            	 return new ResponseEntity<Beneficiario>(HttpStatus.OK);
-             } else {
-            	 return new ResponseEntity<Beneficiario>(HttpStatus.PRECONDITION_FAILED);
+            	 return new ResponseEntity<>(HttpStatus.OK);
+             } catch(GenericException e) {
+            	 return new ResponseEntity<>(HttpStatus.PRECONDITION_FAILED);
              }
 		}
 
@@ -153,25 +163,12 @@ public class BeneficiarioController {
 			@ModelAttribute("command") BeneficiarioBean beneficiarioBean,
 			BindingResult result) {
 
-		Map<String, Object> model = new HashMap<String, Object>();
+		Map<String, Object> model = new HashMap<>();
 		Beneficiario beneficiario = null;
 		if (beneficiarioBean != null)
 			beneficiario = prepareModel(beneficiarioBean);
 		model.put("beneficiarios",
 				prepareListofBean(beneficiarioService.listBeneficiarios(beneficiario)));
-		return new ModelAndView("searchBeneficiario", model);
-	}
-
-	@RequestMapping(value = "/deleteBeneficiario", method = RequestMethod.POST)
-	public ModelAndView deleteBeneficiario(
-			@ModelAttribute("command") BeneficiarioBean beneficiarioBean,
-			BindingResult result) {
-		System.out.println("delete " + beneficiarioBean.getBeneficiarioId());
-		beneficiarioService.deleteBeneficiario(prepareModel(beneficiarioBean));
-		Map<String, Object> model = new HashMap<String, Object>();
-		model.put("beneficiario", null);
-		model.put("beneficiarios",
-				prepareListofBean(beneficiarioService.listBeneficiarios(null)));
 		return new ModelAndView("searchBeneficiario", model);
 	}
 
@@ -183,7 +180,7 @@ public class BeneficiarioController {
 	private Beneficiario prepareModel(BeneficiarioBean beneficiarioBean) {
 		Beneficiario beneficiario = new Beneficiario();
 
-		//beneficiario.setParentescoId(beneficiarioBean.getParentescoId());
+		/**beneficiarioTmp.setParentescoId(beneficiarioBean.getParentescoId());**/
 		beneficiario.setCurp(beneficiarioBean.getCurp());
 		beneficiario.setNombre(beneficiarioBean.getNombre());
 		beneficiario.setApellido_paterno(beneficiarioBean.getApellidoPaterno());
@@ -198,12 +195,12 @@ public class BeneficiarioController {
 	private List<BeneficiarioBean> prepareListofBean(List<Beneficiario> beneficiarios) {
 		List<BeneficiarioBean> beans = null;
 		if (beneficiarios != null && !beneficiarios.isEmpty()) {
-			beans = new ArrayList<BeneficiarioBean>();
+			beans = new ArrayList<>();
 			BeneficiarioBean bean = null;
 			for (Beneficiario beneficiario : beneficiarios) {
 				bean = new BeneficiarioBean();
 
-				//bean.setParentescoId(beneficiario.getParentescoId());
+				/**bean.setParentescoId(beneficiarioTmp.getParentescoId());**/
 				bean.setCurp(beneficiario.getCurp());
 				bean.setNombre(beneficiario.getNombre());
 				bean.setApellidoPaterno(beneficiario.getApellido_paterno());

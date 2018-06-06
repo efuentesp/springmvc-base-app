@@ -3,6 +3,7 @@ package com.softtek.acceleo.demo.repository;
 
 import java.util.List;
 import com.softtek.acceleo.demo.domain.Modulo;
+import com.softtek.acceleo.demo.exception.GenericException;
 
 public interface ModuloRepository {
 
@@ -15,7 +16,7 @@ public interface ModuloRepository {
 	    
 	 public Modulo getModulo(int empid);   
 	    
-	 public void deleteModulo(Modulo modulo); 
+	 public void deleteModulo(Modulo modulo) throws GenericException; 
 
 	 public List<Modulo> listModulossQuery(Modulo modulo, String query, int page, int size);
 

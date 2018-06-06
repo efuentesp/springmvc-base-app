@@ -11,6 +11,7 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 import com.softtek.acceleo.demo.domain.Beneficiario;
+import com.softtek.acceleo.demo.exception.GenericException;
 import com.softtek.acceleo.demo.repository.BeneficiarioRepository;
 
 @Repository("beneficiarioRepository")
@@ -66,7 +67,6 @@ Restrictions.like("apellido_materno", "%" + query +"%"))
 
 	@SuppressWarnings("unchecked")
 	public List<Beneficiario> listBeneficiariosPagination(Beneficiario beneficiario, int page, int size) {
-			//cuentaProxy.set#columnsGrid(cuenta.get#columnsGrid());
 			return (List<Beneficiario>) sessionFactory.getCurrentSession()
 				.createCriteria(Beneficiario.class).setFirstResult((page - 1) * size)
 				.setMaxResults(size).list();
@@ -119,7 +119,7 @@ Restrictions.like("apellido_materno", "%" + query +"%"))
 				Beneficiario.class, empid);
 	}
 
-	public void deleteBeneficiario(Beneficiario beneficiario) {
+	public void deleteBeneficiario(Beneficiario beneficiario) throws GenericException {
 		sessionFactory.getCurrentSession().delete(beneficiario);
 	}
 

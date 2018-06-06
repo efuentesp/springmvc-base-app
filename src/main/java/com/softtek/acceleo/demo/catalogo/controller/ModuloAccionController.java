@@ -1,3 +1,9 @@
+/**
+ * Autor: PSG.
+ * Proyecto:
+ * Version: 0.1 
+ * Clase para invocar servicios de los ModuloAccion. 
+ */
 package com.softtek.acceleo.demo.catalogo.controller;
 
 import java.util.ArrayList;
@@ -6,9 +12,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -25,43 +32,48 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.UriComponentsBuilder;
 
-
 import com.softtek.acceleo.demo.catalogo.bean.ModuloAccionBean;
 import com.softtek.acceleo.demo.domain.ModuloAccion;
-import com.softtek.acceleo.demo.domain.User;
+import com.softtek.acceleo.demo.exception.GenericException;
 import com.softtek.acceleo.demo.service.ModuloAccionService;
 
+/**
+ * Clase ModuloAccionController.
+ * @author PSG.
+ *
+ */
 @Controller
 public class ModuloAccionController {
-
+	private static final Logger logger = Logger.getLogger(ModuloAccionController.class);
+	
 	@Autowired
 	private ModuloAccionService moduloaccionService;
 	
-	ModuloAccion moduloaccion = new ModuloAccion();
 
 	@RequestMapping(value = "/moduloaccion", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody  List<ModuloAccion> getModuloAccions(@RequestParam Map<String,String> requestParams, HttpServletRequest request, HttpServletResponse response) {
-
+		ModuloAccion moduloaccion = new ModuloAccion();
+		
        	String query=requestParams.get("q");
-		int _page= requestParams.get("_page")==null?0:new Integer(requestParams.get("_page")).intValue();
+		int page= requestParams.get("_page")==null?0:Integer.parseInt(requestParams.get("_page"));
 		long rows = 0;
 
 		
 
 		List<ModuloAccion> listModuloAccion = null;
 
-		if (query==null && _page == 0 ) {
+		if (query==null && page == 0 ) {
        		listModuloAccion = moduloaccionService.listModuloAccionss(moduloaccion);
 			rows = moduloaccionService.getTotalRows();
-		} else if (query!= null){
+		} /**else if (query!= null){
 			
-		} else if (_page != 0){
-			listModuloAccion = moduloaccionService.listModuloAccionsPagination(moduloaccion, _page, 10);
+		}**/ else /**if (page != 0)**/{
+			listModuloAccion = moduloaccionService.listModuloAccionsPagination(moduloaccion, page, 10);
 			rows = moduloaccionService.getTotalRows();
 		} 	
 
 		response.setHeader("Access-Control-Expose-Headers", "x-total-count");
-		response.setHeader("x-total-count", String.valueOf(rows).toString());	
+		response.setHeader("x-total-count", String.valueOf(rows));	
 
 		return listModuloAccion;
 	}
@@ -91,19 +103,16 @@ public class ModuloAccionController {
 	@RequestMapping(value = "/moduloaccion/{id}", method = RequestMethod.GET, produces = "application/json")
 	    public @ResponseBody  ModuloAccion getModuloAccion(@PathVariable("id") int id) {
 	        
-	        moduloaccion.setId(id);
-	        
 	        ModuloAccion moduloaccion = null;
 	        moduloaccion = moduloaccionService.getModuloAccion(id);
+	        
 			return moduloaccion;
 	 }
 
 	@RequestMapping(value = "/moduloaccion/{idModulo}", method = RequestMethod.GET, produces = "application/json")
     public @ResponseBody  List<ModuloAccion> getModuloAccionPorIdModulo(@PathVariable("idModulo") int idModulo) {
         
-        List<ModuloAccion> lstModuloAccion = moduloaccionService.getModuloAccionPorIdModulo(idModulo);
-        
-		return lstModuloAccion;
+		return moduloaccionService.getModuloAccionPorIdModulo(idModulo);
 	}
 
 	 @RequestMapping(value = "/moduloaccion", method = RequestMethod.POST)
@@ -113,7 +122,7 @@ public class ModuloAccionController {
 	 
 	        HttpHeaders headers = new HttpHeaders();
 	        headers.setLocation(ucBuilder.path("/moduloaccion/{id}").buildAndExpand(moduloaccion.getId()).toUri());
-	        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+	        return new ResponseEntity<>(headers, HttpStatus.CREATED);
 	 }
 		
 	 @RequestMapping(value = "/moduloaccion/{id}", method = RequestMethod.PUT)
@@ -123,8 +132,8 @@ public class ModuloAccionController {
 	        ModuloAccion moduloaccionFound = moduloaccionService.getModuloAccion(id);
 	         
 	        if (moduloaccionFound==null) {
-	            System.out.println("User with id " + id + " not found");
-	            return new ResponseEntity<ModuloAccion>(HttpStatus.NOT_FOUND);
+	            logger.info("User with id " + id + " not found");
+	            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	        }
 	 
 				moduloaccionFound.setId(moduloaccion.getId());
@@ -136,28 +145,25 @@ public class ModuloAccionController {
 			moduloaccion.setId(null);
 	        
 	        moduloaccionService.editModuloAccion(moduloaccionFound);
-	        return new ResponseEntity<ModuloAccion>(moduloaccionFound, HttpStatus.OK);
+	        return new ResponseEntity<>(moduloaccionFound, HttpStatus.OK);
 	  } 	
 	
 		
 		@RequestMapping(value = "/moduloaccion/{id}", method = RequestMethod.DELETE)
 	    public ResponseEntity<ModuloAccion> deleteModuloAccion(@PathVariable("id") int id) {
-	    	 System.out.println("Fetching & Deleting User with id " + id);
-			 long rows = 0;	
+	    	 logger.info("Fetching & Deleting User with id " + id);
 	    	 
-	         ModuloAccion moduloaccion = moduloaccionService.getModuloAccion(id);
-	         if (moduloaccion == null) {
-	             System.out.println("Unable to delete. Cuenta with id " + id + " not found");
-	             return new ResponseEntity<ModuloAccion>(HttpStatus.NOT_FOUND);
-	         }
-	  
-             
-
-             if (rows==0){
+             try{
+    	         ModuloAccion moduloaccion = moduloaccionService.getModuloAccion(id);
+    	         if (moduloaccion == null) {
+    	             logger.info("Unable to delete. Cuenta with id " + id + " not found");
+    	             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    	         }
+            	 
 	             moduloaccionService.deleteModuloAccion(moduloaccion);
-            	 return new ResponseEntity<ModuloAccion>(HttpStatus.OK);
-             } else {
-            	 return new ResponseEntity<ModuloAccion>(HttpStatus.PRECONDITION_FAILED);
+            	 return new ResponseEntity<>(HttpStatus.OK);
+             } catch(GenericException e) {
+            	 return new ResponseEntity<>(HttpStatus.PRECONDITION_FAILED);
              }
 			
 		}
@@ -189,25 +195,12 @@ public class ModuloAccionController {
 			@ModelAttribute("command") ModuloAccionBean moduloaccionBean,
 			BindingResult result) {
 
-		Map<String, Object> model = new HashMap<String, Object>();
+		Map<String, Object> model = new HashMap<>();
 		ModuloAccion moduloaccion = null;
 		if (moduloaccionBean != null)
 			moduloaccion = prepareModel(moduloaccionBean);
 		model.put("moduloaccions",
 				prepareListofBean(moduloaccionService.listModuloAccionss(moduloaccion)));
-		return new ModelAndView("searchModuloAccion", model);
-	}
-
-	@RequestMapping(value = "/deleteModuloAccion", method = RequestMethod.POST)
-	public ModelAndView deleteModuloAccion(
-			@ModelAttribute("command") ModuloAccionBean moduloaccionBean,
-			BindingResult result) {
-		System.out.println("delete " + moduloaccionBean.getId());
-		moduloaccionService.deleteModuloAccion(prepareModel(moduloaccionBean));
-		Map<String, Object> model = new HashMap<String, Object>();
-		model.put("moduloaccion", null);
-		model.put("moduloaccions",
-				prepareListofBean(moduloaccionService.listModuloAccionss(null)));
 		return new ModelAndView("searchModuloAccion", model);
 	}
 
@@ -233,7 +226,7 @@ public class ModuloAccionController {
 	private List<ModuloAccionBean> prepareListofBean(List<ModuloAccion> moduloaccions) {
 		List<ModuloAccionBean> beans = null;
 		if (moduloaccions != null && !moduloaccions.isEmpty()) {
-			beans = new ArrayList<ModuloAccionBean>();
+			beans = new ArrayList<>();
 			ModuloAccionBean bean = null;
 			for (ModuloAccion moduloaccion : moduloaccions) {
 				bean = new ModuloAccionBean();

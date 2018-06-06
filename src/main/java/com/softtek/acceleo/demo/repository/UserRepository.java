@@ -3,6 +3,7 @@ package com.softtek.acceleo.demo.repository;
 
 import java.util.List;
 import com.softtek.acceleo.demo.domain.User;
+import com.softtek.acceleo.demo.exception.GenericException;
 
 public interface UserRepository {
 
@@ -15,7 +16,7 @@ public interface UserRepository {
 	    
 	 public User getUser(int empid);   
 	    
-	 public void deleteUser(User user); 
+	 public void deleteUser(User user) throws GenericException; 
 
 	 public List<User> listUserssQuery(User user, String query, int page, int size);
 

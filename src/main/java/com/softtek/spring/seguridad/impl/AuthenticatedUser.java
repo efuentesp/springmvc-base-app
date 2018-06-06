@@ -30,7 +30,6 @@ public class AuthenticatedUser implements UserDetails {
     private final String username;
     private final String password;
     private final String token;
-    //private final Collection<? extends GrantedAuthority> authorities;
     private final Collection<GrantedAuthority> authorities;
     
     /**
@@ -84,11 +83,13 @@ public class AuthenticatedUser implements UserDetails {
     @Override
     @JsonIgnore
     public boolean isAccountNonExpired() {
-    	if( this.token != null && !this.token.isEmpty() ) {
-    		return true;
-    	}else {
-    		return false;
+    	boolean nonExpired = true;
+    	
+    	if( this.token == null || this.token.isEmpty() ) {
+    		nonExpired = false;
     	}
+
+    	return nonExpired;
     }
 
     /**
@@ -98,11 +99,13 @@ public class AuthenticatedUser implements UserDetails {
     @Override
     @JsonIgnore
     public boolean isAccountNonLocked() {
-    	if( this.token != null && !this.token.isEmpty() ) {
-    		return true;
-    	}else {
-    		return false;
+    	boolean nonLocked = true;
+    	
+    	if( this.token == null || this.token.isEmpty() ) {
+    		nonLocked = false;
     	}
+
+    	return nonLocked;
     }
 
     /**
@@ -112,11 +115,13 @@ public class AuthenticatedUser implements UserDetails {
     @Override
     @JsonIgnore
     public boolean isCredentialsNonExpired() {
-    	if( this.token != null && !this.token.isEmpty() ) {
-    		return true;
-    	}else {
-    		return false;
+    	boolean credentialsNonExpired = true;
+    	
+    	if( this.token == null || this.token.isEmpty() ) {
+    		credentialsNonExpired = false;
     	}
+
+    	return credentialsNonExpired;
     }
 
     /**
@@ -126,11 +131,13 @@ public class AuthenticatedUser implements UserDetails {
     @Override
     @JsonIgnore
     public boolean isEnabled() {
-    	if( this.token != null && !this.token.isEmpty() ) {
-    		return true;
-    	}else {
-    		return false;
+    	boolean enabled = true;
+    	
+    	if( this.token == null || this.token.isEmpty() ) {
+    		enabled = false;
     	}
+
+    	return enabled;
     }
 
     /**

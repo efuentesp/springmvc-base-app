@@ -1,6 +1,8 @@
 package com.softtek.acceleo.demo.service;
 
 import com.softtek.acceleo.demo.domain.Modulo;
+import com.softtek.acceleo.demo.exception.GenericException;
+
 import java.util.List;
 
 public interface ModuloService {
@@ -13,7 +15,7 @@ public interface ModuloService {
 
 	public Modulo getModulo(int empid);
 
-	public void deleteModulo(Modulo modulo);
+	public void deleteModulo(Modulo modulo) throws GenericException;
 	
 	public List<Modulo> listModulossQuery(Modulo modulo, String query, int page, int size);
 

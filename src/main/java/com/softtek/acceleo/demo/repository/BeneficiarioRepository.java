@@ -3,6 +3,7 @@ package com.softtek.acceleo.demo.repository;
 
 import java.util.List;
 import com.softtek.acceleo.demo.domain.Beneficiario;
+import com.softtek.acceleo.demo.exception.GenericException;
 
 public interface BeneficiarioRepository {
 
@@ -15,7 +16,7 @@ public interface BeneficiarioRepository {
 	    
 	 public Beneficiario getBeneficiario(int empid);   
 	    
-	 public void deleteBeneficiario(Beneficiario beneficiario); 
+	 public void deleteBeneficiario(Beneficiario beneficiario) throws GenericException; 
 
 	 public List<Beneficiario> listBeneficiariosQuery(Beneficiario beneficiario, String query, int page, int size);
 

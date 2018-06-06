@@ -3,6 +3,7 @@ package com.softtek.acceleo.demo.repository;
 
 import java.util.List;
 import com.softtek.acceleo.demo.domain.UserAuthority;
+import com.softtek.acceleo.demo.exception.GenericException;
 
 public interface UserAuthorityRepository {
 
@@ -15,7 +16,7 @@ public interface UserAuthorityRepository {
 	    
 	 public UserAuthority getUserAuthority(int empid);   
 	    
-	 public void deleteUserAuthority(UserAuthority userauthority); 
+	 public void deleteUserAuthority(UserAuthority userauthority) throws GenericException; 
 
 	 public List<UserAuthority> listUserAuthorityssQuery(UserAuthority userauthority, String query, int page, int size);
 

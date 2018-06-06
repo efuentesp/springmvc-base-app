@@ -11,6 +11,7 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 import com.softtek.acceleo.demo.domain.Modulo;
+import com.softtek.acceleo.demo.exception.GenericException;
 import com.softtek.acceleo.demo.repository.ModuloRepository;
 
 @Repository("moduloRepository")
@@ -55,7 +56,7 @@ public class ModuloRepositoryImpl implements ModuloRepository {
 
 	@SuppressWarnings("unchecked")
 	public List<Modulo> listModulossQuery(Modulo modulo, String query, int page, int size) {
-			//moduloProxy.set#columnsGrid(modulo.get#columnsGrid());
+
 			return (List<Modulo>) sessionFactory.getCurrentSession()
 					.createCriteria(Modulo.class).setFirstResult((page - 1) * size)
 					.add(	
@@ -71,7 +72,7 @@ public class ModuloRepositoryImpl implements ModuloRepository {
 
 	@SuppressWarnings("unchecked")
 	public List<Modulo> listModulosPagination(Modulo modulo, int page, int size) {
-			//cuentaProxy.set#columnsGrid(cuenta.get#columnsGrid());
+
 			return (List<Modulo>) sessionFactory.getCurrentSession()
 				.createCriteria(Modulo.class).setFirstResult((page - 1) * size)
 				
@@ -124,7 +125,7 @@ public class ModuloRepositoryImpl implements ModuloRepository {
 				Modulo.class, empid);
 	}
 
-	public void deleteModulo(Modulo modulo) {
+	public void deleteModulo(Modulo modulo) throws GenericException {
 		sessionFactory.getCurrentSession().delete(modulo);
 	}
 

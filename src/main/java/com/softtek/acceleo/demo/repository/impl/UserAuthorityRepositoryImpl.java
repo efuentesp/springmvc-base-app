@@ -11,6 +11,7 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 import com.softtek.acceleo.demo.domain.UserAuthority;
+import com.softtek.acceleo.demo.exception.GenericException;
 import com.softtek.acceleo.demo.repository.UserAuthorityRepository;
 
 @Repository("userauthorityRepository")
@@ -56,7 +57,7 @@ public class UserAuthorityRepositoryImpl implements UserAuthorityRepository {
 
 	@SuppressWarnings("unchecked")
 	public List<UserAuthority> listUserAuthorityssQuery(UserAuthority userauthority, String query, int page, int size) {
-			//userauthorityProxy.set#columnsGrid(userauthority.get#columnsGrid());
+
 			return (List<UserAuthority>) sessionFactory.getCurrentSession()
 					.createCriteria(UserAuthority.class).setFirstResult((page - 1) * size)
 					.add(	
@@ -73,7 +74,7 @@ public class UserAuthorityRepositoryImpl implements UserAuthorityRepository {
 
 	@SuppressWarnings("unchecked")
 	public List<UserAuthority> listUserAuthoritysPagination(UserAuthority userauthority, int page, int size) {
-			//cuentaProxy.set#columnsGrid(cuenta.get#columnsGrid());
+
 			return (List<UserAuthority>) sessionFactory.getCurrentSession()
 				.createCriteria(UserAuthority.class).setFirstResult((page - 1) * size)
 				
@@ -127,7 +128,7 @@ public class UserAuthorityRepositoryImpl implements UserAuthorityRepository {
 				UserAuthority.class, empid);
 	}
 
-	public void deleteUserAuthority(UserAuthority userauthority) {
+	public void deleteUserAuthority(UserAuthority userauthority) throws GenericException {
 		sessionFactory.getCurrentSession().delete(userauthority);
 	}
 

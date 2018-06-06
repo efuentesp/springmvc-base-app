@@ -53,15 +53,18 @@ public class SeguridadController {
 		UserDetails userDetails = null;
 		
 		try {
+			SeguridadInterceptor segIntrcptr = new SeguridadInterceptor();
+			logger.info("Se imprime objeto interceptor: " + segIntrcptr);
+			
 			userDetails = jwtap.validarAutenticacionUser(password, userName);
 			logger.info("-_-_-_-_-_-_-_-_-_-_-_-_-_-_ Exito: Autenticación de usuario OK. -_-_-_-_-_-_-_-_-_-_-_-_-_-_");        
 	        
-			return new ResponseEntity<UserDetails>(userDetails, HttpStatus.OK);
+			return new ResponseEntity<>(userDetails, HttpStatus.OK);
 		}catch(AuthenticationException ae) {
 			userDetails = new AuthenticatedUser();
 			logger.error("-_-_-_-_-_-_-_-_-_-_-_-_-_-_ Error: " + ae + " -_-_-_-_-_-_-_-_-_-_-_-_-_-_");
 			
-			return new ResponseEntity<UserDetails>(userDetails, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(userDetails, HttpStatus.NOT_FOUND);
 		}
 	}
 	
@@ -78,11 +81,11 @@ public class SeguridadController {
 		if( lstUser == null || lstUser.isEmpty() ) {
 			logger.info("-_-_-_-_-_-_-_-_-_-_-_-_-_-_ La informacion del usuario NO SE PUDO OBTENER. -_-_-_-_-_-_-_-_-_-_-_-_-_-_");
 			
-			return new ResponseEntity<User>(new User(), HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(new User(), HttpStatus.NOT_FOUND);
 		}else {
 			logger.info("-_-_-_-_-_-_-_-_-_-_-_-_-_-_ La informacion del usuario se obtuvo EXITOSAMENTE. -_-_-_-_-_-_-_-_-_-_-_-_-_-_");
 			
-			return new ResponseEntity<User>(lstUser.get(0), HttpStatus.OK);
+			return new ResponseEntity<>(lstUser.get(0), HttpStatus.OK);
 		}
 	}	
 }

@@ -11,6 +11,7 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 import com.softtek.acceleo.demo.domain.Authority;
+import com.softtek.acceleo.demo.exception.GenericException;
 import com.softtek.acceleo.demo.repository.AuthorityRepository;
 
 @Repository("authorityRepository")
@@ -55,7 +56,6 @@ public class AuthorityRepositoryImpl implements AuthorityRepository {
 
 	@SuppressWarnings("unchecked")
 	public List<Authority> listAuthorityssQuery(Authority authority, String query, int page, int size) {
-			//authorityProxy.set#columnsGrid(authority.get#columnsGrid());
 			return (List<Authority>) sessionFactory.getCurrentSession()
 					.createCriteria(Authority.class).setFirstResult((page - 1) * size)
 					.add(	
@@ -71,7 +71,6 @@ public class AuthorityRepositoryImpl implements AuthorityRepository {
 
 	@SuppressWarnings("unchecked")
 	public List<Authority> listAuthoritysPagination(Authority authority, int page, int size) {
-			//cuentaProxy.set#columnsGrid(cuenta.get#columnsGrid());
 			return (List<Authority>) sessionFactory.getCurrentSession()
 				.createCriteria(Authority.class).setFirstResult((page - 1) * size)
 				
@@ -124,7 +123,7 @@ public class AuthorityRepositoryImpl implements AuthorityRepository {
 				Authority.class, empid);
 	}
 
-	public void deleteAuthority(Authority authority) {
+	public void deleteAuthority(Authority authority) throws GenericException {
 		sessionFactory.getCurrentSession().delete(authority);
 	}
 
