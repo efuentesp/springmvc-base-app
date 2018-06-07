@@ -114,6 +114,19 @@ public class ModuloAccionController {
 				return null;
 			}
 	 }
+	 
+	 @RequestMapping(value = "/moduloaccionid/{idmodulo}/{idaccion}", method = RequestMethod.GET, produces = "application/json")
+	    public @ResponseBody ModuloAccion searchByIdModuloAccion(@PathVariable("idmodulo") int idmodulo, @PathVariable("idaccion") int idaccion) {
+	   
+			List<ModuloAccion> lstModuloAccion = moduloaccionService.listModuloAccion(idmodulo, idaccion);
+			if( lstModuloAccion == null || lstModuloAccion.isEmpty()  ) {
+				return null;
+			}else {
+				return lstModuloAccion.get(0);
+			}
+			
+	 }
+	 
 	 	
 	@RequestMapping(value = "/moduloaccion/{id}", method = RequestMethod.GET, produces = "application/json")
 	    public @ResponseBody  ModuloAccion getModuloAccion(@PathVariable("id") int id) {
