@@ -33,11 +33,11 @@ import com.softtek.acceleo.demo.service.ModuloAccionAuthorityService;
 public class ModuloAccionAuthorityController {
 
 	@Autowired
-	private ModuloAccionAuthorityService ModuloAccionAuthorityService;
+	private ModuloAccionAuthorityService moduloAccionAuthorityService;
 	
 	ModuloAccionAuthority ModuloAccionAuthority = new ModuloAccionAuthority();
 
-	@RequestMapping(value = "/ModuloAccionAuthority", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/moduloaccionauthority", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody  List<ModuloAccionAuthority> getModuloAccionAuthoritys(@RequestParam Map<String,String> requestParams, HttpServletRequest request, HttpServletResponse response) {
 
        	String query=requestParams.get("q");
@@ -49,13 +49,13 @@ public class ModuloAccionAuthorityController {
 		List<ModuloAccionAuthority> listModuloAccionAuthority = null;
 
 		if (query==null && _page == 0 ) {
-       		listModuloAccionAuthority = ModuloAccionAuthorityService.listModuloAccionAuthorityss(ModuloAccionAuthority);
-			rows = ModuloAccionAuthorityService.getTotalRows();
+       		listModuloAccionAuthority = moduloAccionAuthorityService.listModuloAccionAuthorityss(ModuloAccionAuthority);
+			rows = moduloAccionAuthorityService.getTotalRows();
 		} else if (query!= null){
 			
 		} else if (_page != 0){
-			listModuloAccionAuthority = ModuloAccionAuthorityService.listModuloAccionAuthoritysPagination(ModuloAccionAuthority, _page, 10);
-			rows = ModuloAccionAuthorityService.getTotalRows();
+			listModuloAccionAuthority = moduloAccionAuthorityService.listModuloAccionAuthoritysPagination(ModuloAccionAuthority, _page, 10);
+			rows = moduloAccionAuthorityService.getTotalRows();
 		} 	
 
 		response.setHeader("Access-Control-Expose-Headers", "x-total-count");
@@ -64,33 +64,33 @@ public class ModuloAccionAuthorityController {
 		return listModuloAccionAuthority;
 	}
 	
-	@RequestMapping(value = "/ModuloAccionAuthority/{id}", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/moduloaccionauthority/{id}", method = RequestMethod.GET, produces = "application/json")
 	    public @ResponseBody  ModuloAccionAuthority getModuloAccionAuthority(@PathVariable("id") int id) {
 	        
 	        ModuloAccionAuthority.setIdmoduloaccionauthority(id);
 	        
 	        ModuloAccionAuthority ModuloAccionAuthority = null;
-	        ModuloAccionAuthority = ModuloAccionAuthorityService.getModuloAccionAuthority(id);
+	        ModuloAccionAuthority = moduloAccionAuthorityService.getModuloAccionAuthority(id);
 			return ModuloAccionAuthority;
 	 }
 
 
 
-	 @RequestMapping(value = "/ModuloAccionAuthority", method = RequestMethod.POST)
+	 @RequestMapping(value = "/moduloaccionauthority", method = RequestMethod.POST)
 	    public ResponseEntity<Void> createModuloAccionAuthority(@RequestBody ModuloAccionAuthority ModuloAccionAuthority,    UriComponentsBuilder ucBuilder) {
 	   
-	        ModuloAccionAuthorityService.addModuloAccionAuthority(ModuloAccionAuthority);
+		 moduloAccionAuthorityService.addModuloAccionAuthority(ModuloAccionAuthority);
 	 
 	        HttpHeaders headers = new HttpHeaders();
-	        headers.setLocation(ucBuilder.path("/ModuloAccionAuthority/{id}").buildAndExpand(ModuloAccionAuthority.getIdmoduloaccionauthority()).toUri());
+	        headers.setLocation(ucBuilder.path("/moduloAccionAuthority/{id}").buildAndExpand(ModuloAccionAuthority.getIdmoduloaccionauthority()).toUri());
 	        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 	 }
 		
-	 @RequestMapping(value = "/ModuloAccionAuthority/{id}", method = RequestMethod.PUT)
+	 @RequestMapping(value = "/moduloaccionauthority/{id}", method = RequestMethod.PUT)
 	    public ResponseEntity<ModuloAccionAuthority> actualizarModuloAccionAuthority(@PathVariable("id") int id, @RequestBody ModuloAccionAuthority ModuloAccionAuthority) {
 	        
 	        
-	        ModuloAccionAuthority ModuloAccionAuthorityFound = ModuloAccionAuthorityService.getModuloAccionAuthority(id);
+	        ModuloAccionAuthority ModuloAccionAuthorityFound = moduloAccionAuthorityService.getModuloAccionAuthority(id);
 	         
 	        if (ModuloAccionAuthorityFound==null) {
 	            System.out.println("User with id " + id + " not found");
@@ -104,17 +104,17 @@ public class ModuloAccionAuthorityController {
 				ModuloAccionAuthorityFound.setFechaCreacion(ModuloAccionAuthority.getFechaCreacion());
 				ModuloAccionAuthorityFound.setFechaModificacion(ModuloAccionAuthority.getFechaModificacion());
 	        
-	        ModuloAccionAuthorityService.editModuloAccionAuthority(ModuloAccionAuthorityFound);
+				moduloAccionAuthorityService.editModuloAccionAuthority(ModuloAccionAuthorityFound);
 	        return new ResponseEntity<ModuloAccionAuthority>(ModuloAccionAuthorityFound, HttpStatus.OK);
 	  } 	
 	
 		
-		@RequestMapping(value = "/ModuloAccionAuthority/{id}", method = RequestMethod.DELETE)
+		@RequestMapping(value = "/moduloaccionauthority/{id}", method = RequestMethod.DELETE)
 	    public ResponseEntity<ModuloAccionAuthority> deleteModuloAccionAuthority(@PathVariable("id") int id) {
 	    	 System.out.println("Fetching & Deleting User with id " + id);
 			 long rows = 0;	
 	    	 
-	         ModuloAccionAuthority ModuloAccionAuthority = ModuloAccionAuthorityService.getModuloAccionAuthority(id);
+	         ModuloAccionAuthority ModuloAccionAuthority = moduloAccionAuthorityService.getModuloAccionAuthority(id);
 	         if (ModuloAccionAuthority == null) {
 	             System.out.println("Unable to delete. Cuenta with id " + id + " not found");
 	             return new ResponseEntity<ModuloAccionAuthority>(HttpStatus.NOT_FOUND);
@@ -123,7 +123,7 @@ public class ModuloAccionAuthorityController {
              
 
              if (rows==0){
-	             ModuloAccionAuthorityService.deleteModuloAccionAuthority(ModuloAccionAuthority);
+            	 moduloAccionAuthorityService.deleteModuloAccionAuthority(ModuloAccionAuthority);
             	 return new ResponseEntity<ModuloAccionAuthority>(HttpStatus.OK);
              } else {
             	 return new ResponseEntity<ModuloAccionAuthority>(HttpStatus.PRECONDITION_FAILED);
@@ -138,7 +138,7 @@ public class ModuloAccionAuthorityController {
 
 
 		ModuloAccionAuthority ModuloAccionAuthority = prepareModel(ModuloAccionAuthorityBean);
-		ModuloAccionAuthorityService.addModuloAccionAuthority(ModuloAccionAuthority);
+		moduloAccionAuthorityService.addModuloAccionAuthority(ModuloAccionAuthority);
 
 		return "SUCCESS";
 	}
@@ -149,7 +149,7 @@ public class ModuloAccionAuthorityController {
 
 
 		ModuloAccionAuthority ModuloAccionAuthority = prepareModel(ModuloAccionAuthorityBean);
-		ModuloAccionAuthorityService.editModuloAccionAuthority(ModuloAccionAuthority);
+		moduloAccionAuthorityService.editModuloAccionAuthority(ModuloAccionAuthority);
 		return "SUCCESS";
 	}
 
@@ -163,7 +163,7 @@ public class ModuloAccionAuthorityController {
 		if (ModuloAccionAuthorityBean != null)
 			ModuloAccionAuthority = prepareModel(ModuloAccionAuthorityBean);
 		model.put("ModuloAccionAuthoritys",
-				prepareListofBean(ModuloAccionAuthorityService.listModuloAccionAuthorityss(ModuloAccionAuthority)));
+				prepareListofBean(moduloAccionAuthorityService.listModuloAccionAuthorityss(ModuloAccionAuthority)));
 		return new ModelAndView("searchModuloAccionAuthority", model);
 	}
 
@@ -172,11 +172,11 @@ public class ModuloAccionAuthorityController {
 			@ModelAttribute("command") ModuloAccionAuthorityBean ModuloAccionAuthorityBean,
 			BindingResult result) {
 		System.out.println("delete " + ModuloAccionAuthorityBean.getIdmoduloaccionauthority());
-		ModuloAccionAuthorityService.deleteModuloAccionAuthority(prepareModel(ModuloAccionAuthorityBean));
+		moduloAccionAuthorityService.deleteModuloAccionAuthority(prepareModel(ModuloAccionAuthorityBean));
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("ModuloAccionAuthority", null);
 		model.put("ModuloAccionAuthoritys",
-				prepareListofBean(ModuloAccionAuthorityService.listModuloAccionAuthorityss(null)));
+				prepareListofBean(moduloAccionAuthorityService.listModuloAccionAuthorityss(null)));
 		return new ModelAndView("searchModuloAccionAuthority", model);
 	}
 

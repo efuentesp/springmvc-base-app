@@ -12,7 +12,7 @@ import javax.persistence.Table;
 import java.util.Date;
 
 @Entity
-@Table(name = "ModuloaAccionAuthority")
+@Table(name = "ModuloAccionAuthority")
 public class ModuloAccionAuthority implements Serializable {
 
 	/**
