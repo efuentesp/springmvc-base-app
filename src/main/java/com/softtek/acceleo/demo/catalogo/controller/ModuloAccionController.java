@@ -89,14 +89,29 @@ public class ModuloAccionController {
 			moduloAccion.setFechaCreacion(new Date());
 			moduloAccion.setFechaModificacion(null);
 		 
-		 	//Se almacena la informacion del user, con un password temporal al cual no se le genero un token.
-			moduloaccionService.addModuloAccion(moduloAccion);
-
-			List<ModuloAccion> lstModuloAccion = moduloaccionService.listModuloAccion(idmodulo, idaccion);
-			if( lstModuloAccion == null || lstModuloAccion.isEmpty()  ) {
+			try {
+			 	//Se almacena la informacion del user, con un password temporal al cual no se le genero un token.
+				moduloaccionService.addModuloAccion(moduloAccion);
+	
+				List<ModuloAccion> lstModuloAccion = moduloaccionService.listModuloAccion(idmodulo, idaccion);
+				if( lstModuloAccion == null || lstModuloAccion.isEmpty()  ) {
+					return null;
+				}else {
+					return lstModuloAccion.get(0);
+				}
+			}catch(GenericException e) {
+				logger.error("Error ModuloAccion - " + e);				
+				if( e.getCause().getCause().getMessage().contains("Duplicate entry") ) {
+					List<ModuloAccion> lstModuloAccion = moduloaccionService.listModuloAccion(idmodulo, idaccion);
+					
+					if( lstModuloAccion == null || lstModuloAccion.isEmpty()  ) {
+						return null;
+					}else {
+						return lstModuloAccion.get(0);
+					}
+				}
+				
 				return null;
-			}else {
-				return lstModuloAccion.get(0);
 			}
 	 }
 	 	
@@ -117,12 +132,17 @@ public class ModuloAccionController {
 
 	 @RequestMapping(value = "/moduloaccion", method = RequestMethod.POST)
 	    public ResponseEntity<Void> createModuloAccion(@RequestBody ModuloAccion moduloaccion,    UriComponentsBuilder ucBuilder) {
-	   
-	        moduloaccionService.addModuloAccion(moduloaccion);
-	 
 	        HttpHeaders headers = new HttpHeaders();
 	        headers.setLocation(ucBuilder.path("/moduloaccion/{id}").buildAndExpand(moduloaccion.getId()).toUri());
-	        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+	   
+		 	try {
+		        moduloaccionService.addModuloAccion(moduloaccion);
+		 
+		        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+		 	}catch(GenericException e){
+		 		logger.error("Error: " + e);
+		 		return new ResponseEntity<>(headers, HttpStatus.CONFLICT);
+		 	}
 	 }
 		
 	 @RequestMapping(value = "/moduloaccion/{id}", method = RequestMethod.PUT)
@@ -173,11 +193,15 @@ public class ModuloAccionController {
 	public @ResponseBody String saveModuloAccion(
 			@ModelAttribute("command") ModuloAccionBean moduloaccionBean) {
 
-
-		ModuloAccion moduloaccion = prepareModel(moduloaccionBean);
-		moduloaccionService.addModuloAccion(moduloaccion);
-
-		return "SUCCESS";
+		try {
+			ModuloAccion moduloaccion = prepareModel(moduloaccionBean);
+			moduloaccionService.addModuloAccion(moduloaccion);
+			
+			return "SUCCESS";
+		}catch(GenericException e) {
+			logger.error("Error - " + e);
+			return "";
+		}
 	}
 	
 	@RequestMapping(value = "/editModuloAccion", method = RequestMethod.POST)

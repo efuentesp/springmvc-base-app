@@ -4,6 +4,7 @@ package com.softtek.acceleo.demo.repository.impl;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Example;
@@ -24,8 +25,12 @@ public class ModuloAccionRepositoryImpl implements ModuloAccionRepository {
 	@Autowired
 	private SessionFactory sessionFactory;
 
-	public void addModuloAccion(ModuloAccion moduloaccion) {
-		sessionFactory.getCurrentSession().persist(moduloaccion);
+	public void addModuloAccion(ModuloAccion moduloaccion) throws GenericException {
+		try {
+			sessionFactory.getCurrentSession().persist(moduloaccion);
+		}catch(HibernateException e) {
+			throw new GenericException("Error", e);
+		}
 	}
 
 	public void editModuloAccion(ModuloAccion moduloaccion) {
@@ -140,6 +145,7 @@ public class ModuloAccionRepositoryImpl implements ModuloAccionRepository {
 	@Override
 	public List<ModuloAccion> listModuloAccion(int idModulo, int idAccion) {
 		Session session = sessionFactory.getCurrentSession();
+		session.clear();		
 		Criteria criteria = session.createCriteria(ModuloAccion.class);
 		criteria.add(Restrictions.and(Restrictions.eq(ID_MODULO, idModulo), Restrictions.eq(ID_ACCION, idAccion))).list();
 		List<ModuloAccion> lstModuloAccion = null;

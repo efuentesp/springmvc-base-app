@@ -24,7 +24,7 @@ public class ModuloAccionServiceImpl implements ModuloAccionService {
 	private ModuloAccionRepository moduloaccionRepository;
 
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-	public void addModuloAccion(ModuloAccion moduloaccion) {
+	public void addModuloAccion(ModuloAccion moduloaccion) throws GenericException {
 		
 		moduloaccionRepository.addModuloAccion(moduloaccion);
 	}

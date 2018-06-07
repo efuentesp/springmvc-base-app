@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.softtek.acceleo.demo.domain.ModuloAccion;
 import com.softtek.acceleo.demo.domain.User;
+import com.softtek.acceleo.demo.exception.GenericException;
 import com.softtek.acceleo.demo.service.ModuloAccionService;
 import com.softtek.acceleo.demo.service.UserService;
 import com.softtek.spring.seguridad.JwtAuthenticationProvider;
@@ -88,7 +89,7 @@ public class VariosTest extends AbstractTransactionalJUnit4SpringContextTests {
 	
 	@Test
 	public void testModuloAccionService() {
-		int idmodulo = 3;
+		int idmodulo = 1;
 		int idaccion = 1;
 		
 		ModuloAccion moduloAccion = new ModuloAccion();
@@ -99,16 +100,27 @@ public class VariosTest extends AbstractTransactionalJUnit4SpringContextTests {
 		moduloAccion.setFechaCreacion(new Date());
 		moduloAccion.setFechaModificacion(null);
 	 
-	 	//Se almacena la informacion del user, con un password temporal al cual no se le genero un token.
-		moduloaccionService.addModuloAccion(moduloAccion);
-
-		List<ModuloAccion> lstModuloAccion = moduloaccionService.listModuloAccion(idmodulo, idaccion);
-		if( lstModuloAccion == null || lstModuloAccion.isEmpty()  ) {
-			logger.info("NO EXISTE INFORMACION DEL REGISTRO.");
-		}else {
-			logger.info("SI EXISTE INFORMACION DEL REGISTRO.");
+		try {
+		 	//Se almacena la informacion del user, con un password temporal al cual no se le genero un token.
+			moduloaccionService.addModuloAccion(moduloAccion);
+	
+			List<ModuloAccion> lstModuloAccion = moduloaccionService.listModuloAccion(idmodulo, idaccion);
+			if( lstModuloAccion == null || lstModuloAccion.isEmpty()  ) {
+				logger.info("NO EXISTE INFORMACION DEL REGISTRO.");
+			}else {
+				logger.info("SI EXISTE INFORMACION DEL REGISTRO.");
+			}
+		}catch(GenericException e) {
+			logger.error("Error - " + e);
+			if( e.getCause().getCause().getMessage().contains("Duplicate entry") ) {
+				List<ModuloAccion> lstModuloAccion = moduloaccionService.listModuloAccion(idmodulo, idaccion);
+				if( lstModuloAccion == null || lstModuloAccion.isEmpty()  ) {
+					logger.info("NO EXISTE INFORMACION DEL REGISTRO.");
+				}else {
+					logger.info("SI EXISTE INFORMACION DEL REGISTRO.");
+				}
+			}
 		}
-		
 	}
 	
 	@After

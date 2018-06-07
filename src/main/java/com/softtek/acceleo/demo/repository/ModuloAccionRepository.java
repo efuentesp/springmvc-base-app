@@ -8,7 +8,7 @@ import com.softtek.acceleo.demo.exception.GenericException;
 public interface ModuloAccionRepository {
 
 	
-	 public void addModuloAccion(ModuloAccion moduloaccion);   
+	 public void addModuloAccion(ModuloAccion moduloaccion) throws GenericException;   
 	 
 	 public void editModuloAccion(ModuloAccion moduloaccion);
 	   

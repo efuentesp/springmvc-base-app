@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ModuloAccionService {
 
-	public void addModuloAccion(ModuloAccion moduloaccion);
+	public void addModuloAccion(ModuloAccion moduloaccion) throws GenericException;
 
 	public void editModuloAccion(ModuloAccion moduloaccion);
 	
