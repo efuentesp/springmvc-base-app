@@ -10,30 +10,30 @@ import org.springframework.stereotype.Repository;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
-import com.softtek.acceleo.demo.domain.ModuloaAccionAuthority;
-import com.softtek.acceleo.demo.repository.ModuloaAccionAuthorityRepository;
+import com.softtek.acceleo.demo.domain.ModuloAccionAuthority;
+import com.softtek.acceleo.demo.repository.ModuloAccionAuthorityRepository;
 
 @Repository("moduloaaccionauthorityRepository")
-public class ModuloaAccionAuthorityRepositoryImpl implements ModuloaAccionAuthorityRepository {
+public class ModuloAccionAuthorityRepositoryImpl implements ModuloAccionAuthorityRepository {
 
 	@Autowired
 	private SessionFactory sessionFactory;
 
-	public void addModuloaAccionAuthority(ModuloaAccionAuthority moduloaaccionauthority) {
+	public void addModuloAccionAuthority(ModuloAccionAuthority moduloaaccionauthority) {
 		sessionFactory.getCurrentSession().persist(moduloaaccionauthority);
 	}
 
-	public void editModuloaAccionAuthority(ModuloaAccionAuthority moduloaaccionauthority) {
+	public void editModuloAccionAuthority(ModuloAccionAuthority moduloaaccionauthority) {
 		sessionFactory.getCurrentSession().update(moduloaaccionauthority);
 
 	}
 
 	@SuppressWarnings({ "unchecked" })
-	public List<ModuloaAccionAuthority> listModuloaAccionAuthorityss(ModuloaAccionAuthority moduloaaccionauthority) {
+	public List<ModuloAccionAuthority> listModuloAccionAuthorityss(ModuloAccionAuthority moduloaaccionauthority) {
 
 		if (moduloaaccionauthority != null) {
 
-			ModuloaAccionAuthority moduloaaccionauthorityProxy = new ModuloaAccionAuthority();
+			ModuloAccionAuthority moduloaaccionauthorityProxy = new ModuloAccionAuthority();
 
 
 
@@ -42,23 +42,23 @@ public class ModuloaAccionAuthorityRepositoryImpl implements ModuloaAccionAuthor
 
 
 
-			return (List<ModuloaAccionAuthority>) sessionFactory.getCurrentSession()
-					.createCriteria(ModuloaAccionAuthority.class)
+			return (List<ModuloAccionAuthority>) sessionFactory.getCurrentSession()
+					.createCriteria(ModuloAccionAuthority.class)
 					.add(Example.create(moduloaaccionauthorityProxy)).list();
 
 		}
 
-		return (List<ModuloaAccionAuthority>) sessionFactory.getCurrentSession()
-				.createCriteria(ModuloaAccionAuthority.class).list();
+		return (List<ModuloAccionAuthority>) sessionFactory.getCurrentSession()
+				.createCriteria(ModuloAccionAuthority.class).list();
 
 	}
 
 
 	@SuppressWarnings("unchecked")
-	public List<ModuloaAccionAuthority> listModuloaAccionAuthorityssQuery(ModuloaAccionAuthority moduloaaccionauthority, String query, int page, int size) {
+	public List<ModuloAccionAuthority> listModuloAccionAuthorityssQuery(ModuloAccionAuthority moduloaaccionauthority, String query, int page, int size) {
 			//moduloaaccionauthorityProxy.set#columnsGrid(moduloaaccionauthority.get#columnsGrid());
-			return (List<ModuloaAccionAuthority>) sessionFactory.getCurrentSession()
-					.createCriteria(ModuloaAccionAuthority.class).setFirstResult((page - 1) * size)
+			return (List<ModuloAccionAuthority>) sessionFactory.getCurrentSession()
+					.createCriteria(ModuloAccionAuthority.class).setFirstResult((page - 1) * size)
 					.add(	
 							Restrictions.or(Restrictions.or(Restrictions.or(Restrictions.or(Restrictions.or(	
 						Restrictions.like("idauthority", "%" + query +"%"),Restrictions.like("fechacreacion", "%" + query +"%")),Restrictions.like("fechamodificacion", "%" + query +"%")),Restrictions.like("idmoduloaccion", "%" + query +"%")),Restrictions.like("idmoduloaccionauthority", "%" + query +"%")),Restrictions.like("estatus", "%" + query +"%"))	
@@ -72,10 +72,10 @@ public class ModuloaAccionAuthorityRepositoryImpl implements ModuloaAccionAuthor
 
 
 	@SuppressWarnings("unchecked")
-	public List<ModuloaAccionAuthority> listModuloaAccionAuthoritysPagination(ModuloaAccionAuthority moduloaaccionauthority, int page, int size) {
+	public List<ModuloAccionAuthority> listModuloAccionAuthoritysPagination(ModuloAccionAuthority moduloaaccionauthority, int page, int size) {
 			//cuentaProxy.set#columnsGrid(cuenta.get#columnsGrid());
-			return (List<ModuloaAccionAuthority>) sessionFactory.getCurrentSession()
-				.createCriteria(ModuloaAccionAuthority.class).setFirstResult((page - 1) * size)
+			return (List<ModuloAccionAuthority>) sessionFactory.getCurrentSession()
+				.createCriteria(ModuloAccionAuthority.class).setFirstResult((page - 1) * size)
 				
 				.setMaxResults(size).list();
 	}
@@ -85,7 +85,7 @@ public class ModuloaAccionAuthorityRepositoryImpl implements ModuloaAccionAuthor
 		
 		long totalRows = 0;
 		totalRows = (Long) sessionFactory.getCurrentSession()
-		.createCriteria(ModuloaAccionAuthority.class).setProjection(Projections.rowCount())
+		.createCriteria(ModuloAccionAuthority.class).setProjection(Projections.rowCount())
 		.uniqueResult();	
 		return totalRows;  
 	}
@@ -95,7 +95,7 @@ public class ModuloaAccionAuthorityRepositoryImpl implements ModuloaAccionAuthor
 		
 		long totalRows = 0;
 		totalRows = (Long) sessionFactory.getCurrentSession()
-		.createCriteria(ModuloaAccionAuthority.class).setProjection(Projections.rowCount())
+		.createCriteria(ModuloAccionAuthority.class).setProjection(Projections.rowCount())
 					.add(	
 							Restrictions.or(Restrictions.or(Restrictions.or(Restrictions.or(Restrictions.or(	
 						Restrictions.like("idauthority", "%" + query +"%"),Restrictions.like("fechacreacion", "%" + query +"%")),Restrictions.like("fechamodificacion", "%" + query +"%")),Restrictions.like("idmoduloaccion", "%" + query +"%")),Restrictions.like("idmoduloaccionauthority", "%" + query +"%")),Restrictions.like("estatus", "%" + query +"%"))	
@@ -114,7 +114,7 @@ public class ModuloaAccionAuthorityRepositoryImpl implements ModuloaAccionAuthor
 		
 		long totalRows = 0;
 		totalRows = (Long) sessionFactory.getCurrentSession()
-		.createCriteria(ModuloaAccionAuthority.class).setProjection(Projections.rowCount())
+		.createCriteria(ModuloAccionAuthority.class).setProjection(Projections.rowCount())
 		
 		.uniqueResult();
 		return totalRows;  
@@ -122,12 +122,12 @@ public class ModuloaAccionAuthorityRepositoryImpl implements ModuloaAccionAuthor
 
 	
 
-	public ModuloaAccionAuthority getModuloaAccionAuthority(int empid) {
-		return (ModuloaAccionAuthority) sessionFactory.getCurrentSession().get(
-				ModuloaAccionAuthority.class, empid);
+	public ModuloAccionAuthority getModuloAccionAuthority(int empid) {
+		return (ModuloAccionAuthority) sessionFactory.getCurrentSession().get(
+				ModuloAccionAuthority.class, empid);
 	}
 
-	public void deleteModuloaAccionAuthority(ModuloaAccionAuthority moduloaaccionauthority) {
+	public void deleteModuloAccionAuthority(ModuloAccionAuthority moduloaaccionauthority) {
 		sessionFactory.getCurrentSession().delete(moduloaaccionauthority);
 	}
 

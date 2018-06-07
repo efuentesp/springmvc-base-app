@@ -1,40 +1,16 @@
+package com.softtek.acceleo.demo.catalogo.bean;
 
-package com.softtek.acceleo.demo.domain;
-
-import java.io.Serializable;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import java.util.Date;
 
-@Entity
-@Table(name = "ModuloaAccionAuthority")
-public class ModuloaAccionAuthority implements Serializable {
+public class ModuloAccionAuthorityBean {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+	private Integer id;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "idmoduloaccionauthority") 
-	private Integer idmoduloaccionauthority;
-
-    @Column(name = "idauthority") 
 	private Integer idauthority;
-    @Column(name = "fechacreacion") 
 	private Date fechacreacion;
-    @Column(name = "fechamodificacion") 
 	private Date fechamodificacion;
-    @Column(name = "idmoduloaccion") 
 	private Integer idmoduloaccion;
-
-    @Column(name = "estatus") 
+	private Integer idmoduloaccionauthority;
 	private Boolean estatus;
 
 	public Integer getIdAuthority () {
@@ -81,5 +57,6 @@ public class ModuloaAccionAuthority implements Serializable {
 		this.estatus = estatus;
 	}
 
-
-}			
+	
+	
+}
