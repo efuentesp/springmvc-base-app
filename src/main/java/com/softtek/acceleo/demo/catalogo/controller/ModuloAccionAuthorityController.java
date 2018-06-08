@@ -6,9 +6,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -25,15 +26,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.UriComponentsBuilder;
 
-
 import com.softtek.acceleo.demo.catalogo.bean.ModuloAccionAuthorityBean;
 import com.softtek.acceleo.demo.domain.ModuloAccion;
 import com.softtek.acceleo.demo.domain.ModuloAccionAuthority;
 import com.softtek.acceleo.demo.exception.GenericException;
 import com.softtek.acceleo.demo.service.ModuloAccionAuthorityService;
 import com.softtek.acceleo.demo.service.ModuloAccionService;
-import com.softtek.acceleo.demo.service.impl.ModuloAccionServiceImpl;
-import com.softtek.spring.seguridad.controller.SeguridadInterceptor;
 
 @Controller
 public class ModuloAccionAuthorityController {
