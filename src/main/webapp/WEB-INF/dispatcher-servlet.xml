@@ -20,9 +20,9 @@
 	<context:component-scan base-package="com.softtek.acceleo.demo.domain" />
 	<context:component-scan base-package="com.softtek.spring.seguridad" />
 	<context:component-scan base-package="com.softtek.spring.seguridad.controller" />
-	
+	<context:component-scan base-package="com.softtek.spring.seguridad.interceptor" />
 	<context:component-scan base-package="com.softtek.app.login" />
-	
+		
 <!-- 	
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
 		<property name="viewClass">
@@ -31,14 +31,14 @@
 		</property>
 	</bean>
  -->
- 		<bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
+ 
+ 	<bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
 		<property name="definitions">
 			<list>
 				<value>/WEB-INF/config/tiles.xml</value>
 			</list>
 		</property>
 	</bean>
-
 
 	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
@@ -57,12 +57,11 @@
 		<property name="password" value="12345678"></property>
 	</bean>
 
-
 	<bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
+	
 	<bean id="persistenceExceptionTranslationPostProcessor" class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
-
 
 	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
 	    <property name="basenames">
@@ -80,9 +79,6 @@
   <!-- -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- -->
   <!-- -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_ Para el manejo de los interceptores -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_ -->
   <!-- -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- -->
-	<context:component-scan base-package="com.softtek.acceleo.demo.catalogo.controller" />
-	<context:component-scan base-package="com.softtek.spring.seguridad.controller" />
-
  	<bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
 		<!-- <property name="prefix" value="/WEB-INF/jsp/" /> -->
@@ -90,29 +86,16 @@
 		<property name="suffix" value=".html, .xhtml, .ts, .jsp" />
 	</bean>
 
-	<bean id="seguridadController" name="login.component.htm" class="com.softtek.spring.seguridad.controller.SeguridadController" />
-		
 	<mvc:interceptors>
 		<!-- <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" /> -->
  		<mvc:interceptor>
 		    <mvc:mapping path="/**"/>
 		    <!-- <mvc:mapping path="/api/authenticate"/> -->
-		    <!-- <mvc:mapping path="/login.component.html"/> -->
-		    
-		    <!-- <mvc:exclude-mapping path="/admin/**"/> -->
-			<!-- <bean class="org.springframework.web.servlet.theme.ThemeChangeInterceptor" /> -->
-			<bean id="seguridadInterceptor" class="com.softtek.spring.seguridad.controller.SeguridadInterceptor" />
+		    		    
+		    <!-- <mvc:exclude-mapping path="/**"/> -->
+			<bean id="seguridadInterceptor" class="com.softtek.spring.seguridad.interceptor.SeguridadInterceptor" />
 		</mvc:interceptor>
-
-<!--
-  		<mvc:interceptor>
-		    <mvc:mapping path="/*"/>
-		    <mvc:mapping path="/api/authenticate"/>
-		    <bean class="com.softtek.spring.seguridad.controller.SeguridadInterceptor" />
-		</mvc:interceptor>
- --> 	
- 	</mvc:interceptors>	
-	
-  <!-- -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_ -->
+ 	</mvc:interceptors>
+  <!-- -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- -->
 
 </beans>

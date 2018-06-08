@@ -1,4 +1,4 @@
-package com.softtek.spring.seguridad.controller;
+package com.softtek.spring.seguridad.interceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
