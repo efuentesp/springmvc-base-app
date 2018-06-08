@@ -23,7 +23,7 @@ public class ModuloAccionAuthorityServiceImpl implements ModuloAccionAuthoritySe
 	private ModuloAccionAuthorityRepository ModuloAccionAuthorityRepository;
 
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-	public void addModuloAccionAuthority(ModuloAccionAuthority ModuloAccionAuthority) {
+	public void addModuloAccionAuthority(ModuloAccionAuthority ModuloAccionAuthority) throws GenericException {
 		
 		ModuloAccionAuthorityRepository.addModuloAccionAuthority(ModuloAccionAuthority);
 	}

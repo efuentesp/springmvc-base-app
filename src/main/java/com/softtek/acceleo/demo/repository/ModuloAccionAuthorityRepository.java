@@ -9,7 +9,7 @@ import com.softtek.acceleo.demo.exception.GenericException;
 public interface ModuloAccionAuthorityRepository {
 
 	
-	 public void addModuloAccionAuthority(ModuloAccionAuthority ModuloAccionAuthority);   
+	 public void addModuloAccionAuthority(ModuloAccionAuthority ModuloAccionAuthority) throws GenericException;   
 	 
 	 public void editModuloAccionAuthority(ModuloAccionAuthority ModuloAccionAuthority);
 	   

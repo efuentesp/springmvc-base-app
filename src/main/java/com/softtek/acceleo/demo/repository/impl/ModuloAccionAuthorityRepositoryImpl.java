@@ -4,6 +4,7 @@ package com.softtek.acceleo.demo.repository.impl;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Example;
@@ -26,8 +27,12 @@ public class ModuloAccionAuthorityRepositoryImpl implements ModuloAccionAuthorit
 	static final String ID_AUTHORITY = "idauthority";
 	static final String ID_MODULOACCION = "idmoduloaccion";
 
-	public void addModuloAccionAuthority(ModuloAccionAuthority moduloaaccionauthority) {
-		sessionFactory.getCurrentSession().persist(moduloaaccionauthority);
+	public void addModuloAccionAuthority(ModuloAccionAuthority moduloaaccionauthority) throws GenericException {
+		try {
+			sessionFactory.getCurrentSession().persist(moduloaaccionauthority);
+		}catch(HibernateException e) {
+			throw new GenericException("Error", e);
+		}
 	}
 
 	public void editModuloAccionAuthority(ModuloAccionAuthority moduloaaccionauthority) {

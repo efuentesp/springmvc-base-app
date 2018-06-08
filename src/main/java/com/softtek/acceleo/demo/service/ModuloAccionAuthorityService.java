@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ModuloAccionAuthorityService {
 
-	public void addModuloAccionAuthority(ModuloAccionAuthority moduloaaccionauthority);
+	public void addModuloAccionAuthority(ModuloAccionAuthority moduloaaccionauthority) throws GenericException;
 
 	public void editModuloAccionAuthority(ModuloAccionAuthority moduloaaccionauthority);
 	

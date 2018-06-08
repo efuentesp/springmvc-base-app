@@ -86,13 +86,19 @@ public class ModuloAccionAuthorityController {
 
 
 	 @RequestMapping(value = "/moduloaccionauthority", method = RequestMethod.POST)
-	    public ResponseEntity<Void> createModuloAccionAuthority(@RequestBody ModuloAccionAuthority ModuloAccionAuthority,    UriComponentsBuilder ucBuilder) {
-	   
-		 moduloAccionAuthorityService.addModuloAccionAuthority(ModuloAccionAuthority);
-	 
-	        HttpHeaders headers = new HttpHeaders();
-	        headers.setLocation(ucBuilder.path("/moduloAccionAuthority/{id}").buildAndExpand(ModuloAccionAuthority.getIdmoduloaccionauthority()).toUri());
-	        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+	 public ResponseEntity<Void> createModuloAccionAuthority(@RequestBody ModuloAccionAuthority ModuloAccionAuthority,    UriComponentsBuilder ucBuilder) {
+		HttpHeaders headers = new HttpHeaders();
+		headers.setLocation(ucBuilder.path("/moduloAccionAuthority/{id}").buildAndExpand(ModuloAccionAuthority.getIdmoduloaccionauthority()).toUri());
+
+		try { 	
+			moduloAccionAuthorityService.addModuloAccionAuthority(ModuloAccionAuthority);
+		 
+			return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+		}catch(GenericException e) {
+			logger.error("Error - " + e);
+			
+			return new ResponseEntity<Void>(headers, HttpStatus.NOT_IMPLEMENTED);
+		}
 	 }
 		
 	 @RequestMapping(value = "/moduloaccionauthority/{idModulo}/{idAccion}/{idAuthority}/{estatus}", method = RequestMethod.GET, produces = "application/json")
@@ -132,13 +138,24 @@ public class ModuloAccionAuthorityController {
 			 moduloAccionAuthority.setEstatus(estatus);
 			 moduloAccionAuthority.setFechaCreacion(new Date());
 			 
-			 moduloAccionAuthorityService.addModuloAccionAuthority(moduloAccionAuthority);
-			 
-			 List<ModuloAccionAuthority> lstModuloAccionAuthority = moduloAccionAuthorityService.listModuloAccionAuthority(idModuloAccion, idAuthority);
-			 if( lstModuloAccionAuthority == null || lstModuloAccionAuthority.isEmpty() ) {
-				 return null;
-			 }else {
-				 return lstModuloAccionAuthority.get(0);
+			 try {
+				 moduloAccionAuthorityService.addModuloAccionAuthority(moduloAccionAuthority);
+				 
+				 List<ModuloAccionAuthority> lstModuloAccionAuthority = moduloAccionAuthorityService.listModuloAccionAuthority(idModuloAccion, idAuthority);
+				 if( lstModuloAccionAuthority == null || lstModuloAccionAuthority.isEmpty() ) {
+					 return null;
+				 }else {
+					 return lstModuloAccionAuthority.get(0);
+				 }
+			 }catch(GenericException e) {
+				 logger.error("El registro con (idModuloAccion = " + idModuloAccion + ", idAuthority = " + idAuthority + ") ya existe, unicamente se actualizara el estatus");
+				 if( e.getCause().getCause().getMessage().contains("Duplicate entry") ) {
+					 moduloAccionAuthorityService.editModuloAccionAuthority(moduloAccionAuthority);
+					 
+					 return moduloAccionAuthority;
+				 }else {
+					 return null;
+				 }
 			 }
 		 }
 	 }
@@ -207,9 +224,16 @@ public class ModuloAccionAuthorityController {
 
 
 		ModuloAccionAuthority ModuloAccionAuthority = prepareModel(ModuloAccionAuthorityBean);
-		moduloAccionAuthorityService.addModuloAccionAuthority(ModuloAccionAuthority);
+		
+		try {
+			moduloAccionAuthorityService.addModuloAccionAuthority(ModuloAccionAuthority);
+			
+			return "SUCCESS";
+		}catch(GenericException e) {
+			return "ERROR";
+		}
 
-		return "SUCCESS";
+		
 	}
 	
 	@RequestMapping(value = "/editModuloAccionAuthority", method = RequestMethod.POST)
