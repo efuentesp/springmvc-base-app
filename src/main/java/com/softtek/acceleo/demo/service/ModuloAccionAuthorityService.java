@@ -1,6 +1,8 @@
 package com.softtek.acceleo.demo.service;
 
 import com.softtek.acceleo.demo.domain.ModuloAccionAuthority;
+import com.softtek.acceleo.demo.exception.GenericException;
+
 import java.util.List;
 
 public interface ModuloAccionAuthorityService {
@@ -12,7 +14,7 @@ public interface ModuloAccionAuthorityService {
 	public List<ModuloAccionAuthority> listModuloAccionAuthorityss(ModuloAccionAuthority moduloaaccionauthority);
 
 	public ModuloAccionAuthority getModuloAccionAuthority(int empid);
-
+	
 	public void deleteModuloAccionAuthority(ModuloAccionAuthority moduloaaccionauthority);
 	
 	public List<ModuloAccionAuthority> listModuloAccionAuthorityssQuery(ModuloAccionAuthority moduloaaccionauthority, String query, int page, int size);

@@ -92,31 +92,6 @@
 
 	<bean id="seguridadController" name="login.component.htm" class="com.softtek.spring.seguridad.controller.SeguridadController" />
 		
-<!--  
- 	<bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
-		<property name="mappings">
-			<props>
-		    	<prop key="/login">seguridadController</prop>
-	   		</props>
-	   	</property>
-	   	<property name="interceptors">
-			<list>
-				<ref bean="seguridadInterceptor" />
-			</list>
-	   	</property>
-	</bean>
-	
-  	<bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping" >
-		<property name="interceptors">
-			<list>
-				<ref bean="seguridadInterceptor" />
-			</list>
-		</property>
-	</bean>
-	<bean id="seguridadController" class="com.softtek.spring.seguridad.controller.SeguridadController" />
-	<bean id="seguridadInterceptor" class="com.softtek.spring.seguridad.controller.SeguridadInterceptor" />		
- --> 	
-
 	<mvc:interceptors>
 		<!-- <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" /> -->
  		<mvc:interceptor>
@@ -135,7 +110,8 @@
 		    <mvc:mapping path="/api/authenticate"/>
 		    <bean class="com.softtek.spring.seguridad.controller.SeguridadInterceptor" />
 		</mvc:interceptor>
- --> 	</mvc:interceptors>	
+ --> 	
+ 	</mvc:interceptors>	
 	
   <!-- -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_ -->
 

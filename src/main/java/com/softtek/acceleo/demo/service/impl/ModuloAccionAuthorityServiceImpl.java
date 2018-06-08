@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.softtek.acceleo.demo.repository.ModuloAccionAuthorityRepository;
 import com.softtek.acceleo.demo.domain.ModuloAccion;
 import com.softtek.acceleo.demo.domain.ModuloAccionAuthority;
+import com.softtek.acceleo.demo.exception.GenericException;
 import com.softtek.acceleo.demo.service.ModuloAccionAuthorityService;
 
 @Service("ModuloAccionAuthorityService")
@@ -43,7 +44,7 @@ public class ModuloAccionAuthorityServiceImpl implements ModuloAccionAuthoritySe
 
 		return ModuloAccionAuthorityRepository.getModuloAccionAuthority(empid);
 	}
-
+	
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public void deleteModuloAccionAuthority(ModuloAccionAuthority ModuloAccionAuthority) {
 		System.out.println("Entrando al deleteModuloAccionAuthority");
@@ -89,7 +90,6 @@ public class ModuloAccionAuthorityServiceImpl implements ModuloAccionAuthoritySe
 	public List<ModuloAccionAuthority> listModuloAccionAuthority(int idModuloAccion, int idAuthority) {
 		return ModuloAccionAuthorityRepository.listModuloAccionAuthority(idModuloAccion, idAuthority);
 	}
-
 	
 
 }

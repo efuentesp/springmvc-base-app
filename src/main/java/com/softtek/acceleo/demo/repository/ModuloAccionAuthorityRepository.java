@@ -4,6 +4,7 @@ package com.softtek.acceleo.demo.repository;
 import java.util.List;
 
 import com.softtek.acceleo.demo.domain.ModuloAccionAuthority;
+import com.softtek.acceleo.demo.exception.GenericException;
 
 public interface ModuloAccionAuthorityRepository {
 

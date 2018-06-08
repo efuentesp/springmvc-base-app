@@ -1,11 +1,12 @@
 package com.softtek.acceleo.demo.catalogo.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+import org.apache.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,14 +27,24 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 
 import com.softtek.acceleo.demo.catalogo.bean.ModuloAccionAuthorityBean;
+import com.softtek.acceleo.demo.domain.ModuloAccion;
 import com.softtek.acceleo.demo.domain.ModuloAccionAuthority;
+import com.softtek.acceleo.demo.exception.GenericException;
 import com.softtek.acceleo.demo.service.ModuloAccionAuthorityService;
+import com.softtek.acceleo.demo.service.ModuloAccionService;
+import com.softtek.acceleo.demo.service.impl.ModuloAccionServiceImpl;
+import com.softtek.spring.seguridad.controller.SeguridadInterceptor;
 
 @Controller
 public class ModuloAccionAuthorityController {
+	private static final Logger logger = Logger.getLogger(ModuloAccionAuthorityController.class);
 
 	@Autowired
 	private ModuloAccionAuthorityService moduloAccionAuthorityService;
+	
+	@Autowired
+	private ModuloAccionService moduloAccionService;
+	
 	
 	ModuloAccionAuthority ModuloAccionAuthority = new ModuloAccionAuthority();
 
@@ -86,6 +97,55 @@ public class ModuloAccionAuthorityController {
 	        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 	 }
 		
+	 @RequestMapping(value = "/moduloaccionauthority/{idModulo}/{idAccion}/{idAuthority}/{estatus}", method = RequestMethod.GET, produces = "application/json")
+	    public @ResponseBody ModuloAccionAuthority createModuloAccionAuthorityParams(@PathVariable("idModulo") int idModulo, @PathVariable("idAccion") int idAccion, @PathVariable("idAuthority") int idAuthority, @PathVariable("estatus") boolean estatus) {
+	   
+		 /**
+		  * Valida que este dada de alta la relacion "modulo-accion", si la relacion no existe, entonces se da de alta.
+		  */
+		 List<ModuloAccion> lstModuloAccion = moduloAccionService.listModuloAccion(idModulo, idAccion);
+		 if( lstModuloAccion == null || lstModuloAccion.isEmpty() ) {
+			 ModuloAccion moduloAccion = new ModuloAccion();
+			 /** moduloAccion.setId(); **/
+			 moduloAccion.setIdModulo(idModulo);
+			 moduloAccion.setIdAccion(idAccion);
+			 moduloAccion.setEstatus(estatus);
+			 moduloAccion.setFechaCreacion(new Date());
+
+			 try {
+				 moduloAccionService.addModuloAccion(moduloAccion);
+				 /** Obtiene informacion de la relacion "Modulo - Accion" persistida, la informacion se utiliza para persistir el registro ModuloAccionAuthority **/
+				 lstModuloAccion = moduloAccionService.listModuloAccion(idModulo, idAccion);
+			 }catch(GenericException e) {
+				 logger.error("Error - " + e);
+				 lstModuloAccion = null;
+			 }
+		 }
+		 
+		 if( lstModuloAccion == null || lstModuloAccion.isEmpty() ) {
+			 return null;
+		 }else {
+			 int idModuloAccion = lstModuloAccion.get(0).getId();
+			 
+			 ModuloAccionAuthority moduloAccionAuthority = new ModuloAccionAuthority();
+			 /**moduloAccionAuthority.setIdmoduloaccionauthority();**/
+			 moduloAccionAuthority.setIdModuloAccion(idModuloAccion);
+			 moduloAccionAuthority.setIdAuthority(idAuthority);
+			 moduloAccionAuthority.setEstatus(estatus);
+			 moduloAccionAuthority.setFechaCreacion(new Date());
+			 
+			 moduloAccionAuthorityService.addModuloAccionAuthority(moduloAccionAuthority);
+			 
+			 List<ModuloAccionAuthority> lstModuloAccionAuthority = moduloAccionAuthorityService.listModuloAccionAuthority(idModuloAccion, idAuthority);
+			 if( lstModuloAccionAuthority == null || lstModuloAccionAuthority.isEmpty() ) {
+				 return null;
+			 }else {
+				 return lstModuloAccionAuthority.get(0);
+			 }
+		 }
+	 }
+	 
+	 
 	 @RequestMapping(value = "/moduloaccionauthority/{id}", method = RequestMethod.PUT)
 	    public ResponseEntity<ModuloAccionAuthority> actualizarModuloAccionAuthority(@PathVariable("id") int id, @RequestBody ModuloAccionAuthority ModuloAccionAuthority) {
 	        
@@ -112,6 +172,7 @@ public class ModuloAccionAuthorityController {
 	 @RequestMapping(value = "/moduloaccionauthorityid/{idmoduloaccion}/{idauthority}", method = RequestMethod.GET, produces = "application/json")
 	    public @ResponseBody ModuloAccionAuthority searchByIdModuloAccion(@PathVariable("idmoduloaccion") int idmoduloaccion, @PathVariable("idauthority") int idauthority) {
 			List<ModuloAccionAuthority> lstModuloAccionAuthority = moduloAccionAuthorityService.listModuloAccionAuthority(idmoduloaccion, idauthority);
+			
 			if( lstModuloAccionAuthority == null || lstModuloAccionAuthority.isEmpty()  ) {
 				return null;
 			}else {

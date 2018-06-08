@@ -14,6 +14,7 @@ import org.hibernate.criterion.Restrictions;
 
 import com.softtek.acceleo.demo.domain.ModuloAccion;
 import com.softtek.acceleo.demo.domain.ModuloAccionAuthority;
+import com.softtek.acceleo.demo.exception.GenericException;
 import com.softtek.acceleo.demo.repository.ModuloAccionAuthorityRepository;
 
 @Repository("moduloaaccionauthorityRepository")
@@ -126,20 +127,18 @@ public class ModuloAccionAuthorityRepositoryImpl implements ModuloAccionAuthorit
 		return totalRows;  
 	}
 
-	
-
 	public ModuloAccionAuthority getModuloAccionAuthority(int empid) {
 		return (ModuloAccionAuthority) sessionFactory.getCurrentSession().get(
 				ModuloAccionAuthority.class, empid);
 	}
-
+	
 	public void deleteModuloAccionAuthority(ModuloAccionAuthority moduloaaccionauthority) {
 		sessionFactory.getCurrentSession().delete(moduloaaccionauthority);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<ModuloAccionAuthority> listModuloAccionAuthority(int idModuloAccion, int idAuthority) {
+	public List<ModuloAccionAuthority> listModuloAccionAuthority(int idModuloAccion, int idAuthority){
 		Session session = sessionFactory.getCurrentSession();
 		session.clear();		
 		Criteria criteria = session.createCriteria(ModuloAccionAuthority.class);
@@ -150,5 +149,6 @@ public class ModuloAccionAuthorityRepositoryImpl implements ModuloAccionAuthorit
 		
 		return lstModuloAccionAuthority;
 	}
+
 
 }
