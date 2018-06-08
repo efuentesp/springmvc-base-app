@@ -2,6 +2,7 @@
 package com.softtek.acceleo.demo.repository;
 
 import java.util.List;
+
 import com.softtek.acceleo.demo.domain.ModuloAccionAuthority;
 
 public interface ModuloAccionAuthorityRepository {
@@ -27,7 +28,7 @@ public interface ModuloAccionAuthorityRepository {
 
      public long getTotalRowsSearch(String query);
 
-	
+     public List<ModuloAccionAuthority> listModuloAccionAuthority(int idModuloAccion, int idAuthority);
 
  			
 

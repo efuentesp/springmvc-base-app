@@ -25,8 +25,8 @@ public interface ModuloAccionAuthorityService {
 	public long getTotalRows(String query);
 
 	public long getTotalRowsSearch(String query);
-
 	
+	public List<ModuloAccionAuthority> listModuloAccionAuthority(int idModuloAccion, int idAuthority);
 
 	
 

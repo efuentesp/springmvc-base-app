@@ -3,6 +3,8 @@ package com.softtek.acceleo.demo.repository.impl;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Example;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
+import com.softtek.acceleo.demo.domain.ModuloAccion;
 import com.softtek.acceleo.demo.domain.ModuloAccionAuthority;
 import com.softtek.acceleo.demo.repository.ModuloAccionAuthorityRepository;
 
@@ -18,6 +21,9 @@ public class ModuloAccionAuthorityRepositoryImpl implements ModuloAccionAuthorit
 
 	@Autowired
 	private SessionFactory sessionFactory;
+	
+	static final String ID_AUTHORITY = "idauthority";
+	static final String ID_MODULOACCION = "idmoduloaccion";
 
 	public void addModuloAccionAuthority(ModuloAccionAuthority moduloaaccionauthority) {
 		sessionFactory.getCurrentSession().persist(moduloaaccionauthority);
@@ -131,8 +137,18 @@ public class ModuloAccionAuthorityRepositoryImpl implements ModuloAccionAuthorit
 		sessionFactory.getCurrentSession().delete(moduloaaccionauthority);
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<ModuloAccionAuthority> listModuloAccionAuthority(int idModuloAccion, int idAuthority) {
+		Session session = sessionFactory.getCurrentSession();
+		session.clear();		
+		Criteria criteria = session.createCriteria(ModuloAccionAuthority.class);
+		criteria.add(Restrictions.and(Restrictions.eq(ID_MODULOACCION, idModuloAccion), Restrictions.eq(ID_AUTHORITY, idAuthority))).list();
+		List<ModuloAccionAuthority> lstModuloAccionAuthority = null;
 
-	
-	
-	
+		lstModuloAccionAuthority = (List<ModuloAccionAuthority>) criteria.list();
+		
+		return lstModuloAccionAuthority;
+	}
+
 }

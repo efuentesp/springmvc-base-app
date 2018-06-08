@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.softtek.acceleo.demo.repository.ModuloAccionAuthorityRepository;
+import com.softtek.acceleo.demo.domain.ModuloAccion;
 import com.softtek.acceleo.demo.domain.ModuloAccionAuthority;
 import com.softtek.acceleo.demo.service.ModuloAccionAuthorityService;
 
@@ -84,7 +85,10 @@ public class ModuloAccionAuthorityServiceImpl implements ModuloAccionAuthoritySe
 	}
 
 
-	
+	@Override
+	public List<ModuloAccionAuthority> listModuloAccionAuthority(int idModuloAccion, int idAuthority) {
+		return ModuloAccionAuthorityRepository.listModuloAccionAuthority(idModuloAccion, idAuthority);
+	}
 
 	
 

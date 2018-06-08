@@ -108,6 +108,16 @@ public class ModuloAccionAuthorityController {
 	        return new ResponseEntity<ModuloAccionAuthority>(ModuloAccionAuthorityFound, HttpStatus.OK);
 	  } 	
 	
+	 
+	 @RequestMapping(value = "/moduloaccionauthorityid/{idmoduloaccion}/{idauthority}", method = RequestMethod.GET, produces = "application/json")
+	    public @ResponseBody ModuloAccionAuthority searchByIdModuloAccion(@PathVariable("idmoduloaccion") int idmoduloaccion, @PathVariable("idauthority") int idauthority) {
+			List<ModuloAccionAuthority> lstModuloAccionAuthority = moduloAccionAuthorityService.listModuloAccionAuthority(idmoduloaccion, idauthority);
+			if( lstModuloAccionAuthority == null || lstModuloAccionAuthority.isEmpty()  ) {
+				return null;
+			}else {
+				return lstModuloAccionAuthority.get(0);
+			}
+	 }
 		
 		@RequestMapping(value = "/moduloaccionauthority/{id}", method = RequestMethod.DELETE)
 	    public ResponseEntity<ModuloAccionAuthority> deleteModuloAccionAuthority(@PathVariable("id") int id) {
