@@ -36,7 +36,9 @@ public class ModuloAccionAuthorityRepositoryImpl implements ModuloAccionAuthorit
 	}
 
 	public void editModuloAccionAuthority(ModuloAccionAuthority moduloaaccionauthority) {
-		sessionFactory.getCurrentSession().update(moduloaaccionauthority);
+		Session session = sessionFactory.getCurrentSession();
+		session.clear();
+		session.update(moduloaaccionauthority);
 
 	}
 
