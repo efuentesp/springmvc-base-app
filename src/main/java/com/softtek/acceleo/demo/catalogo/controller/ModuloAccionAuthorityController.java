@@ -201,13 +201,19 @@ public class ModuloAccionAuthorityController {
 		 List<ModuloAccion> lstModuloAccion = moduloAccionService.listModuloAccion(idModulo, idAccion);
 		 
 		 if( lstModuloAccion == null || lstModuloAccion.isEmpty() ) {
-			 return null;
+			 ModuloAccionAuthority mau = new ModuloAccionAuthority();
+			 mau.setEstatus(false);
+			 
+			 return mau;
 		 }else {
 			 ModuloAccion moduloAccion = lstModuloAccion.get(0);
 			 List<ModuloAccionAuthority> lstModuloAccionAuthority = moduloAccionAuthorityService.listModuloAccionAuthority(moduloAccion.getId(), idAuthority);
 			 
 			 if( lstModuloAccionAuthority == null || lstModuloAccionAuthority.isEmpty() ) {
-				 return null;
+				 ModuloAccionAuthority mau = new ModuloAccionAuthority();
+				 mau.setEstatus(false);
+				 
+				 return mau;
 			 }else {
 				 return lstModuloAccionAuthority.get(0);
 			 }

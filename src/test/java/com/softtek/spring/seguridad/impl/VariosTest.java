@@ -16,8 +16,10 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.softtek.acceleo.demo.domain.ModuloAccion;
+import com.softtek.acceleo.demo.domain.ModuloAccionAuthority;
 import com.softtek.acceleo.demo.domain.User;
 import com.softtek.acceleo.demo.exception.GenericException;
+import com.softtek.acceleo.demo.service.ModuloAccionAuthorityService;
 import com.softtek.acceleo.demo.service.ModuloAccionService;
 import com.softtek.acceleo.demo.service.UserService;
 import com.softtek.spring.seguridad.JwtAuthenticationProvider;
@@ -37,6 +39,9 @@ public class VariosTest extends AbstractTransactionalJUnit4SpringContextTests {
 	
 	@Autowired
 	private ModuloAccionService moduloaccionService;	
+	
+	@Autowired
+	private ModuloAccionAuthorityService moduloAccionAuthorityService;
 	
 
 	@Before
@@ -87,7 +92,7 @@ public class VariosTest extends AbstractTransactionalJUnit4SpringContextTests {
 		
 	}
 	
-	@Test
+	//@Test
 	public void testModuloAccionService() {
 		int idmodulo = 1;
 		int idaccion = 1;
@@ -121,6 +126,28 @@ public class VariosTest extends AbstractTransactionalJUnit4SpringContextTests {
 				}
 			}
 		}
+	}
+	
+	@Test
+	public void testModuloAccionAuthority() {
+		int idModulo = 1;
+		int idAccion = 1;
+		int idAuthority = 1;
+		
+		 List<ModuloAccion> lstModuloAccion = moduloaccionService.listModuloAccion(idModulo, idAccion);
+		 
+		 if( lstModuloAccion == null || lstModuloAccion.isEmpty() ) {
+			 logger.info("La relacion Modulo - Accion, no existe.");
+		 }else {
+			 ModuloAccion moduloAccion = lstModuloAccion.get(0);
+			 List<ModuloAccionAuthority> lstModuloAccionAuthority = moduloAccionAuthorityService.listModuloAccionAuthority(moduloAccion.getId(), idAuthority);
+			 
+			 if( lstModuloAccionAuthority == null || lstModuloAccionAuthority.isEmpty() ) {
+				 logger.info("No existe informacion del registro ModuloAccionAuthority.");
+			 }else {
+				 logger.info("Si existre informacion del registro ModuloAccionAuthority.");
+			 }
+		 }		
 	}
 	
 	@After
