@@ -194,7 +194,27 @@ public class ModuloAccionAuthorityController {
 				return lstModuloAccionAuthority.get(0);
 			}
 	 }
-		
+
+	 @RequestMapping(value = "/moduloaccionauthorityid/{idModulo}/{idAccion}/{idAuthority}", method = RequestMethod.GET, produces = "application/json")
+	    public @ResponseBody ModuloAccionAuthority searchByIdModuloIdAccionIdAuthority(@PathVariable("idModulo") int idModulo, @PathVariable("idAccion") int idAccion, @PathVariable("idAuthority") int idAuthority) {
+		 
+		 List<ModuloAccion> lstModuloAccion = moduloAccionService.listModuloAccion(idModulo, idAccion);
+		 
+		 if( lstModuloAccion == null || lstModuloAccion.isEmpty() ) {
+			 return null;
+		 }else {
+			 ModuloAccion moduloAccion = lstModuloAccion.get(0);
+			 List<ModuloAccionAuthority> lstModuloAccionAuthority = moduloAccionAuthorityService.listModuloAccionAuthority(moduloAccion.getId(), idAuthority);
+			 
+			 if( lstModuloAccionAuthority == null || lstModuloAccionAuthority.isEmpty() ) {
+				 return null;
+			 }else {
+				 return lstModuloAccionAuthority.get(0);
+			 }
+		 }
+	 }
+	 
+	 
 		@RequestMapping(value = "/moduloaccionauthority/{id}", method = RequestMethod.DELETE)
 	    public ResponseEntity<ModuloAccionAuthority> deleteModuloAccionAuthority(@PathVariable("id") int id) {
 	    	 System.out.println("Fetching & Deleting User with id " + id);
