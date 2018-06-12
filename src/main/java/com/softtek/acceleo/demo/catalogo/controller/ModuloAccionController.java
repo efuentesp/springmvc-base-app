@@ -128,7 +128,7 @@ public class ModuloAccionController {
 	 }
 	 
 	 	
-	@RequestMapping(value = "/moduloaccion/{id}", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/moduloaccionbyid/{id}", method = RequestMethod.GET, produces = "application/json")
 	    public @ResponseBody  ModuloAccion getModuloAccion(@PathVariable("id") int id) {
 	        
 	        ModuloAccion moduloaccion = null;
