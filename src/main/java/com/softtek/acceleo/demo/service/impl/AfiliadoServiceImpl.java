@@ -8,7 +8,6 @@ package com.softtek.acceleo.demo.service.impl;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -16,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.softtek.acceleo.demo.repository.AfiliadoRepository;
 import com.softtek.acceleo.demo.domain.Afiliado;
-import com.softtek.acceleo.demo.exception.GenericException;
 import com.softtek.acceleo.demo.service.AfiliadoService;
 
 /**
@@ -27,8 +25,7 @@ import com.softtek.acceleo.demo.service.AfiliadoService;
 @Service("afiliadoService")
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 public class AfiliadoServiceImpl implements AfiliadoService {
-	private static final Logger logger = Logger.getLogger(AfiliadoServiceImpl.class);
-	
+
 	@Autowired
 	private AfiliadoRepository afiliadoRepository;
 
@@ -70,8 +67,8 @@ public class AfiliadoServiceImpl implements AfiliadoService {
 	 * Elimina un afiliado.
 	 */
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-	public void deleteAfiliado(Afiliado afiliado)  throws GenericException {
-		logger.info("Entrando al deleteAfiliado");
+	public void deleteAfiliado(Afiliado afiliado) {
+		System.out.println("Entrando al deleteAfiliado");
 
 		 afiliadoRepository.deleteAfiliado(afiliado);
 	}
@@ -116,7 +113,7 @@ public class AfiliadoServiceImpl implements AfiliadoService {
 	 * Consulta informacion de los afiliados y la pagina.
 	 */
 	public List<Afiliado> listAfiliadosQuery(Afiliado afiliado, String query, int page, int size) {
-
+		// TODO Auto-generated method stub
 		return afiliadoRepository.listAfiliadosQuery(afiliado, query, page, size);
 	}
 

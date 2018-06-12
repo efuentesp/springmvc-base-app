@@ -6,6 +6,8 @@
  */
 package com.softtek.acceleo.demo.catalogo.bean;
 
+import java.util.Date;
+
 /**
  * Clase BeneficiarioBean.
  * @author PSG.
@@ -23,7 +25,7 @@ public class BeneficiarioBean {
 
 
 	private Parentesco parentescoId;
-	private enum Parentesco { HIJO,CONYUGE,ASCENDIENTE}
+	private enum Parentesco { hijo,conyuge,ascendiente}
 
 
 	/**
