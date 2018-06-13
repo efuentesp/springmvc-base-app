@@ -1,8 +1,6 @@
 package com.softtek.acceleo.demo.service;
 
 import com.softtek.acceleo.demo.domain.Afiliado;
-import com.softtek.acceleo.demo.exception.GenericException;
-
 import java.util.List;
 
 public interface AfiliadoService {
@@ -15,7 +13,7 @@ public interface AfiliadoService {
 
 	public Afiliado getAfiliado(int empid);
 
-	public void deleteAfiliado(Afiliado afiliado) throws GenericException;
+	public void deleteAfiliado(Afiliado afiliado);
 	
 	public List<Afiliado> listAfiliadosQuery(Afiliado afiliado, String query, int page, int size);
 

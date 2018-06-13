@@ -16,7 +16,6 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 import com.softtek.acceleo.demo.domain.Afiliado;
-import com.softtek.acceleo.demo.exception.GenericException;
 import com.softtek.acceleo.demo.repository.AfiliadoRepository;
 
 /**
@@ -106,6 +105,7 @@ Restrictions.like("monto_pension", "%" + query +"%"))
 	 */
 	@SuppressWarnings("unchecked")
 	public List<Afiliado> listAfiliadosPagination(Afiliado afiliado, int page, int size) {
+			//cuentaProxy.set#columnsGrid(cuenta.get#columnsGrid());
 			return (List<Afiliado>) sessionFactory.getCurrentSession()
 				.createCriteria(Afiliado.class).setFirstResult((page - 1) * size)
 				.setMaxResults(size).list();
@@ -178,7 +178,7 @@ Restrictions.like("monto_pension", "%" + query +"%"))
 	/**
 	 * Elimina un afiliado.
 	 */
-	public void deleteAfiliado(Afiliado afiliado)  throws GenericException {
+	public void deleteAfiliado(Afiliado afiliado) {
 		sessionFactory.getCurrentSession().delete(afiliado);
 	}
 

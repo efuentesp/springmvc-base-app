@@ -6,6 +6,8 @@
  */
 package com.softtek.acceleo.demo.catalogo.bean;
 
+import java.util.Date;
+
 /**
  * Clase BeneficiarioBean.
  * @author PSG.
