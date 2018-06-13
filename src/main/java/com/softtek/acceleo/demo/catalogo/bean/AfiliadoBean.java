@@ -29,7 +29,7 @@ public class AfiliadoBean {
 
 
 	private Genero generoId;
-	private enum Genero { MALE,FEMALE}
+	private enum Genero { male,female}
 	private Integer beneficiarioId;
 
 

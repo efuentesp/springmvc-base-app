@@ -33,7 +33,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.softtek.acceleo.demo.catalogo.bean.AfiliadoBean;
 import com.softtek.acceleo.demo.domain.Afiliado;
-import com.softtek.acceleo.demo.exception.GenericException;
+//import com.softtek.acceleo.demo.exception.GenericException;
 import com.softtek.acceleo.demo.service.AfiliadoService;
 
 /**
@@ -170,7 +170,7 @@ public class AfiliadoController {
 	             afiliadoService.deleteAfiliado(afiliado);
             	 return new ResponseEntity<Afiliado>(HttpStatus.OK);
 	        	 
-	         }catch(GenericException e) {
+	         }catch(Exception e) {
 	        	 return new ResponseEntity<Afiliado>(HttpStatus.PRECONDITION_FAILED);
 	         }
 		}

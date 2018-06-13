@@ -23,7 +23,7 @@ public class BeneficiarioBean {
 
 
 	private Parentesco parentescoId;
-	private enum Parentesco { HIJO,CONYUGE,ASCENDIENTE}
+	private enum Parentesco { hijo,conyuge,ascendiente}
 
 
 	/**

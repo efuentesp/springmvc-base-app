@@ -150,9 +150,16 @@ public class ModuloAccionAuthorityController {
 			 }catch(GenericException e) {
 				 logger.error("El registro con (idModuloAccion = " + idModuloAccion + ", idAuthority = " + idAuthority + ") ya existe, unicamente se actualizara el estatus");
 				 if( e.getCause().getCause().getMessage().contains("Duplicate entry") ) {
-					 moduloAccionAuthorityService.editModuloAccionAuthority(moduloAccionAuthority);
-					 
-					 return moduloAccionAuthority;
+					 List<ModuloAccionAuthority> lstModuloAccionAuthority = moduloAccionAuthorityService.listModuloAccionAuthority(idModuloAccion, idAuthority);
+					 if( lstModuloAccionAuthority == null || lstModuloAccionAuthority.isEmpty() ) {
+						 return null;
+					 }else {
+						 ModuloAccionAuthority maa = lstModuloAccionAuthority.get(0);
+						 maa.setEstatus(estatus);
+						 moduloAccionAuthorityService.editModuloAccionAuthority(maa);
+						 
+						 return maa;
+					 }
 				 }else {
 					 return null;
 				 }
