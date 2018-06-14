@@ -84,10 +84,13 @@ public class JwtAuthenticationProviderImpl extends AbstractUserDetailsAuthentica
 		user.setUserName(userName);
 		
 		List<User> lstUser = userService.consultarUser(user);
-		logger.info("-_-_-_-_-_-_-_-_-_-_-_-_-_-_ Numero de usuarios obtenido: " + lstUser.size() + " -_-_-_-_-_-_-_-_-_-_-_-_-_-_");
 		
 		if( lstUser != null && !lstUser.isEmpty() ) {
+			logger.info("-_-_-_-_-_-_-_-_-_-_-_-_-_-_ Numero de usuarios obtenido: " + lstUser.size() + " -_-_-_-_-_-_-_-_-_-_-_-_-_-_");
+
 			token = lstUser.get(0).getPassword();
+		}else {
+			logger.info("-_-_-_-_-_-_-_-_-_-_-_-_-_-_ No se obtuvo informacion para autenticar al usuario -_-_-_-_-_-_-_-_-_-_-_-_-_-_");
 		}
 		
 		return token; 

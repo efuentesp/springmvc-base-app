@@ -128,7 +128,7 @@ public class VariosTest extends AbstractTransactionalJUnit4SpringContextTests {
 		}
 	}
 	
-	@Test
+	//@Test
 	public void testModuloAccionAuthority() {
 		int idModulo = 1;
 		int idAccion = 1;
@@ -148,6 +148,84 @@ public class VariosTest extends AbstractTransactionalJUnit4SpringContextTests {
 				 logger.info("Si existre informacion del registro ModuloAccionAuthority.");
 			 }
 		 }		
+	}
+	
+	@Test
+	public void testModuloAccionAuthority2() {
+		int idModulo = 1;
+		int idAccion = 1;
+		int idAuthority = 1;
+		boolean estatus = false;
+		
+		 /**
+		  * Valida que este dada de alta la relacion "modulo-accion", si la relacion no existe, entonces se da de alta.
+		  */
+		 List<ModuloAccion> lstModuloAccion = moduloaccionService.listModuloAccion(idModulo, idAccion);
+		 if( lstModuloAccion == null || lstModuloAccion.isEmpty() ) {
+			 ModuloAccion moduloAccion = new ModuloAccion();
+			 /** moduloAccion.setId(); **/
+			 moduloAccion.setIdModulo(idModulo);
+			 moduloAccion.setIdAccion(idAccion);
+			 moduloAccion.setEstatus(estatus);
+			 moduloAccion.setFechaCreacion(new Date());
+
+			 try {
+				 moduloaccionService.addModuloAccion(moduloAccion);
+				 /** Obtiene informacion de la relacion "Modulo - Accion" persistida, la informacion se utiliza para persistir el registro ModuloAccionAuthority **/
+				 lstModuloAccion = moduloaccionService.listModuloAccion(idModulo, idAccion);
+			 }catch(GenericException e) {
+				 logger.error("Error - " + e);
+				 lstModuloAccion = null;
+			 }
+		 }
+		 
+		 if( lstModuloAccion == null || lstModuloAccion.isEmpty() ) {
+			 logger.info("No existe la relacion modulo - accion");
+			 //return null;
+		 }else {
+			 int idModuloAccion = lstModuloAccion.get(0).getId();
+			 
+			 ModuloAccionAuthority moduloAccionAuthority = new ModuloAccionAuthority();
+			 /**moduloAccionAuthority.setIdmoduloaccionauthority();**/
+			 moduloAccionAuthority.setIdModuloAccion(idModuloAccion);
+			 moduloAccionAuthority.setIdAuthority(idAuthority);
+			 moduloAccionAuthority.setEstatus(estatus);
+			 moduloAccionAuthority.setFechaCreacion(new Date());
+			 
+			 try {
+				 moduloAccionAuthorityService.addModuloAccionAuthority(moduloAccionAuthority);
+				 
+				 List<ModuloAccionAuthority> lstModuloAccionAuthority = moduloAccionAuthorityService.listModuloAccionAuthority(idModuloAccion, idAuthority);
+				 if( lstModuloAccionAuthority == null || lstModuloAccionAuthority.isEmpty() ) {
+					 //return null;
+					 logger.info("No existe la relacion moduloaccion - authority");
+				 }else {
+					 //return lstModuloAccionAuthority.get(0);
+					 logger.info("Si existe informacion de la relacion moduloaccion - authority");
+				 }
+			 }catch(GenericException e) {
+				 logger.error("El registro con (idModuloAccion = " + idModuloAccion + ", idAuthority = " + idAuthority + ") ya existe, unicamente se actualizara el estatus");
+				 if( e.getCause().getCause().getMessage().contains("Duplicate entry") ) {
+					 List<ModuloAccionAuthority> lstModuloAccionAuthority = moduloAccionAuthorityService.listModuloAccionAuthority(idModuloAccion, idAuthority);
+					 if( lstModuloAccionAuthority == null || lstModuloAccionAuthority.isEmpty() ) {
+						 logger.info("***No se obtuvo informacion de la relacion moduloaccion - authority");
+					 }else {
+						 ModuloAccionAuthority maa = lstModuloAccionAuthority.get(0);
+						 maa.setEstatus(estatus);
+						 
+						 //moduloAccionAuthorityService.editModuloAccionAuthority(moduloAccionAuthority);
+						 moduloAccionAuthorityService.editModuloAccionAuthority(maa);
+						 
+						 //return moduloAccionAuthority;
+						 logger.info("La informacion de la relacion moduloaccion - authority SE ACTUALIZO exitosamente.");
+					 }
+				 }else {
+					 //return null;
+					 logger.info("La informacion de la relacion moduloaccion - authority NO SE PUDO ACTUALIZAR.");
+				 }
+			 }
+		 }
+		
 	}
 	
 	@After
