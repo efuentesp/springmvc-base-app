@@ -163,6 +163,25 @@ public class ModuloAccionAuthorityController {
 				 }else {
 					 return null;
 				 }
+			 }catch(Exception e){
+				 logger.info("Error...");
+				 logger.error("El registro con (idModuloAccion = " + idModuloAccion + ", idAuthority = " + idAuthority + ") ya existe, unicamente se actualizara el estatus");
+				 logger.info(e.getMessage());
+
+				 if( e.getMessage().contains("don't flush the Session after an exception occurs") ) {
+					 List<ModuloAccionAuthority> lstModuloAccionAuthority = moduloAccionAuthorityService.listModuloAccionAuthority(idModuloAccion, idAuthority);
+					 if( lstModuloAccionAuthority == null || lstModuloAccionAuthority.isEmpty() ) {
+						 return null;
+					 }else {
+						 ModuloAccionAuthority maa = lstModuloAccionAuthority.get(0);
+						 maa.setEstatus(estatus);
+						 moduloAccionAuthorityService.editModuloAccionAuthority(maa);
+						 
+						 return maa;
+					 }
+				 }else {
+					 return null;
+				 }
 			 }
 		 }
 	 }

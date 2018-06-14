@@ -32,10 +32,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.softtek.acceleo.demo.catalogo.bean.AfiliadoBean;
 import com.softtek.acceleo.demo.domain.Afiliado;
-<<<<<<< HEAD
-//import com.softtek.acceleo.demo.exception.GenericException;
-=======
->>>>>>> b930d636489c5228c29cacf7b67f30a995ba70bb
 import com.softtek.acceleo.demo.service.AfiliadoService;
 
 /**
@@ -173,16 +169,11 @@ public class AfiliadoController {
              if (rows==0){
 	             afiliadoService.deleteAfiliado(afiliado);
             	 return new ResponseEntity<Afiliado>(HttpStatus.OK);
-<<<<<<< HEAD
-	        	 
-	         }catch(Exception e) {
-	        	 return new ResponseEntity<Afiliado>(HttpStatus.PRECONDITION_FAILED);
-	         }
-=======
+
              } else {
             	 return new ResponseEntity<Afiliado>(HttpStatus.PRECONDITION_FAILED);
              }
->>>>>>> b930d636489c5228c29cacf7b67f30a995ba70bb
+
 		}
 
 	/**

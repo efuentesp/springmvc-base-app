@@ -29,7 +29,11 @@ public class ModuloAccionAuthorityRepositoryImpl implements ModuloAccionAuthorit
 
 	public void addModuloAccionAuthority(ModuloAccionAuthority moduloaaccionauthority) throws GenericException {
 		try {
-			sessionFactory.getCurrentSession().persist(moduloaaccionauthority);
+			Session session = sessionFactory.getCurrentSession();
+			session.clear();
+			session.flush();
+			
+			session.persist(moduloaaccionauthority);
 		}catch(HibernateException e) {
 			throw new GenericException("Error", e);
 		}
