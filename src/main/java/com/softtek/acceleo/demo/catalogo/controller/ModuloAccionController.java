@@ -136,7 +136,7 @@ public class ModuloAccionController {
 	        
 			return moduloaccion;
 	 }
-
+	
 	@RequestMapping(value = "/moduloaccion/{idModulo}", method = RequestMethod.GET, produces = "application/json")
     public @ResponseBody  List<ModuloAccion> getModuloAccionPorIdModulo(@PathVariable("idModulo") int idModulo) {
         

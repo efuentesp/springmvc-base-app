@@ -29,6 +29,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.softtek.acceleo.demo.catalogo.bean.ModuloBean;
 import com.softtek.acceleo.demo.domain.Modulo;
+import com.softtek.acceleo.demo.domain.ModuloAccion;
 import com.softtek.acceleo.demo.exception.GenericException;
 import com.softtek.acceleo.demo.service.ModuloService;
 
@@ -76,6 +77,14 @@ public class ModuloController {
 			return modulo;
 	 }
 
+//	@RequestMapping(value = "/moduloByUsername/username/{username}", method = RequestMethod.GET, produces = "application/json")
+//    public @ResponseBody  List<Modulo> getModuloByUsername(@PathVariable("username") String userName) {
+//        
+//		List<Modulo> modulosList = null;
+//		modulosList = moduloService.getModuloByUsername(userName);
+//        
+//		return modulosList;
+//	}
 
 
 	 @RequestMapping(value = "/modulo", method = RequestMethod.POST)

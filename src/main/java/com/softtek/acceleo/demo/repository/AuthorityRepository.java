@@ -28,8 +28,7 @@ public interface AuthorityRepository {
 
      public long getTotalRowsSearch(String query);
 
-	
-
+     public List<Authority> getAuthorityByRol(String rol);
  			
 
 	

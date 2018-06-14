@@ -150,9 +150,16 @@ public class ModuloAccionAuthorityController {
 			 }catch(GenericException e) {
 				 logger.error("El registro con (idModuloAccion = " + idModuloAccion + ", idAuthority = " + idAuthority + ") ya existe, unicamente se actualizara el estatus");
 				 if( e.getCause().getCause().getMessage().contains("Duplicate entry") ) {
-					 moduloAccionAuthorityService.editModuloAccionAuthority(moduloAccionAuthority);
-					 
-					 return moduloAccionAuthority;
+					 List<ModuloAccionAuthority> lstModuloAccionAuthority = moduloAccionAuthorityService.listModuloAccionAuthority(idModuloAccion, idAuthority);
+					 if( lstModuloAccionAuthority == null || lstModuloAccionAuthority.isEmpty() ) {
+						 return null;
+					 }else {
+						 ModuloAccionAuthority maa = lstModuloAccionAuthority.get(0);
+						 maa.setEstatus(estatus);
+						 moduloAccionAuthorityService.editModuloAccionAuthority(maa);
+						 
+						 return maa;
+					 }
 				 }else {
 					 return null;
 				 }
@@ -160,6 +167,18 @@ public class ModuloAccionAuthorityController {
 		 }
 	 }
 	 
+	 @RequestMapping(value = "/moduloaccionauthority/search/{idAuthority}", method = RequestMethod.GET, produces = "application/json")
+	    public @ResponseBody List<ModuloAccionAuthority> searchModuloAccionAuthority(@PathVariable("idAuthority") int idAuthority) {
+	   
+		 List<ModuloAccionAuthority> lstModuloAccionAuthority = moduloAccionAuthorityService.searchListModuloAccionAuthority(idAuthority);
+		 
+		 if( lstModuloAccionAuthority == null || lstModuloAccionAuthority.isEmpty() ) {
+			 return null;
+		 }else {
+			 return lstModuloAccionAuthority;
+		 }
+		 
+	 }
 	 
 	 @RequestMapping(value = "/moduloaccionauthority/{id}", method = RequestMethod.PUT)
 	    public ResponseEntity<ModuloAccionAuthority> actualizarModuloAccionAuthority(@PathVariable("id") int id, @RequestBody ModuloAccionAuthority ModuloAccionAuthority) {

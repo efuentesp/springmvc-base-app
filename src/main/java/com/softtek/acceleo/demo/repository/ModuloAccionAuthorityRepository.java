@@ -31,7 +31,7 @@ public interface ModuloAccionAuthorityRepository {
 
      public List<ModuloAccionAuthority> listModuloAccionAuthority(int idModuloAccion, int idAuthority);
 
- 			
+     public List<ModuloAccionAuthority> searchListModuloAccionAuthority	(int idAuthority);
 
 	
 }

@@ -157,5 +157,20 @@ public class ModuloAccionAuthorityRepositoryImpl implements ModuloAccionAuthorit
 		return lstModuloAccionAuthority;
 	}
 
+	@Override
+	public List<ModuloAccionAuthority> searchListModuloAccionAuthority(int idAuthority) {
+		
+		Session session = sessionFactory.getCurrentSession();
+		session.clear();		
+		Criteria criteria = session.createCriteria(ModuloAccionAuthority.class);
+		criteria.add(Restrictions.eq(ID_AUTHORITY, idAuthority)).list();
+		List<ModuloAccionAuthority> lstModuloAccionAuthority = null;
+
+		lstModuloAccionAuthority = (List<ModuloAccionAuthority>) criteria.list();
+		
+		return lstModuloAccionAuthority;
+		
+	}
+
 
 }

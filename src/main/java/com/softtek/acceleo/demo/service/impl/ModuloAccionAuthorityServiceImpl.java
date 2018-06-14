@@ -77,9 +77,6 @@ public class ModuloAccionAuthorityServiceImpl implements ModuloAccionAuthoritySe
 		return ModuloAccionAuthorityRepository.getTotalRows();
 	}
 
-	
-
-
 	public List<ModuloAccionAuthority> listModuloAccionAuthorityssQuery(ModuloAccionAuthority ModuloAccionAuthority, String query, int page, int size) {
 		// TODO Auto-generated method stub
 		return ModuloAccionAuthorityRepository.listModuloAccionAuthorityssQuery(ModuloAccionAuthority, query, page, size);
@@ -89,6 +86,11 @@ public class ModuloAccionAuthorityServiceImpl implements ModuloAccionAuthoritySe
 	@Override
 	public List<ModuloAccionAuthority> listModuloAccionAuthority(int idModuloAccion, int idAuthority) {
 		return ModuloAccionAuthorityRepository.listModuloAccionAuthority(idModuloAccion, idAuthority);
+	}
+
+	@Override
+	public List<ModuloAccionAuthority> searchListModuloAccionAuthority(int idAuthority) {
+		return ModuloAccionAuthorityRepository.searchListModuloAccionAuthority(idAuthority);
 	}
 	
 

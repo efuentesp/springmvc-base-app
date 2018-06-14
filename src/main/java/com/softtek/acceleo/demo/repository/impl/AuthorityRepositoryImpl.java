@@ -3,6 +3,8 @@ package com.softtek.acceleo.demo.repository.impl;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Example;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +13,15 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 import com.softtek.acceleo.demo.domain.Authority;
+import com.softtek.acceleo.demo.domain.ModuloAccionAuthority;
 import com.softtek.acceleo.demo.exception.GenericException;
 import com.softtek.acceleo.demo.repository.AuthorityRepository;
 
 @Repository("authorityRepository")
 public class AuthorityRepositoryImpl implements AuthorityRepository {
 
+	static final String ROL = "rol";
+	
 	@Autowired
 	private SessionFactory sessionFactory;
 
@@ -122,7 +127,23 @@ public class AuthorityRepositoryImpl implements AuthorityRepository {
 		return (Authority) sessionFactory.getCurrentSession().get(
 				Authority.class, empid);
 	}
+	
+	public List<Authority> getAuthorityByRol(String rol) {
+		
+		Session session = sessionFactory.getCurrentSession();
+		session.clear();		
+		Criteria criteria = session.createCriteria(Authority.class);
+		criteria.add(Restrictions.eq(ROL, rol)).list();
+		List<Authority> authorityList = null;
 
+		authorityList = (List<Authority>) criteria.list();
+		
+		return authorityList;
+		
+		
+	}
+	
+	
 	public void deleteAuthority(Authority authority) throws GenericException {
 		sessionFactory.getCurrentSession().delete(authority);
 	}

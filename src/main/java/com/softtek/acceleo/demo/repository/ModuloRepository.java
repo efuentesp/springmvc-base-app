@@ -28,7 +28,7 @@ public interface ModuloRepository {
 
      public long getTotalRowsSearch(String query);
 
-	
+     //public List<Modulo> getModuloByUsername(String username);
 
  			
 

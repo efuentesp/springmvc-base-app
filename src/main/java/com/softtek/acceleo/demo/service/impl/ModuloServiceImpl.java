@@ -45,6 +45,8 @@ public class ModuloServiceImpl implements ModuloService {
 
 		return moduloRepository.getModulo(empid);
 	}
+	
+	
 
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public void deleteModulo(Modulo modulo) throws GenericException {
@@ -85,6 +87,11 @@ public class ModuloServiceImpl implements ModuloService {
 
 		return moduloRepository.listModulossQuery(modulo, query, page, size);
 	}
+
+//	@Override
+//	public List<Modulo> getModuloByUsername(String userName) {
+//		return moduloRepository.getModuloByUsername(userName);
+//	}
 
 
 	

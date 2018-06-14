@@ -46,6 +46,10 @@ public class AuthorityServiceImpl implements AuthorityService {
 		return authorityRepository.getAuthority(empid);
 	}
 
+	public List<Authority> getAuthorityByRol(String rol){
+		return authorityRepository.getAuthorityByRol(rol);
+	}
+	
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public void deleteAuthority(Authority authority)  throws GenericException {
 		logger.info("Entrando al deleteAuthority");

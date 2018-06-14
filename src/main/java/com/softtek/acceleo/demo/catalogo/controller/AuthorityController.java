@@ -87,6 +87,14 @@ public class AuthorityController {
 	        authority = authorityService.getAuthority(id);
 			return authority;
 	 }
+	
+	@RequestMapping(value = "/authority/rol/{rol}", method = RequestMethod.GET, produces = "application/json")
+    public @ResponseBody  Authority getAuthority(@PathVariable("rol") String rol) {
+		List<Authority>  authorityList = null;
+        
+		authorityList = authorityService.getAuthorityByRol(rol);
+		return authorityList.get(0);
+ }
 
 
 

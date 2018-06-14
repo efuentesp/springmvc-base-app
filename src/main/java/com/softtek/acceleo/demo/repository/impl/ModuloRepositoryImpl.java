@@ -129,6 +129,12 @@ public class ModuloRepositoryImpl implements ModuloRepository {
 		sessionFactory.getCurrentSession().delete(modulo);
 	}
 
+//	@Override
+//	public List<Modulo> getModuloByUsername(String username) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+
 
 	
 	

@@ -30,7 +30,7 @@ public interface ModuloAccionAuthorityService {
 	
 	public List<ModuloAccionAuthority> listModuloAccionAuthority(int idModuloAccion, int idAuthority);
 
-	
+	public List<ModuloAccionAuthority> searchListModuloAccionAuthority(int idAuthority);
 
 	
 }
