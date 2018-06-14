@@ -2,9 +2,11 @@ package com.softtek.acceleo.demo.catalogo.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-
+import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,9 +30,14 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 
 import com.softtek.acceleo.demo.catalogo.bean.ModuloBean;
+import com.softtek.acceleo.demo.domain.Authority;
 import com.softtek.acceleo.demo.domain.Modulo;
 import com.softtek.acceleo.demo.domain.ModuloAccion;
+import com.softtek.acceleo.demo.domain.ModuloAccionAuthority;
 import com.softtek.acceleo.demo.exception.GenericException;
+import com.softtek.acceleo.demo.service.AuthorityService;
+import com.softtek.acceleo.demo.service.ModuloAccionAuthorityService;
+import com.softtek.acceleo.demo.service.ModuloAccionService;
 import com.softtek.acceleo.demo.service.ModuloService;
 
 @Controller
@@ -39,6 +46,15 @@ public class ModuloController {
 	
 	@Autowired
 	private ModuloService moduloService;
+	
+	@Autowired
+	private AuthorityService authorityService;
+	
+	@Autowired
+	private ModuloAccionAuthorityService moduloAccionAuthorityService;
+	
+	@Autowired
+	private ModuloAccionService moduloAccionService;
 	
 	
 	@RequestMapping(value = "/modulo", method = RequestMethod.GET, produces = "application/json")
@@ -77,14 +93,50 @@ public class ModuloController {
 			return modulo;
 	 }
 
-//	@RequestMapping(value = "/moduloByUsername/username/{username}", method = RequestMethod.GET, produces = "application/json")
-//    public @ResponseBody  List<Modulo> getModuloByUsername(@PathVariable("username") String userName) {
-//        
-//		List<Modulo> modulosList = null;
-//		modulosList = moduloService.getModuloByUsername(userName);
-//        
-//		return modulosList;
-//	}
+	@RequestMapping(value = "/modulo/rol/{rol}", method = RequestMethod.GET, produces = "application/json")
+    public @ResponseBody  List<Modulo> getModuloByUsername(@PathVariable("rol") String rol) {
+        
+		List<Modulo> modulosList = null;
+		
+		Authority authority = null;
+		authority = authorityService.getAuthorityByRol(rol).get(0);
+		
+		List<ModuloAccionAuthority> moduloAccionAuthorityList = null;
+		moduloAccionAuthorityList = moduloAccionAuthorityService.searchListModuloAccionAuthority(authority.getIdRol());
+		
+		List<ModuloAccion> moduloAccionList = new ArrayList<ModuloAccion>();
+		
+		for (int i= 0; i < moduloAccionAuthorityList.size(); i++){
+			
+			ModuloAccion moduloAccion = moduloAccionService.getModuloAccion(moduloAccionAuthorityList.get(i).getIdModuloAccion());
+			moduloAccionList.add(moduloAccion);
+		}
+		
+		List<Modulo> moduloList = new ArrayList<Modulo>();
+		
+		for (int j=0; j < moduloAccionList.size(); j++){
+			Modulo modulo = moduloService.getModulo(moduloAccionList.get(j).getIdModulo());
+			moduloList.add(modulo);
+		}
+		
+		for (Modulo m: moduloList){
+			System.out.println(m.getModulo());
+		}
+		
+		List<Modulo> cleanList = new ArrayList<Modulo>();
+		
+		 Map<Integer, Modulo> mapModulos = new HashMap<Integer, Modulo>(moduloList.size());
+		 
+		 for(Modulo p : moduloList) {
+			 mapModulos.put(p.getIdModulo(), p);
+		 }
+		 
+		 for(Entry<Integer, Modulo> p : mapModulos.entrySet()) {
+			 cleanList.add(p.getValue());
+		 }
+		
+		return cleanList;
+	}
 
 
 	 @RequestMapping(value = "/modulo", method = RequestMethod.POST)
