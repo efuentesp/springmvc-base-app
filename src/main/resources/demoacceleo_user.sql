@@ -39,7 +39,12 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'user01','eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMDEiLCJ1c2VySWQiOiIxIiwicm9sZSI6ImFkbWluIn0.ssZU4ybtaPVkgRHsvxM3rGZ6QQN7gi2cFU42mmJ-1ooVV9zxlJfxarJ9omCLi5Nd3qSPcF2QCBVLPNSzf9KRuw','administrador','user01.png'),(2,'user02','eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMDIiLCJ1c2VySWQiOiIxIiwicm9sZSI6IkFkbWluaXN0cmFkb3IifQ.lCVVfVgFlMq7FIRUHZs9adC2YrmgOJ5MdcDbvdjQh9FD53AC8mLqgFr_PND5uvGWBUU7nPGhYsu46GB1sxJwMw','system','user02.png'),(3,'user03','eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMDMiLCJ1c2VySWQiOiIxIiwicm9sZSI6IkFkbWluaXN0cmFkb3IifQ.Yx78P6YRQcJkiA04ldaWqUjtxTyiZOPztBpbVkoUKabiC_A2U7jKT0IAE1FigKYy1jrUCjsnooEqwkWp6SO4BQ','default','user03.png'),(4,'user04','kfdhaskjh','user','user04.png'),(19,'Normaysel','eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJOb3JtYXlzZWwiLCJ1c2VySWQiOiIxOSIsInJvbGUiOiJhZG1pbmlzdHJhZG9yIn0.Jd-wOu4iqQuWx3bGVQpfGpBc4V8wGWR-aKIOMWpCI6SHGJCesU1W5lHFNGoSKrXr4_h5VY8CXU-xYSlieju5BA','administrador',NULL);
+INSERT INTO `user` (`iduser`,`username`,`password`,`rol`,`image`) VALUES (1,'user01','eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMDEiLCJ1c2VySWQiOiIxIiwicm9sZSI6ImFkbWluaXN0cmFkb3IifQ.HfOt7azVFeW9YAWpI5rSyiHnw00WbzMJXBH7pym0JvZDQHhSW3o-9qTqLs4qKlEq2WjT77uDKU7xvXawZXoTIw','administrador','user01.png');
+INSERT INTO `user` (`iduser`,`username`,`password`,`rol`,`image`) VALUES (2,'user02','eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMDIiLCJ1c2VySWQiOiIyIiwicm9sZSI6InVzZXIifQ.XFobqB5GH7FEpNuup4PQSkpXP1hhfwmG5Fdu7JCMWkueVY-8_5ahZGXIDSpDrDoz2mi9IVWqW-TH1sjDK3F5QQ','user','user02.png');
+INSERT INTO `user` (`iduser`,`username`,`password`,`rol`,`image`) VALUES (3,'user03','eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMDMiLCJ1c2VySWQiOiIzIiwicm9sZSI6InN5c3RlbSJ9.geGhU7yvMsNJan0X6XyDQznVgZigxTpkGtjQNok1d-3ziC4pCy6eMkqADlPm85JGDDAwv4uAdCxbI8HfNYY8jg','system','user03.png');
+INSERT INTO `user` (`iduser`,`username`,`password`,`rol`,`image`) VALUES (4,'user04','eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMDQiLCJ1c2VySWQiOiI0Iiwicm9sZSI6ImRlZmF1bHQifQ.UGpmfQduxepqoT_5ktN2_ArEDeWNvGmJskPbLhHE9hu5dgAm2nHUeegWErGbjyLd3LM4Mm8j7I1PfHWWCHziWA','default','user04.png');
+INSERT INTO `user` (`iduser`,`username`,`password`,`rol`,`image`) VALUES (19,'Normaysel','eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJOb3JtYXlzZWwiLCJ1c2VySWQiOiIxOSIsInJvbGUiOiJhZG1pbmlzdHJhZG9yIn0.Jd-wOu4iqQuWx3bGVQpfGpBc4V8wGWR-aKIOMWpCI6SHGJCesU1W5lHFNGoSKrXr4_h5VY8CXU-xYSlieju5BA','administrador','user05.png');
+
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

@@ -20,6 +20,16 @@ public class AuthorityBean {
 	private Boolean estatus;
 	private Integer idrol;
 	private String rol;
+	// Opcional
+	private String authority;
+
+	public String getAuthority() {
+		return authority;
+	}
+
+	public void setAuthority(String authority) {
+		this.authority = authority;
+	}
 
 	/**
 	 * Obtine el id authority (ROL).

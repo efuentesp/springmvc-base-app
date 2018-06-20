@@ -126,4 +126,31 @@ public class UserBean {
 	public void setUserName(String username) {
 		this.username = username;
 	}
+
+	public Date getFechamodificacion() {
+		return fechamodificacion;
+	}
+
+	public void setFechamodificacion(Date fechamodificacion) {
+		this.fechamodificacion = fechamodificacion;
+	}
+
+	public Date getFechacreacion() {
+		return fechacreacion;
+	}
+
+	public void setFechacreacion(Date fechacreacion) {
+		this.fechacreacion = fechacreacion;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	
 }
+

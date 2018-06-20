@@ -26,6 +26,7 @@ public class ModuloAccionAuthorityRepositoryImpl implements ModuloAccionAuthorit
 	
 	static final String ID_AUTHORITY = "idauthority";
 	static final String ID_MODULOACCION = "idmoduloaccion";
+	static final String ESTATUS = "estatus";
 
 	public void addModuloAccionAuthority(ModuloAccionAuthority moduloaaccionauthority) throws GenericException {
 		try {
@@ -164,10 +165,12 @@ public class ModuloAccionAuthorityRepositoryImpl implements ModuloAccionAuthorit
 	@Override
 	public List<ModuloAccionAuthority> searchListModuloAccionAuthority(int idAuthority) {
 		
+		Boolean estatus = true;
 		Session session = sessionFactory.getCurrentSession();
 		session.clear();		
 		Criteria criteria = session.createCriteria(ModuloAccionAuthority.class);
 		criteria.add(Restrictions.eq(ID_AUTHORITY, idAuthority)).list();
+		criteria.add(Restrictions.and(Restrictions.eq(ID_AUTHORITY, idAuthority), Restrictions.eq(ESTATUS, estatus))).list();
 		List<ModuloAccionAuthority> lstModuloAccionAuthority = null;
 
 		lstModuloAccionAuthority = (List<ModuloAccionAuthority>) criteria.list();

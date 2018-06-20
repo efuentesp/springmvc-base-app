@@ -33,8 +33,18 @@ public class Authority implements Serializable {
 	private Boolean estatus;
     @Column(name = "rol") 
 	private String rol;
+    
+    //opcional
+    private String authority;
 
 
+	public String getAuthority() {
+		return authority;
+	}
+
+	public void setAuthority(String authority) {
+		this.authority = authority;
+	}
 
 	public Date getFechaModificacion () {
 	    return fechamodificacion;  		
