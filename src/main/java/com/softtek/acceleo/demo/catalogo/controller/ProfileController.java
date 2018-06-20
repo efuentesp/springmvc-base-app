@@ -13,7 +13,7 @@ import com.softtek.acceleo.demo.domain.Profile;
 import com.softtek.acceleo.demo.service.ProfileService;
 
 @Controller
-@RequestMapping(value = ProfileController.CONTRACT_BASE_URI)
+//@RequestMapping(value = ProfileController.CONTRACT_BASE_URI)
 public class ProfileController {
 
 	private static final Logger logger = Logger.getLogger(AccionController.class);
