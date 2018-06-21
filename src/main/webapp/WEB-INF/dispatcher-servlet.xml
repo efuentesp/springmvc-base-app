@@ -77,26 +77,5 @@
 
 	<mvc:annotation-driven />
 	
-  <!-- -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- -->
-  <!-- -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_ Para el manejo de los interceptores -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_ -->
-  <!-- -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- -->
- 	<bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
-		<!-- <property name="prefix" value="/WEB-INF/jsp/" /> -->
-		<property name="prefix" value="/WEB-INF/" />
-		<property name="suffix" value=".html, .xhtml, .ts, .jsp" />
-	</bean>
-
-	<mvc:interceptors>
-		<!-- <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" /> -->
- 		<mvc:interceptor>
-		    <mvc:mapping path="/**"/>
-		    <!-- <mvc:mapping path="/api/authenticate"/> -->
-		    		    
-		    <!-- <mvc:exclude-mapping path="/**"/> -->
-			<bean id="seguridadInterceptor" class="com.softtek.spring.seguridad.interceptor.SeguridadInterceptor" />
-		</mvc:interceptor>
- 	</mvc:interceptors>
-  <!-- -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- -->
 
 </beans>
