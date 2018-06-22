@@ -19,6 +19,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+
 import com.softtek.acceleo.demo.security.JwtAuthenticationEntryPoint;
 import com.softtek.acceleo.demo.security.JwtAuthorizationTokenFilter;
 import com.softtek.acceleo.demo.security.JwtTokenUtil;
@@ -57,6 +59,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         //System.out.println("JAAAAS"+tokenHeader);
     }
 
+        
+	public void addCorsMappings(CorsRegistry registry) {
+		registry.addMapping("/**");
+	}
+    
     @Bean
     public PasswordEncoder passwordEncoderBean() {
         return new BCryptPasswordEncoder();
