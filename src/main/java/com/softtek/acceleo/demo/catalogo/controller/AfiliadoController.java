@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -39,7 +41,9 @@ import com.softtek.acceleo.demo.service.AfiliadoService;
  * @author PSG.
  *
  */
-@Controller
+
+@RestController
+@RequestMapping("protected")
 public class AfiliadoController {
 
 	@Autowired
@@ -55,6 +59,7 @@ public class AfiliadoController {
 	 * @return List<Afiliado>.
 	 */
 	@RequestMapping(value = "/afiliado", method = RequestMethod.GET, produces = "application/json")
+    @PreAuthorize("hasRole('ADMIN')")
 	public @ResponseBody  List<Afiliado> getAfiliados(@RequestParam Map<String,String> requestParams, HttpServletRequest request, HttpServletResponse response) {
 
        	String query=requestParams.get("q");
@@ -85,7 +90,8 @@ public class AfiliadoController {
 	 * @param id.
 	 * @return Afiliado.
 	 */
-	@RequestMapping(value = "/afiliado/{id}", method = RequestMethod.GET, produces = "application/json")
+		@RequestMapping(value = "/afiliado/{id}", method = RequestMethod.GET, produces = "application/json")
+    	//@PreAuthorize("hasRole('ADMIN')")
 	    public @ResponseBody  Afiliado getAfiliado(@PathVariable("id") int id) {
 	        
 		System.out.println("Inicio Afiliado");
@@ -104,6 +110,7 @@ public class AfiliadoController {
 	 * @return ResponseEntity.
 	 */
 	 @RequestMapping(value = "/afiliado", method = RequestMethod.POST)
+	 @PreAuthorize("hasRole('ADMIN')")
 	    public ResponseEntity<Void> createAfiliado(@RequestBody Afiliado afiliado,    UriComponentsBuilder ucBuilder) {
 	   
 	        afiliadoService.addAfiliado(afiliado);
@@ -120,6 +127,7 @@ public class AfiliadoController {
 	  * @return ResponseEntity.
 	  */
 	 @RequestMapping(value = "/afiliado/{id}", method = RequestMethod.PUT)
+	 @PreAuthorize("hasRole('ADMIN')")
 	    public ResponseEntity<Afiliado> actualizarAfiliado(
 				@PathVariable("id") int id, 
 				@RequestBody Afiliado afiliado) {
@@ -158,6 +166,7 @@ public class AfiliadoController {
 		 * @return ResponseEntity<Afiliado>.
 		 */
 		@RequestMapping(value = "/afiliado/{id}", method = RequestMethod.DELETE)
+	    @PreAuthorize("hasRole('ADMIN')")
 	    public ResponseEntity<Afiliado> deleteAfiliado(@PathVariable("id") int id) {
 			 long rows = 0;	
 	    	 
@@ -182,6 +191,7 @@ public class AfiliadoController {
 	 * @return String.
 	 */
 	@RequestMapping(value = "/saveAfiliado", method = RequestMethod.POST)
+    //@PreAuthorize("hasRole('ADMIN')")
 	public @ResponseBody String saveAfiliado(
 			@ModelAttribute("command") AfiliadoBean afiliadoBean) {
 
@@ -197,6 +207,7 @@ public class AfiliadoController {
 	 * @return String.
 	 */
 	@RequestMapping(value = "/editAfiliado", method = RequestMethod.POST)
+    @PreAuthorize("hasRole('ADMIN')")
 	public @ResponseBody String editAfiliado(
 			@ModelAttribute("command") AfiliadoBean afiliadoBean) {
 
@@ -213,6 +224,7 @@ public class AfiliadoController {
 	 * @return ModelAndView.
 	 */
 	@RequestMapping(value = "/searchAfiliado", method = RequestMethod.GET)
+    @PreAuthorize("hasRole('ADMIN')")
 	public ModelAndView addAfiliado(
 			@ModelAttribute("command") AfiliadoBean afiliadoBean,
 			BindingResult result) {
@@ -233,6 +245,7 @@ public class AfiliadoController {
 	 * @return ModelAndView.
 	 */
 	@RequestMapping(value = "/deleteAfiliado", method = RequestMethod.POST)
+    @PreAuthorize("hasRole('ADMIN')")
 	public ModelAndView deleteAfiliado(
 			@ModelAttribute("command") AfiliadoBean afiliadoBean,
 			BindingResult result) {
@@ -250,6 +263,7 @@ public class AfiliadoController {
 	 * @return ModelAndView.
 	 */
 	@RequestMapping(value = "/entryAfiliado", method = RequestMethod.GET)
+    @PreAuthorize("hasRole('ADMIN')")
 	public ModelAndView entryAfiliado() {
 		return new ModelAndView("redirect:/searchAfiliado");
 	}

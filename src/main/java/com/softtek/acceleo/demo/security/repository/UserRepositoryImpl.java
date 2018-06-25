@@ -18,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
+import com.softtek.acceleo.demo.domain.Afiliado;
 import com.softtek.acceleo.demo.security.model.Authority;
 import com.softtek.acceleo.demo.security.model.AuthorityName;
 import com.softtek.acceleo.demo.security.model.User;
@@ -31,6 +32,33 @@ public class UserRepositoryImpl implements UserRepository {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
+	@Autowired
+	private SessionFactory sessionFactory;
+	
+	@Override
+	public User findByUsername(String username) {
+	
+		logger.info("findByUsername() :"+username);
+		User user = null;
+		Session session = sessionFactory.getCurrentSession();
+		Criteria criteria = session.createCriteria(User.class);
+		criteria.add(Restrictions.eq("username", username)).list();
+		List<User> users = (List<User>) criteria.list();
+		
+		user = users.get(0);
+		
+		java.util.Date da = new Date();
+	    Calendar cal = Calendar.getInstance();
+	    cal.setTime(da);
+	    cal.add(Calendar.MONTH, -1);
+	    da = cal.getTime();
+		user.setLastPasswordResetDate(da);
+		
+		return user;
+		
+	}
+	
+	/*
 	@Override
 	public User findByUsername(String username) {
 		
@@ -151,5 +179,5 @@ public class UserRepositoryImpl implements UserRepository {
 		}
 		return user;
 	}
-
+*/
 }
