@@ -29,4 +29,10 @@ public class PersonRestService {
                 .filter(person -> name.equalsIgnoreCase(person.getName()))
                 .findAny().orElse(null);
     }
+    
+    @RequestMapping(path = "/personsTest", method = RequestMethod.GET)
+    public static List<Person> getPersonsTest() {
+        return persons;
+    }
+    
 }
