@@ -1,6 +1,6 @@
 package com.softtek.acceleo.demo.security.repository;
 
-import com.softtek.acceleo.demo.security.model.Authority;
+import com.softtek.acceleo.demo.domain.Authority;
 
 public interface AuthorityRepository {
 

@@ -1,4 +1,4 @@
-package com.softtek.acceleo.demo.security.model;
+package com.softtek.acceleo.demo.domain;
 
 public enum AuthorityName {
 	ROLE_USER, ROLE_ADMIN,

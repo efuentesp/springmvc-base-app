@@ -1,6 +1,6 @@
 package com.softtek.acceleo.demo.security.repository;
 
-import com.softtek.acceleo.demo.security.model.Group;
+import com.softtek.acceleo.demo.domain.Group;
 
 public interface GroupRepository {
 

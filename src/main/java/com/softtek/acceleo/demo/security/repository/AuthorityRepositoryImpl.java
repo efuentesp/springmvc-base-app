@@ -3,7 +3,7 @@ package com.softtek.acceleo.demo.security.repository;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.softtek.acceleo.demo.security.model.Authority;
+import com.softtek.acceleo.demo.domain.Authority;
 
 public class AuthorityRepositoryImpl implements AuthorityRepository{
 

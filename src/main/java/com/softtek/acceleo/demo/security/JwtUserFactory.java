@@ -5,8 +5,9 @@ import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import com.softtek.acceleo.demo.security.model.Authority;
-import com.softtek.acceleo.demo.security.model.User;
+
+import com.softtek.acceleo.demo.domain.Authority;
+import com.softtek.acceleo.demo.domain.User;
 
 public final class JwtUserFactory {
 
@@ -15,8 +16,8 @@ public final class JwtUserFactory {
 
     public static JwtUser create(User user) {
         return new JwtUser(
-                user.getId(),
-                user.getUsername(),
+                user.getIdUser(),
+                user.getUserName(),
                 user.getFirstname(),
                 user.getLastname(),
                 user.getEmail(),

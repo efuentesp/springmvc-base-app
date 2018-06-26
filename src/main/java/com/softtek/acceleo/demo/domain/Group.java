@@ -1,4 +1,4 @@
-package com.softtek.acceleo.demo.security.model;
+package com.softtek.acceleo.demo.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,21 +16,22 @@ public class Group {
 
     @Id
     @Column(name = "ID_GROUP")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "group_seq")
-    @SequenceGenerator(name = "user_seq", sequenceName = "group_seq", allocationSize = 1)
-    private Long id_group;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    //@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "group_seq")
+    //@SequenceGenerator(name = "user_seq", sequenceName = "group_seq", allocationSize = 1)
+    private Long idGroup;
 
     @Column(name = "NAME", length = 30, unique = true)
     @NotNull
     @Size(min = 4, max = 30)
     private String name;
 
-	public Long getId_group() {
-		return id_group;
+	public Long getIdGroup() {
+		return idGroup;
 	}
 
-	public void setId_group(Long id_group) {
-		this.id_group = id_group;
+	public void setIdGroup(Long idGroup) {
+		this.idGroup = idGroup;
 	}
 
 	public String getName() {

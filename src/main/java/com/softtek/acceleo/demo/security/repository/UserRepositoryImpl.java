@@ -19,9 +19,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
 import com.softtek.acceleo.demo.domain.Afiliado;
-import com.softtek.acceleo.demo.security.model.Authority;
-import com.softtek.acceleo.demo.security.model.AuthorityName;
-import com.softtek.acceleo.demo.security.model.User;
+import com.softtek.acceleo.demo.domain.Authority;
+import com.softtek.acceleo.demo.domain.AuthorityName;
+import com.softtek.acceleo.demo.domain.Group;
+import com.softtek.acceleo.demo.domain.User;
 
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -37,22 +38,33 @@ public class UserRepositoryImpl implements UserRepository {
 	
 	@Override
 	public User findByUsername(String username) {
-	
 		logger.info("findByUsername() :"+username);
 		User user = null;
-		Session session = sessionFactory.getCurrentSession();
-		Criteria criteria = session.createCriteria(User.class);
-		criteria.add(Restrictions.eq("username", username)).list();
-		List<User> users = (List<User>) criteria.list();
+//		Group group = null;
+				
+		try {
+			Session session = sessionFactory.getCurrentSession();
+//			Criteria criteria = session.createCriteria(Group.class);
+			Criteria criteria = session.createCriteria(User.class);
+            criteria.add(Restrictions.eq("userName", username)).list();
+			List<User> users = (List<User>) criteria.list();
+//			List<Group> groups = (List<Group>) criteria.list();
+			
+			user = users.get(0);
+//			group = groups.get(0);
+
+			/**
+			java.util.Date da = new Date();
+		    Calendar cal = Calendar.getInstance();
+		    cal.setTime(da);
+		    cal.add(Calendar.MONTH, -1);
+		    da = cal.getTime();
+			user.setLastPasswordResetDate(da);
+			*/			
+		}catch(Exception e) {
+			logger.error("<<<<>>>> Error: " + e.getMessage());
+		}
 		
-		user = users.get(0);
-		
-		java.util.Date da = new Date();
-	    Calendar cal = Calendar.getInstance();
-	    cal.setTime(da);
-	    cal.add(Calendar.MONTH, -1);
-	    da = cal.getTime();
-		user.setLastPasswordResetDate(da);
 		
 		return user;
 		

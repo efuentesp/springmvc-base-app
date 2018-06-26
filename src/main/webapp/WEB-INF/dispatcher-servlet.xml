@@ -23,6 +23,7 @@
 	<context:component-scan base-package="com.softtek.acceleo.demo.domain" />
 	<context:component-scan base-package="com.softtek.acceleo.demo.security" />
 	<context:component-scan base-package="com.softtek.acceleo.demo.security.controller" />
+	<!-- <context:component-scan base-package="com.softtek.acceleo.demo.security.model" /> -->
 
 	<mvc:resources mapping="/resources/**" location="/resources/static/" />
 
@@ -32,6 +33,7 @@
 		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<property name="packagesToScan" value="com.softtek.acceleo.demo.domain" />
+		<!-- <property name="packagesToScan" value="com.softtek.acceleo.demo.security.model" /> -->
 		<property name="hibernateProperties">
 			<props>
 				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>

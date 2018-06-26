@@ -1,4 +1,4 @@
-package com.softtek.acceleo.demo.security.model;
+package com.softtek.acceleo.demo.domain;
 
 import java.util.Date;
 import java.util.List;
@@ -16,6 +16,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -24,15 +25,16 @@ import javax.validation.constraints.Size;
 public class User {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID_USER")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
-    @SequenceGenerator(name = "user_seq", sequenceName = "user_seq", allocationSize = 1)
-    private Long id;
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
+//    @SequenceGenerator(name = "user_seq", sequenceName = "user_seq", allocationSize = 1)
+    private Long idUser;
 
     @Column(name = "USERNAME", length = 50, unique = true)
     @NotNull
     @Size(min = 4, max = 50)
-    private String username;
+    private String userName;
 
     @Column(name = "PASSWORD", length = 100)
     @NotNull
@@ -55,35 +57,49 @@ public class User {
     private String email;
 
     @Column(name = "ENABLED")
-    @NotNull
     private Boolean enabled;
 
-    @Column(name = "LASTPASSWORDRESETDATE")
+    @Column(name = "ATTEMPS")
+    private Long attemps;
+    
+	@Column(name = "LASTPASSWORDRESETDATE")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date lastPasswordResetDate;
+
+    @Column(name = "CREATIONDATE", length = 50)
     @Temporal(TemporalType.TIMESTAMP)
     @NotNull
-    private Date lastPasswordResetDate;
+    private Date creationDate;
+    
+    @Column(name = "MODIFIEDDATE", length = 50)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date modifiedDate;
+    
+    
+    
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "USER_AUTHORITY",
-            joinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "ID")},
-            inverseJoinColumns = {@JoinColumn(name = "AUTHORITY_ID", referencedColumnName = "ID")})
+            joinColumns = {@JoinColumn(name = "ID_USER", referencedColumnName = "ID_USER")},
+            inverseJoinColumns = {@JoinColumn(name = "ID_AUTHORITY", referencedColumnName = "ID_AUTHORITY")})
+//    @Transient
     private List<Authority> authorities;
 
-    public Long getId() {
-        return id;
+    public Long getIdUser() {
+        return idUser;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setIdUser(Long idUser) {
+        this.idUser = idUser;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getPassword() {
@@ -143,12 +159,9 @@ public class User {
     }
 
 	public Object getRole() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public void setRole(String string) {
-		// TODO Auto-generated method stub
-		
 	}
 }

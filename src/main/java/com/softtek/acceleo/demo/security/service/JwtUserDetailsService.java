@@ -7,7 +7,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import com.softtek.acceleo.demo.security.model.User;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.softtek.acceleo.demo.domain.User;
 import com.softtek.acceleo.demo.security.JwtUserFactory;
 import com.softtek.acceleo.demo.security.repository.UserRepository;
 

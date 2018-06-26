@@ -1,8 +1,9 @@
 package com.softtek.acceleo.demo.security.repository;
 
-import com.softtek.acceleo.demo.security.model.Group;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import com.softtek.acceleo.demo.domain.Group;
 
 public class GroupRepositoryImpl implements GroupRepository{
 

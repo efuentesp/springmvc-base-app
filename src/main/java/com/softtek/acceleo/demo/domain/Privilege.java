@@ -1,4 +1,4 @@
-package com.softtek.acceleo.demo.security.model;
+package com.softtek.acceleo.demo.domain;
 
 import java.util.Date;
 import javax.persistence.CascadeType;
@@ -19,9 +19,10 @@ import javax.validation.constraints.Size;
 public class Privilege {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID_PRIVILEGE")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "privilege_seq")
-    @SequenceGenerator(name = "privilege_seq", sequenceName = "privilege_seq", allocationSize = 1)
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "privilege_seq")
+//    @SequenceGenerator(name = "privilege_seq", sequenceName = "privilege_seq", allocationSize = 1)
     private Long id_privilege;
 
     @Column(name = "NAME", length = 50, unique = true)
