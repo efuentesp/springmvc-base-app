@@ -4,5 +4,5 @@ import com.softtek.acceleo.demo.domain.Authority;
 
 public interface AuthorityRepository {
 
-	 public Authority getAuthority(int authoritoryId);   
+	 public Authority getAuthority(long authoritoryId);   
 }

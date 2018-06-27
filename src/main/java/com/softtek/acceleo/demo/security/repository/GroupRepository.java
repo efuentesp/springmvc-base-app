@@ -1,9 +1,9 @@
 package com.softtek.acceleo.demo.security.repository;
 
-import com.softtek.acceleo.demo.domain.Group;
+import com.softtek.acceleo.demo.domain.Grupo;
 
 public interface GroupRepository {
 
-	 public Group getGroup(int groupId);   
+	 public Grupo getGroup(int groupId);   
 	
 }

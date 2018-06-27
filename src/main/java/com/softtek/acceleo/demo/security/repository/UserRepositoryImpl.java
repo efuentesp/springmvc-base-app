@@ -1,32 +1,19 @@
 package com.softtek.acceleo.demo.security.repository;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.hibernate.Criteria;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Example;
+import org.hibernate.criterion.Restrictions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
-import com.softtek.acceleo.demo.domain.Afiliado;
-import com.softtek.acceleo.demo.domain.Authority;
-import com.softtek.acceleo.demo.domain.AuthorityName;
-import com.softtek.acceleo.demo.domain.Group;
 import com.softtek.acceleo.demo.domain.User;
-
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Restrictions;
-import org.slf4j.LoggerFactory;
 
 @Repository("userRepository")
 public class UserRepositoryImpl implements UserRepository {
@@ -40,34 +27,26 @@ public class UserRepositoryImpl implements UserRepository {
 	public User findByUsername(String username) {
 		logger.info("findByUsername() :"+username);
 		User user = null;
-//		Group group = null;
 				
 		try {
 			Session session = sessionFactory.getCurrentSession();
-//			Criteria criteria = session.createCriteria(Group.class);
 			Criteria criteria = session.createCriteria(User.class);
             criteria.add(Restrictions.eq("userName", username)).list();
 			List<User> users = (List<User>) criteria.list();
-//			List<Group> groups = (List<Group>) criteria.list();
 			
 			user = users.get(0);
-//			group = groups.get(0);
 
-			/**
 			java.util.Date da = new Date();
 		    Calendar cal = Calendar.getInstance();
 		    cal.setTime(da);
 		    cal.add(Calendar.MONTH, -1);
 		    da = cal.getTime();
 			user.setLastPasswordResetDate(da);
-			*/			
 		}catch(Exception e) {
-			logger.error("<<<<>>>> Error: " + e.getMessage());
+			logger.error("Error: ", e);
 		}
 		
-		
 		return user;
-		
 	}
 	
 	/*

@@ -12,8 +12,6 @@ public class Authority {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID_AUTHORITY")
-//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "authority_seq")
-//    @SequenceGenerator(name = "authority_seq", sequenceName = "authority_seq", allocationSize = 1)
     private Long id;
 
     @Column(name = "NAME", length = 50)
@@ -21,10 +19,20 @@ public class Authority {
     @Enumerated(EnumType.STRING)
     private AuthorityName name;
 
-    @ManyToMany(mappedBy = "authorities", fetch = FetchType.LAZY)
-    private List<User> users;
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "authority_privilege", joinColumns = { 
+			@JoinColumn(name = "ID_AUTHORITY", nullable = false, updatable = false) }, 
+			inverseJoinColumns = { @JoinColumn(name = "ID_PRIVILEGE", nullable = false, updatable = false) })    
+    private List<Privilege> privilege;
+    
+    
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "user_authority", joinColumns = { 
+			@JoinColumn(name = "ID_AUTHORITY", nullable = false, updatable = false) }, 
+			inverseJoinColumns = { @JoinColumn(name = "ID_USER", nullable = false, updatable = false) })    	
+    private List<User> user;
 
-    public Long getId() {
+	public Long getId() {
         return id;
     }
 
@@ -40,11 +48,19 @@ public class Authority {
         this.name = name;
     }
 
-    public List<User> getUsers() {
-        return users;
+    public List<Privilege> getPrivilege() {
+		return privilege;
+	}
+
+	public void setPrivilege(List<Privilege> privilege) {
+		this.privilege = privilege;
+	}
+        
+    public List<User> getUser() {
+        return user;
     }
 
-    public void setUsers(List<User> users) {
-        this.users = users;
+    public void setUser(List<User> user) {
+        this.user = user;
     }
 }

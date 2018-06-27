@@ -21,7 +21,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "USER")
+@Table(name = "user")
 public class User {
 
     @Id
@@ -75,16 +75,14 @@ public class User {
     @Temporal(TemporalType.TIMESTAMP)
     private Date modifiedDate;
     
+//    @ManyToMany(fetch = FetchType.EAGER)
+//    @JoinTable(
+//            name = "USER_AUTHORITY",
+//            joinColumns = {@JoinColumn(name = "ID_USER", referencedColumnName = "ID_USER")},
+//            inverseJoinColumns = {@JoinColumn(name = "ID_AUTHORITY", referencedColumnName = "ID_AUTHORITY")})
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    private List<Authority> authority;
     
-    
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "USER_AUTHORITY",
-            joinColumns = {@JoinColumn(name = "ID_USER", referencedColumnName = "ID_USER")},
-            inverseJoinColumns = {@JoinColumn(name = "ID_AUTHORITY", referencedColumnName = "ID_AUTHORITY")})
-//    @Transient
-    private List<Authority> authorities;
 
     public Long getIdUser() {
         return idUser;
@@ -142,14 +140,6 @@ public class User {
         this.enabled = enabled;
     }
 
-    public List<Authority> getAuthorities() {
-        return authorities;
-    }
-
-    public void setAuthorities(List<Authority> authorities) {
-        this.authorities = authorities;
-    }
-
     public Date getLastPasswordResetDate() {
         return lastPasswordResetDate;
     }
@@ -157,6 +147,38 @@ public class User {
     public void setLastPasswordResetDate(Date lastPasswordResetDate) {
         this.lastPasswordResetDate = lastPasswordResetDate;
     }
+    
+    public Long getAttemps() {
+		return attemps;
+	}
+
+	public void setAttemps(Long attemps) {
+		this.attemps = attemps;
+	}
+
+	public Date getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
+	}
+
+	public Date getModifiedDate() {
+		return modifiedDate;
+	}
+
+	public void setModifiedDate(Date modifiedDate) {
+		this.modifiedDate = modifiedDate;
+	}
+
+	public List<Authority> getAuthority() {
+		return authority;
+	}
+
+	public void setAuthority(List<Authority> authority) {
+		this.authority = authority;
+	}    
 
 	public Object getRole() {
 		return null;
@@ -164,4 +186,6 @@ public class User {
 
 	public void setRole(String string) {
 	}
+	
+	
 }

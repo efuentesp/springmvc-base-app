@@ -3,7 +3,7 @@ package com.softtek.acceleo.demo.security.repository;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.softtek.acceleo.demo.domain.Group;
+import com.softtek.acceleo.demo.domain.Grupo;
 
 public class GroupRepositoryImpl implements GroupRepository{
 
@@ -11,8 +11,8 @@ public class GroupRepositoryImpl implements GroupRepository{
 	private SessionFactory sessionFactory;
 	
 	@Override
-	public Group getGroup(int groupId) {
-		return (Group) sessionFactory.getCurrentSession().get(Group.class, groupId);
+	public Grupo getGroup(int groupId) {
+		return (Grupo) sessionFactory.getCurrentSession().get(Grupo.class, groupId);
 	}
 
 }

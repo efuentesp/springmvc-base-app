@@ -12,6 +12,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.softtek.acceleo.demo.domain.Authority;
+import com.softtek.acceleo.demo.domain.Privilege;
 import com.softtek.acceleo.demo.domain.User;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -31,15 +33,34 @@ public class UserRepositoryImplTest {
 	
 	@Test
 	public void testFindByUsername() {
-		String userName = "admin";
+//		String userName = "admin";
+		String userName = "user";
 		
 		User user = userRepository.findByUsername(userName);
 		if( user != null ) {
 			logger.info("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_");
-			logger.info("Email: " + user.getEmail() + "\tFirstname: " + user.getFirstname() + "\tLastname: " + user.getLastname() + 
-					    "\tPassword: " + user.getPassword() + "\tUsername: " + user.getUserName() + "\tId: " + user.getIdUser() + "\tAuthorities" + user.getAuthorities() +
-					    "\tEnabled: " + user.getEnabled() + "\tLastPasswordResetDate: " + user.getLastPasswordResetDate() + "\tRole: " + user.getRole());
+			logger.info("user --> Email: " + user.getEmail() + "\tFirstname: " + user.getFirstname() + "\tLastname: " + user.getLastname() + 
+					    "\tPassword: " + user.getPassword() + "\tUsername: " + user.getUserName() + "\tAttemps: " + user.getAttemps() + 
+					    "\tIdUser: " + user.getIdUser() + "\tAuthority" + user.getAuthority() +
+					    "\tEnabled: " + user.getEnabled() + "\tLastPasswordResetDate: " + user.getLastPasswordResetDate());
+			logger.info("-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_");
+			for(Authority authority : user.getAuthority()) {
+				logger.info("authority --> Id: " + authority.getId() + "\tName: " + authority.getName() + "\tPrivilege: " + authority.getPrivilege() + "\tUser: " + authority.getUser());	
+				logger.info("-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_");
+				for(Privilege privilege : authority.getPrivilege()) {
+					logger.info("pivilege --> Name: " + privilege.getName() + "\tIdPrivilege: " + privilege.getIdPrivilege() + "\tAuthority: " + privilege.getAuthority() + 
+							"\tEnabled: " + privilege.getEnabled() + "\tGrupo: " + privilege.getGrupo());
+					
+					
+					logger.info("grupo --> IdGrupo: " + privilege.getGrupo().getIdGrupo() + "\tName: " + privilege.getGrupo().getName());
+				}
+				logger.info("-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_");
+			}
 			logger.info("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_");
+			
+			
+			
+			
 		}else {
 			logger.info("No hay informacion del user...");
 		}

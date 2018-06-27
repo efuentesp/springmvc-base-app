@@ -11,27 +11,25 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "GROUP")
-public class Group {
+@Table(name = "grupo")
+public class Grupo {
 
     @Id
-    @Column(name = "ID_GROUP")
+    @Column(name = "ID_GRUPO")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    //@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "group_seq")
-    //@SequenceGenerator(name = "user_seq", sequenceName = "group_seq", allocationSize = 1)
-    private Long idGroup;
+    private Long idGrupo;
 
     @Column(name = "NAME", length = 30, unique = true)
     @NotNull
     @Size(min = 4, max = 30)
     private String name;
 
-	public Long getIdGroup() {
-		return idGroup;
+	public Long getIdGrupo() {
+		return idGrupo;
 	}
 
-	public void setIdGroup(Long idGroup) {
-		this.idGroup = idGroup;
+	public void setIdGrupo(Long idGrupo) {
+		this.idGrupo = idGrupo;
 	}
 
 	public String getName() {

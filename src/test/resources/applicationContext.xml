@@ -49,6 +49,7 @@
     <!-- <bean id="testModuloAccionAuthorityRepositoryImpl" class="com.softtek.acceleo.demo.repository.impl.ModuloAccionAuthorityRepositoryImpl" /> -->
     <!-- <bean id="testModuloAccionAuthorityServiceImpl" class="com.softtek.acceleo.demo.service.impl.ModuloAccionAuthorityServiceImpl" /> -->
 	<bean id="testUserRepositoryImpl" class="com.softtek.acceleo.demo.security.repository.UserRepositoryImpl" />
+	<bean id="testAuthorityRepositoryImpl" class="com.softtek.acceleo.demo.security.repository.AuthorityRepositoryImpl" />
     
       
 <!-- 
