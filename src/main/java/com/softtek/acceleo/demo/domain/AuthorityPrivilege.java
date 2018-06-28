@@ -1,20 +1,14 @@
 package com.softtek.acceleo.demo.domain;
 
-import java.util.List;
-
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "authority_privilege")
@@ -24,13 +18,17 @@ public class AuthorityPrivilege {
     @GeneratedValue(strategy = GenerationType.AUTO)
 	private Long idAutorityPrivilege;
     
-    @Column(name = "ID_PRIVILEGE")
-    @NotNull
-    private Long idPrivilege;
+//    @Column(name = "ID_PRIVILEGE")
+//    @NotNull
+	@OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "ID_PRIVILEGE")    
+    private Privilege idPrivilege;
     
-    @Column(name = "ID_AUTHORITY")
-    @NotNull
-    private Long idAuthority;
+//    @Column(name = "ID_AUTHORITY")
+//    @NotNull
+	@OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "ID_AUTHORITY")    
+    private Authority idAuthority;
     
 	
 //	@ManyToMany(fetch = FetchType.EAGER)
@@ -55,35 +53,19 @@ public class AuthorityPrivilege {
 		this.idAutorityPrivilege = idAutorityPrivilege;
 	}
 
-//	public List<Authority> getAuthorities() {
-//		return authorities;
-//	}
-//
-//	public void setAuthorities(List<Authority> authorities) {
-//		this.authorities = authorities;
-//	}
-//
-//	public List<Privilege> getPrivileges() {
-//		return privileges;
-//	}
-//
-//	public void setPrivileges(List<Privilege> privileges) {
-//		this.privileges = privileges;
-//	}
-	
-    public Long getIdPrivilege() {
+    public Privilege getIdPrivilege() {
 		return idPrivilege;
 	}
 
-	public void setIdPrivilege(Long idPrivilege) {
+	public void setIdPrivilege(Privilege idPrivilege) {
 		this.idPrivilege = idPrivilege;
 	}
     
-	public Long getIdAuthority() {
+	public Authority getIdAuthority() {
 		return idAuthority;
 	}
 
-	public void setIdAuthority(Long idAuthority) {
+	public void setIdAuthority(Authority idAuthority) {
 		this.idAuthority = idAuthority;
 	}
     

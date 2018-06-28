@@ -1,7 +1,32 @@
 package com.softtek.acceleo.demo.security.repository;
 
-public class PrivilegeRepositoryImpl implements PrivilegeRepository{
+import java.util.List;
 
-	
-	
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import com.softtek.acceleo.demo.domain.Privilege;
+
+@Repository("privilegeRepository")
+public class PrivilegeRepositoryImpl implements PrivilegeRepository{
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
+	@Autowired
+	private SessionFactory sessionFactory;
+
+	@Override
+	public List<Privilege> getPrivilege() {
+		List<Privilege> lstPrivilege = null;
+		
+		Session session = sessionFactory.getCurrentSession();
+		Criteria criteria = session.createCriteria(Privilege.class);
+		lstPrivilege = (List<Privilege>) criteria.list();
+		
+		return lstPrivilege;
+	}
 }

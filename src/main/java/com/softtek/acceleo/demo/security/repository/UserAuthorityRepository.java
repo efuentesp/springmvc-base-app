@@ -1,6 +1,10 @@
 package com.softtek.acceleo.demo.security.repository;
 
-public interface UserAuthorityRepository {
+import java.util.List;
 
-	
+import com.softtek.acceleo.demo.domain.User;
+import com.softtek.acceleo.demo.domain.UserAuthority;
+
+public interface UserAuthorityRepository {
+	List<UserAuthority> findByUsername(User user);
 }

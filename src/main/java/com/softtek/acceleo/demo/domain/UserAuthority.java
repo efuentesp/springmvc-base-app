@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -18,9 +19,11 @@ public class UserAuthority {
     private long idUserAuthority;
 		
 	@OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "ID_USER")
 	private User idUser;
     
     @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "ID_AUTHORITY")
 	private Authority idAuthority;
 	
 	public User getIdUser() {

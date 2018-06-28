@@ -50,6 +50,10 @@
     <!-- <bean id="testModuloAccionAuthorityServiceImpl" class="com.softtek.acceleo.demo.service.impl.ModuloAccionAuthorityServiceImpl" /> -->
 	<bean id="testUserRepositoryImpl" class="com.softtek.acceleo.demo.security.repository.UserRepositoryImpl" />
 	<bean id="testAuthorityRepositoryImpl" class="com.softtek.acceleo.demo.security.repository.AuthorityRepositoryImpl" />
+	<bean id="testUserAuthorityRepositoryImpl" class="com.softtek.acceleo.demo.security.repository.UserAuthorityRepositoryImpl" />
+	<bean id="testAuthorityPrivilegeRepositoryImpl" class="com.softtek.acceleo.demo.security.repository.AuthorityPrivilegeRepositoryImpl" />
+	<bean id="testPrivilegeRepositoryImpl" class="com.softtek.acceleo.demo.security.repository.PrivilegeRepositoryImpl" />
+	<bean id="testAdminPermisosRepositoryImpl" class="com.softtek.acceleo.demo.security.repository.AdminPermisosRepositoryImpl" />
     
       
 <!-- 
