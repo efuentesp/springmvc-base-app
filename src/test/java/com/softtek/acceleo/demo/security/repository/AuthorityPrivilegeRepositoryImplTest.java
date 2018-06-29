@@ -15,6 +15,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.softtek.acceleo.demo.domain.Authority;
@@ -30,6 +31,12 @@ public class AuthorityPrivilegeRepositoryImplTest {
 
 	@Autowired
 	AuthorityPrivilegeRepository authorityPrivilegeRepository; 
+	
+	@Autowired
+	AuthorityRepository authorityRepository;
+	
+	@Autowired
+	PrivilegeRepository privilegeRepository;
 	
 	@Before
 	public void initJUnit() {
@@ -49,7 +56,7 @@ public class AuthorityPrivilegeRepositoryImplTest {
 			for(AuthorityPrivilege authorityPrivilege : lstAuthorityPrivilege) {
 				logger.info("Nivel 1 -- AuthorityPrivilege ---->> IdAutorityPrivilege: " + authorityPrivilege.getIdAutorityPrivilege() + "\tIdAuthority: " + authorityPrivilege.getIdAuthority() + "\tIdPrivilege: " + authorityPrivilege.getIdPrivilege());
 				logger.info("-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_");
-				logger.info("  Nivel 1.1 -- Authority ---->> Id: " + authorityPrivilege.getIdAuthority().getId() + "\tName: " + authorityPrivilege.getIdAuthority().getName() + "\tPrivilege: " + authorityPrivilege.getIdAuthority().getPrivilege() /*+ "\tUser: " + authorityPrivilege.getIdAuthority().getUser()*/);
+				logger.info("  Nivel 1.1 -- Authority ---->> Id: " + authorityPrivilege.getIdAuthority().getIdAuthority() + "\tName: " + authorityPrivilege.getIdAuthority().getName() + "\tPrivilege: " + authorityPrivilege.getIdAuthority().getPrivilege() /*+ "\tUser: " + authorityPrivilege.getIdAuthority().getUser()*/);
 //				for(Privilege privilege : authorityPrivilege.getIdAuthority().getPrivilege()) {
 //					logger.info("    Nivel 1.1.1 -- Privilege ---->> IdPrivilege: " + privilege.getIdPrivilege() + "\tName: " + privilege.getName() + "\tEnabled: " + privilege.getEnabled() + "\tAuthority: " + privilege.getAuthority());
 //					for(Authority authority : privilege.getAuthority()) {
@@ -64,7 +71,7 @@ public class AuthorityPrivilegeRepositoryImplTest {
 				
 				logger.info("  Nivel 1.2 -- Privilege ---->> IdPrivilege: " + authorityPrivilege.getIdPrivilege().getIdPrivilege() + "\tName: " + authorityPrivilege.getIdPrivilege().getName() + "\tEnabled: " + authorityPrivilege.getIdPrivilege().getEnabled() + "\tAuthority: " + authorityPrivilege.getIdPrivilege().getAuthority() + "\tGrupo: " + authorityPrivilege.getIdPrivilege().getGrupo());
 				for(Authority authority : authorityPrivilege.getIdPrivilege().getAuthority()) {
-					logger.info("    Nivel 1.2.1 -- Authority ---->> Id: " + authority.getId() + "\tName: " + authority.getName() + "\tPrivilege: " + authority.getPrivilege() /*+ "\tUser: " + authority.getUser()*/);
+					logger.info("    Nivel 1.2.1 -- Authority ---->> Id: " + authority.getIdAuthority() + "\tName: " + authority.getName() + "\tPrivilege: " + authority.getPrivilege() /*+ "\tUser: " + authority.getUser()*/);
 					for(Privilege privilege : authority.getPrivilege()) {
 						logger.info("      Nivel 1.2.2 -- Privilege ---->> IdPrivilege: " + privilege.getIdPrivilege() + "\tName: " + privilege.getName() + "\tEnabled: " + privilege.getEnabled() + "\tGrupo: " + privilege.getGrupo());
 						logger.info("      Nivel 1.2.3 -- Grupo ---->> IdGrupo: " + privilege.getGrupo().getIdGrupo() + "\tName: " + privilege.getGrupo().getName());
@@ -76,24 +83,25 @@ public class AuthorityPrivilegeRepositoryImplTest {
 	}
 	
 	@Test
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public void testInsertAuthorityPrivilege() {
 		AuthorityPrivilege authorityPrivilege = new AuthorityPrivilege();
-		//authorityPrivilege.setIdAutorityPrivilege();
 		
-		Authority authority = new Authority();
-		authority.setId(3L);
-		
-		Privilege privilege = new Privilege();
-		privilege.setIdPrivilege(1L);
+		Authority authority = authorityRepository.getAuthority(3L);
+		Privilege privilege = privilegeRepository.getPrivilege(1L);
 
-		authorityPrivilege.setIdAutorityPrivilege(17L);
 		authorityPrivilege.setIdAuthority(authority);		
 		authorityPrivilege.setIdPrivilege(privilege);
 		authorityPrivilege.setEnabled(new Boolean(true));
 		
-		
-		authorityPrivilegeRepository.insertAuthorityPrivilege(authorityPrivilege);
-		logger.info("El registro se inserto exitosamente...");
+		AuthorityPrivilege autPriv = authorityPrivilegeRepository.getAuthorityPrivilege(authorityPrivilege);
+		if( autPriv == null) {			
+			authorityPrivilegeRepository.insertAuthorityPrivilege(authorityPrivilege);
+			logger.info("El registro no existia, por lo cual se inserto exitosamente...");
+		}else {
+			authorityPrivilegeRepository.updateAuthorityPrivilege(authorityPrivilege);
+			logger.info("El registro se actualizo exitosamente...");
+		}
 	}
 
 	@After

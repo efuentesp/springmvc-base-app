@@ -7,4 +7,6 @@ import com.softtek.acceleo.demo.domain.AdminPermiso;
 public interface AdminPermisoService {
 
 	public List<AdminPermiso> listAdminPermiso();
+	
+	public void updateAuthorityPrivilege(AdminPermiso adminPermiso);
 }

@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.softtek.acceleo.demo.domain.Authority;
 import com.softtek.acceleo.demo.domain.Privilege;
 
 @Repository("privilegeRepository")
@@ -28,5 +29,18 @@ public class PrivilegeRepositoryImpl implements PrivilegeRepository{
 		lstPrivilege = (List<Privilege>) criteria.list();
 		
 		return lstPrivilege;
+	}
+
+	@Override
+	public Privilege getPrivilege(long idPrivilege) {
+		Privilege privilege = null;
+		
+		try {
+			privilege = (Privilege) sessionFactory.getCurrentSession().get(Privilege.class, idPrivilege);
+		}catch(Exception e) {
+			logger.error("---->> Error: ", e);
+		}
+		
+		return privilege;
 	}
 }

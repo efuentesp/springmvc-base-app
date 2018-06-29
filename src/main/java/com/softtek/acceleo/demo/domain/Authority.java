@@ -12,12 +12,17 @@ public class Authority {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID_AUTHORITY")
-    private Long id;
+    private Long idAuthority;
 
     @Column(name = "NAME", length = 50)
     @NotNull
     @Enumerated(EnumType.STRING)
     private AuthorityName name;
+    
+    @Column(name = "ENABLED")
+    @NotNull
+    private Boolean enabled;
+
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "authority_privilege", joinColumns = { 
@@ -32,12 +37,12 @@ public class Authority {
 			inverseJoinColumns = { @JoinColumn(name = "ID_USER", nullable = false, updatable = false) })    	
     private List<User> user;
 
-	public Long getId() {
-        return id;
+	public Long getIdAuthority() {
+        return idAuthority;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setIdAuthority(Long idAuthority) {
+        this.idAuthority = idAuthority;
     }
 
     public AuthorityName getName() {
@@ -56,11 +61,20 @@ public class Authority {
 		this.privilege = privilege;
 	}
         
-//    public List<User> getUser() {
-//        return user;
-//    }
-//
-//    public void setUser(List<User> user) {
-//        this.user = user;
-//    }
+    public List<User> getUser() {
+        return user;
+    }
+
+    public void setUser(List<User> user) {
+        this.user = user;
+    }
+    
+	public Boolean getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
+	}
+    
 }

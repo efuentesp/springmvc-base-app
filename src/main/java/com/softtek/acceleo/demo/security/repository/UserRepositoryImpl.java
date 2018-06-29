@@ -20,7 +20,6 @@ import com.softtek.acceleo.demo.domain.User;
 @Repository("userRepository")
 @Transactional
 public class UserRepositoryImpl implements UserRepository {
-
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired

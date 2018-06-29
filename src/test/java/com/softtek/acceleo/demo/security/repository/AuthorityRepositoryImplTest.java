@@ -35,7 +35,7 @@ public class AuthorityRepositoryImplTest {
 		
 		Authority  authority = authorityRepository.getAuthority(idAuthority);
 		logger.info("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_");
-		logger.info("Id: " + authority.getId() + "\tName: " + authority.getName() + "\tPrivilege: " + authority.getPrivilege());
+		logger.info("Id: " + authority.getIdAuthority() + "\tName: " + authority.getName() + "\tPrivilege: " + authority.getPrivilege());
 		for(Privilege privilege : authority.getPrivilege()) {
 			logger.info("IdGroup: " + privilege.getGrupo() + "\tIdGrupo: " + privilege.getGrupo().getIdGrupo() + "\tGrupo-Name: " + privilege.getGrupo().getName() + "\tName: " + privilege.getName() + "\tId_privilege: " + privilege.getIdPrivilege() + 
 					"\tEnabled: " + privilege.getEnabled() + "\tCreationdate: " + privilege.getCreationdate() + "\tModifieddate: " + privilege.getModifieddate());

@@ -65,9 +65,9 @@ public class AdminPermisosRepositoryImpl implements AdminPermisosRepository {
 				adminPermiso.setNombreGrupo(row[1] == null ? null : row[1].toString());
 				adminPermiso.setIdPrivilege(row[2] == null ? null : Long.parseLong(row[2].toString()));
 				adminPermiso.setNombrePrivilege(row[3] == null ? null : row[3].toString());
-				adminPermiso.setAdmin(row[4] == null ? new Boolean("0") : Boolean.parseBoolean(row[4].toString()));
-				adminPermiso.setUser(row[5] == null ? new Boolean("0") : Boolean.parseBoolean(row[5].toString()));
-				adminPermiso.setAnonymous(row[6] == null ? new Boolean("0") : Boolean.parseBoolean(row[6].toString()));
+				adminPermiso.setAdmin(row[4] == null ? Boolean.FALSE : "1".equals(row[4].toString()) ? Boolean.TRUE : Boolean.FALSE);
+				adminPermiso.setUser(row[5] == null ? Boolean.FALSE : "1".equals(row[5].toString()) ? Boolean.TRUE : Boolean.FALSE);
+				adminPermiso.setAnonymous(row[6] == null ? Boolean.FALSE : "1".equals(row[6].toString()) ? Boolean.TRUE : Boolean.FALSE);
 				adminPermiso.setIdAuthorityAdmin(row[7] == null ? null : Long.parseLong(row[7].toString()));
 				adminPermiso.setIdPrivilegeAdmin(row[8] == null ? null : Long.parseLong(row[8].toString()));
 				adminPermiso.setIdAuthorityUser(row[9] == null ? null : Long.parseLong(row[9].toString()));
@@ -77,6 +77,7 @@ public class AdminPermisosRepositoryImpl implements AdminPermisosRepository {
 				
 				lstAdminPermisos.add(adminPermiso);
 			}
+			
 		}catch(Exception e) {
 			logger.error("Erro", e);
 		}

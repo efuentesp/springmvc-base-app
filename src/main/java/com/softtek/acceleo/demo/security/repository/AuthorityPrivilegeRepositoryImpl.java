@@ -6,13 +6,20 @@ import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.softtek.acceleo.demo.domain.Afiliado;
 import com.softtek.acceleo.demo.domain.AuthorityPrivilege;
+import com.softtek.acceleo.demo.domain.Tipopension;
+import com.softtek.acceleo.demo.repository.AfiliadoRepository;
+import com.softtek.acceleo.demo.service.AfiliadoService;
 
 @Repository("authorityPrivilegeRepository")
+@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 public class AuthorityPrivilegeRepositoryImpl implements AuthorityPrivilegeRepository{
 	private static final Logger logger = Logger.getLogger(AuthorityPrivilegeRepositoryImpl.class);
 	
@@ -20,6 +27,7 @@ public class AuthorityPrivilegeRepositoryImpl implements AuthorityPrivilegeRepos
 	private SessionFactory sessionFactory;
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<AuthorityPrivilege> getAuthorityPrivilege() {
 		List<AuthorityPrivilege> lstAuthorityPrivilege = null;
 		
@@ -35,18 +43,45 @@ public class AuthorityPrivilegeRepositoryImpl implements AuthorityPrivilegeRepos
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public void updateAuthorityPrivilege(AuthorityPrivilege authorityPrivilege) {
-		sessionFactory.getCurrentSession().update(authorityPrivilege);
-		
+		try {
+			sessionFactory.getCurrentSession().update(authorityPrivilege);
+		}catch(Exception e) {
+			logger.info("Error ---->> ", e);
+		}
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public void insertAuthorityPrivilege(AuthorityPrivilege authorityPrivilege) {
 		try {
 			sessionFactory.getCurrentSession().persist(authorityPrivilege);
 		}catch(Exception e) {
 			logger.error("Error ---->> ", e);
 		}
+	}
+
+	@Override
+	public AuthorityPrivilege getAuthorityPrivilege(AuthorityPrivilege authorityPrivilege) {
+		AuthorityPrivilege autPriv = null;
+		
+		try {
+			Session session = sessionFactory.getCurrentSession();
+			Criteria criteria = session.createCriteria(AuthorityPrivilege.class);
+			criteria.add(Restrictions.and(Restrictions.eq("idAuthority", authorityPrivilege.getIdAuthority()) , 
+					                      Restrictions.eq("idPrivilege", authorityPrivilege.getIdPrivilege())));
+			
+			List<AuthorityPrivilege> lstAuthorityPrivilege = (List<AuthorityPrivilege>) criteria.list();
+			
+			if( lstAuthorityPrivilege != null && !lstAuthorityPrivilege.isEmpty() ) {
+				autPriv = lstAuthorityPrivilege.get(0); 
+			}
+		}catch(Exception e) {
+			logger.error("Error: ", e);
+		}
+		
+		return autPriv;
 	}
 
 }

@@ -46,7 +46,7 @@ public class PrivilegeRepositoryImpltest {
 				for(Privilege privilege : lstPrivilege) {
 					logger.info("Nivel 1 -- Privilege ---->> IdPrivilege: " + privilege.getIdPrivilege() + "\tName: " + privilege.getName() + "\tEnabled: " + privilege.getEnabled() + "\tAuthority: " + privilege.getAuthority());
 					for(Authority authority : privilege.getAuthority()) {
-						logger.info("Nivel 1.1 -- Authority ---->> Id: " + authority.getId() + "\tName: " + authority.getName());
+						logger.info("Nivel 1.1 -- Authority ---->> Id: " + authority.getIdAuthority() + "\tName: " + authority.getName());
 					}
 					
 				}

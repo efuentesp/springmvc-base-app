@@ -57,7 +57,7 @@ public class UserAuthorityRepositoryImplTest {
 //					}
 //				}
 				
-				logger.info("  Nivel 1.2 -- Authority ---->> Id: " + userAuthority.getIdAuthority().getId() + "\tName: " + userAuthority.getIdAuthority().getName() + 
+				logger.info("  Nivel 1.2 -- Authority ---->> Id: " + userAuthority.getIdAuthority().getIdAuthority() + "\tName: " + userAuthority.getIdAuthority().getName() + 
 						    "\tPrivilege: " + userAuthority.getIdAuthority().getPrivilege());
 				for(Privilege privilege : userAuthority.getIdAuthority().getPrivilege()) {
 					logger.info("    Nivel 1.2.1 -- Privilege ---->> IdPrivilege: " + privilege.getIdPrivilege() + "\tName: " + privilege.getName() + "\tEnabled: " + privilege.getEnabled() + "\tGrupo" + privilege.getGrupo());
