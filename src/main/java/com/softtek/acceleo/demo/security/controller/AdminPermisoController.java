@@ -38,26 +38,17 @@ public class AdminPermisoController {
 	@PreAuthorize("hasRole('ADMIN')")
 	public @ResponseBody  List<AdminPermiso> getAdminPermisos(@RequestParam Map<String,String> requestParams, HttpServletRequest request, HttpServletResponse response) {
 
-       	String query=requestParams.get("q");
-		int _page= requestParams.get("_page")==null?0:new Integer(requestParams.get("_page")).intValue();
-		long rows = 0;
 
 		List<AdminPermiso> listAdminPermiso = null;
 
-		if (query==null && _page == 0) {
-       		listAdminPermiso = adminPermisoService.listAdminPermiso();
-			//rows = adminPermisoService.getTotalRows();
-		} else if (query!= null){
-			listAdminPermiso = adminPermisoService.listAdminPermiso();
-			//rows = adminPermisoService.getTotalRowsSearch(query);
-		} else if (_page != 0){
-			listAdminPermiso = adminPermisoService.listAdminPermiso();
-			//rows = adminPermisoService.getTotalRows();
-		}
+		
+       	listAdminPermiso = adminPermisoService.listAdminPermiso();
+
 
 		response.setHeader("Access-Control-Expose-Headers", "x-total-count");
-		response.setHeader("x-total-count", String.valueOf(rows).toString());	
 
+		System.out.println("Respuesta: "+ listAdminPermiso.size());
+		
 		return listAdminPermiso;
 	}
 	

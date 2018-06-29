@@ -14,7 +14,15 @@ public class AdminPermiso {
 	private Long idPrivilegeUser;
 	private Long idAuthorityAnonymous;
 	private Long idPrivilegeAnonymous;
+	private Integer activeUser;
 	
+
+	public Integer getActiveUser() {
+		return activeUser;
+	}
+	public void setActiveUser(Integer activeUser) {
+		this.activeUser = activeUser;
+	}
 	public Long getIdGrupo() {
 		return idGrupo;
 	}
@@ -93,4 +101,6 @@ public class AdminPermiso {
 	public void setIdPrivilegeAnonymous(Long idPrivilegeAnonymous) {
 		this.idPrivilegeAnonymous = idPrivilegeAnonymous;
 	}
+	
+	
 }
