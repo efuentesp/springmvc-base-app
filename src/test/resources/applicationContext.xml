@@ -54,6 +54,9 @@
 	<bean id="testAuthorityPrivilegeRepositoryImpl" class="com.softtek.acceleo.demo.security.repository.AuthorityPrivilegeRepositoryImpl" />
 	<bean id="testPrivilegeRepositoryImpl" class="com.softtek.acceleo.demo.security.repository.PrivilegeRepositoryImpl" />
 	<bean id="testAdminPermisosRepositoryImpl" class="com.softtek.acceleo.demo.security.repository.AdminPermisosRepositoryImpl" />
+	
+	<bean id="testAdminPermisoServiceImpl" class="com.softtek.acceleo.demo.service.impl.AdminPermisoServiceImpl" />
+	
     
       
 <!-- 

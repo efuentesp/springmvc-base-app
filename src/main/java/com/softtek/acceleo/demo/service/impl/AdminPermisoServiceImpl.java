@@ -55,6 +55,7 @@ public class AdminPermisoServiceImpl implements AdminPermisoService{
 		AuthorityPrivilege authorityPrivilege = new AuthorityPrivilege();
 		Long authorityID = null;
 		Long privilegeID = null;
+		Boolean flag = Boolean.FALSE;
 		
 		List<Authority> lstAuthority = authorityRepository.getAuthority();
 		if( lstAuthority == null || lstAuthority.isEmpty() ) {
@@ -64,12 +65,18 @@ public class AdminPermisoServiceImpl implements AdminPermisoService{
 				if( authority.getIdAuthority().longValue() == adminPermiso.getActiveUser() && "ROLE_ADMIN".equals(authority.getName().name()) ) {
 					authorityID = adminPermiso.getIdAuthorityAdmin();
 					privilegeID = adminPermiso.getIdPrivilegeAdmin();
+					flag = adminPermiso.isAdmin();
+					break;
 				}else if( authority.getIdAuthority().longValue() == adminPermiso.getActiveUser() && "ROLE_USER".equals(authority.getName().name()) ) {
 					authorityID = adminPermiso.getIdAuthorityUser();
 					privilegeID = adminPermiso.getIdPrivilegeUser();
+					flag = adminPermiso.isUser();
+					break;
 				}else if( authority.getIdAuthority().longValue() == adminPermiso.getActiveUser() && "ROLE_ANONYMOUS".equals(authority.getName().name()) ) {
 					authorityID = adminPermiso.getIdAuthorityAnonymous();
 					privilegeID = adminPermiso.getIdPrivilegeAnonymous();
+					flag = adminPermiso.isAnonymous();
+					break;
 				}
 			}
 		}
@@ -79,7 +86,7 @@ public class AdminPermisoServiceImpl implements AdminPermisoService{
 
 		authorityPrivilege.setIdAuthority(authority);		
 		authorityPrivilege.setIdPrivilege(privilege);
-		authorityPrivilege.setEnabled(Boolean.TRUE);
+		authorityPrivilege.setEnabled(flag);
 		
 		AuthorityPrivilege autPriv = authorityPrivilegeRepository.getAuthorityPrivilege(authorityPrivilege);
 		if( autPriv == null) {			
