@@ -6,5 +6,9 @@ import com.softtek.acceleo.demo.domain.AuthorityPrivilege;
 
 public interface AuthorityPrivilegeRepository {
 
-	List<AuthorityPrivilege> getAuthorityPrivilege(); 
+	List<AuthorityPrivilege> getAuthorityPrivilege();
+	
+	void updateAuthorityPrivilege(AuthorityPrivilege authorityPrivilege);
+	
+	void insertAuthorityPrivilege(AuthorityPrivilege authorityPrivilege);
 }

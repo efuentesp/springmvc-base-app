@@ -18,7 +18,11 @@ public class AuthorityPrivilege {
     @GeneratedValue(strategy = GenerationType.AUTO)
 	private Long idAutorityPrivilege;
     
-//    @Column(name = "ID_PRIVILEGE")
+    @Column(name = "ENABLED")    
+    private Boolean enabled;
+    
+    
+	//    @Column(name = "ID_PRIVILEGE")
 //    @NotNull
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "ID_PRIVILEGE")    
@@ -68,5 +72,13 @@ public class AuthorityPrivilege {
 	public void setIdAuthority(Authority idAuthority) {
 		this.idAuthority = idAuthority;
 	}
-    
+
+    public Boolean getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
+	}
+	
 }

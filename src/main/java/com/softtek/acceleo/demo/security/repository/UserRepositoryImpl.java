@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
@@ -12,10 +13,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.softtek.acceleo.demo.domain.User;
 
 @Repository("userRepository")
+@Transactional
 public class UserRepositoryImpl implements UserRepository {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -42,8 +45,15 @@ public class UserRepositoryImpl implements UserRepository {
 		    cal.add(Calendar.MONTH, -1);
 		    da = cal.getTime();
 			user.setLastPasswordResetDate(da);
+		}catch(HibernateException e) {
+			logger.error("Error - HibernateException: ", e);
+			System.err.println("Error: " + e);			
+		}catch(RuntimeException e) {
+			logger.error("Error - RuntimeException: ", e);
+			System.err.println("Error: " + e);
 		}catch(Exception e) {
-			logger.error("Error: ", e);
+			logger.error("Error - Exception: ", e);
+			System.err.println("Error: " + e);
 		}
 		
 		return user;

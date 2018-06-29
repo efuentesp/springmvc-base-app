@@ -9,6 +9,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.softtek.acceleo.demo.domain.Afiliado;
 import com.softtek.acceleo.demo.domain.AuthorityPrivilege;
 
 @Repository("authorityPrivilegeRepository")
@@ -31,6 +32,21 @@ public class AuthorityPrivilegeRepositoryImpl implements AuthorityPrivilegeRepos
 		}
 		
 		return lstAuthorityPrivilege;
+	}
+
+	@Override
+	public void updateAuthorityPrivilege(AuthorityPrivilege authorityPrivilege) {
+		sessionFactory.getCurrentSession().update(authorityPrivilege);
+		
+	}
+
+	@Override
+	public void insertAuthorityPrivilege(AuthorityPrivilege authorityPrivilege) {
+		try {
+			sessionFactory.getCurrentSession().persist(authorityPrivilege);
+		}catch(Exception e) {
+			logger.error("Error ---->> ", e);
+		}
 	}
 
 }

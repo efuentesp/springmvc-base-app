@@ -13,9 +13,11 @@
 						http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
 						http://www.springframework.org/schema/security
 						http://www.springframework.org/schema/security/spring-security-4.0.xsd">
-
+	
 	<context:annotation-config />
-
+	
+ 	<tx:annotation-driven transaction-manager="transactionManager"/>
+ 	
 	<context:component-scan base-package="com.softtek.acceleo.demo.*" />
 	<context:component-scan base-package="com.softtek.acceleo.demo.service" />
 	<context:component-scan base-package="com.softtek.acceleo.demo.catalogo.bean" />
@@ -24,7 +26,10 @@
 	<context:component-scan base-package="com.softtek.acceleo.demo.security" />
 	<context:component-scan base-package="com.softtek.acceleo.demo.security.controller" />
 	<!-- <context:component-scan base-package="com.softtek.acceleo.demo.security.model" /> -->
-
+<!--
+ 	<context:component-scan base-package="com.softtek.acceleo.demo.security.repository" />
+	<context:component-scan base-package="com.softtek.acceleo.demo.security.rest" />
+ -->
 	<mvc:resources mapping="/resources/**" location="/resources/static/" />
 
 	<mvc:annotation-driven />
@@ -56,5 +61,6 @@
 
 	<bean id="persistenceExceptionTranslationPostProcessor"
 		class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+		
 
 </beans>

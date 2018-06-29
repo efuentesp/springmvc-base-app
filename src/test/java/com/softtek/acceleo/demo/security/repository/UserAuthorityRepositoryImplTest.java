@@ -48,14 +48,14 @@ public class UserAuthorityRepositoryImplTest {
 				logger.info("Nivel 1 -- UserAuthority ---->> IdUserAuthority: " + userAuthority.getIdUserAuthority() + "\tIdUser: " + userAuthority.getIdUser() + "\tIdAuthority: " + userAuthority.getIdAuthority());
 				
 				logger.info("  Nivel 1.1 -- User ---->> IdUser: " + userAuthority.getIdUser().getIdUser() + "\tUserName: " + userAuthority.getIdUser().getUserName() + 
-						    "\tAuthority: " + userAuthority.getIdUser().getAuthority());
-				for(Authority authority : userAuthority.getIdUser().getAuthority()) {
-					logger.info("    Nivel 1.1.1 -- Authority ---->> Id: " + authority.getId() + "\tName: " + authority.getName() + "\tPrivilege: " + authority.getPrivilege());
-					for(Privilege privilege :  authority.getPrivilege()) {
-						logger.info("      Nivel 1.1.1.1 -- Privilege ---->> IdPrivilege: " + privilege.getIdPrivilege() + "\tName: " + privilege.getName() + "\tEnabled: " + privilege.getEnabled() + "\tGrupo: " + privilege.getGrupo());
-						logger.info("        Nivel 1.1.1.1.1 -- Grupo ---->> IdGrupo: " + privilege.getGrupo().getIdGrupo() + "\tName: " + privilege.getGrupo().getName());
-					}
-				}
+						    "\tAuthority: " /*+ userAuthority.getIdUser().getAuthority()*/);
+//				for(Authority authority : userAuthority.getIdUser().getAuthority()) {
+//					logger.info("    Nivel 1.1.1 -- Authority ---->> Id: " + authority.getId() + "\tName: " + authority.getName() + "\tPrivilege: " + authority.getPrivilege());
+//					for(Privilege privilege :  authority.getPrivilege()) {
+//						logger.info("      Nivel 1.1.1.1 -- Privilege ---->> IdPrivilege: " + privilege.getIdPrivilege() + "\tName: " + privilege.getName() + "\tEnabled: " + privilege.getEnabled() + "\tGrupo: " + privilege.getGrupo());
+//						logger.info("        Nivel 1.1.1.1.1 -- Grupo ---->> IdGrupo: " + privilege.getGrupo().getIdGrupo() + "\tName: " + privilege.getGrupo().getName());
+//					}
+//				}
 				
 				logger.info("  Nivel 1.2 -- Authority ---->> Id: " + userAuthority.getIdAuthority().getId() + "\tName: " + userAuthority.getIdAuthority().getName() + 
 						    "\tPrivilege: " + userAuthority.getIdAuthority().getPrivilege());

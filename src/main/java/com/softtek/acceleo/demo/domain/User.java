@@ -78,11 +78,20 @@ public class User {
 //            name = "USER_AUTHORITY",
 //            joinColumns = {@JoinColumn(name = "ID_USER", referencedColumnName = "ID_USER")},
 //            inverseJoinColumns = {@JoinColumn(name = "ID_AUTHORITY", referencedColumnName = "ID_AUTHORITY")})
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "user")
-    private List<Authority> authority;
+    //@ManyToMany(fetch = FetchType.LAZY, mappedBy = "user")
+//    @ManyToMany(fetch = FetchType.EAGER, mappedBy="user")
+//    private List<Authority> authority;
+    
+    
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "USER_AUTHORITY",
+            joinColumns = {@JoinColumn(name = "ID_USER", referencedColumnName = "ID_USER")},
+            inverseJoinColumns = {@JoinColumn(name = "ID_AUTHORITY", referencedColumnName = "ID_AUTHORITY")})
+    private List<Authority> authorities;
     
 
-    public Long getIdUser() {
+	public Long getIdUser() {
         return idUser;
     }
 
@@ -170,13 +179,13 @@ public class User {
 		this.modifiedDate = modifiedDate;
 	}
 
-	public List<Authority> getAuthority() {
-		return authority;
-	}
-
-	public void setAuthority(List<Authority> authority) {
-		this.authority = authority;
-	}    
+//	public List<Authority> getAuthority() {
+//		return authority;
+//	}
+//
+//	public void setAuthority(List<Authority> authority) {
+//		this.authority = authority;
+//	}    
 
 	public Object getRole() {
 		return null;
@@ -185,5 +194,12 @@ public class User {
 	public void setRole(String string) {
 	}
 	
+    public List<Authority> getAuthorities() {
+		return authorities;
+	}
+
+	public void setAuthorities(List<Authority> authorities) {
+		this.authorities = authorities;
+	}
 	
 }
