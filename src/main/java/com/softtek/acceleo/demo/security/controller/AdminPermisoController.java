@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -51,5 +52,17 @@ public class AdminPermisoController {
 		
 		return listAdminPermiso;
 	}
+	
+	@RequestMapping(value = "/adminPermiso", method = RequestMethod.PUT, produces = "application/json")
+	@PreAuthorize("hasRole('ADMIN')")  
+    public void updateAuthorityPrivilege(@RequestBody AdminPermiso adminPermiso) {
+		
+		// UpdateData
+		adminPermisoService.updateAuthorityPrivilege(adminPermiso);
+		
+		System.out.println("Dato Actualizado");
+	}
+	
+	
 	
 }
