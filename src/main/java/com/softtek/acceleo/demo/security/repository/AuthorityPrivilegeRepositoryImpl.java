@@ -50,7 +50,9 @@ public class AuthorityPrivilegeRepositoryImpl implements AuthorityPrivilegeRepos
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public void updateAuthorityPrivilege(AuthorityPrivilege authorityPrivilege) {
 		try {
-			sessionFactory.getCurrentSession().update(authorityPrivilege);
+			Session session = sessionFactory.getCurrentSession();
+			session.flush();
+			session.update(authorityPrivilege);
 		}catch(Exception e) {
 			logger.info("Error ---->> ", e);
 		}
@@ -60,7 +62,9 @@ public class AuthorityPrivilegeRepositoryImpl implements AuthorityPrivilegeRepos
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public void insertAuthorityPrivilege(AuthorityPrivilege authorityPrivilege) {
 		try {
-			sessionFactory.getCurrentSession().persist(authorityPrivilege);
+			Session session = sessionFactory.getCurrentSession();
+			session.flush();
+			session.persist(authorityPrivilege);
 		}catch(Exception e) {
 			logger.error("Error ---->> ", e);
 		}
