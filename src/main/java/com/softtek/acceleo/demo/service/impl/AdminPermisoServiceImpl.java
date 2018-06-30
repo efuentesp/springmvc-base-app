@@ -81,14 +81,18 @@ public class AdminPermisoServiceImpl implements AdminPermisoService{
 			}
 		}
 		
-		Authority authority = authorityRepository.getAuthority(authorityID);
-		Privilege privilege = privilegeRepository.getPrivilege(privilegeID);
+		AuthorityPrivilege autPriv = null;
+		if( authorityID != null && privilegeID != null ) {
+			Authority authority = authorityRepository.getAuthority(authorityID);
+			Privilege privilege = privilegeRepository.getPrivilege(privilegeID);
 
-		authorityPrivilege.setIdAuthority(authority);		
-		authorityPrivilege.setIdPrivilege(privilege);
-		authorityPrivilege.setEnabled(flag);
+			authorityPrivilege.setIdAuthority(authority);		
+			authorityPrivilege.setIdPrivilege(privilege);
+			authorityPrivilege.setEnabled(flag);
+			
+			autPriv = authorityPrivilegeRepository.getAuthorityPrivilege(authorityPrivilege);			
+		}
 		
-		AuthorityPrivilege autPriv = authorityPrivilegeRepository.getAuthorityPrivilege(authorityPrivilege);
 		if( autPriv == null) {			
 			authorityPrivilegeRepository.insertAuthorityPrivilege(authorityPrivilege);
 			logger.info("El registro no existia, por lo cual se inserto exitosamente...");
