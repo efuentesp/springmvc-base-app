@@ -80,18 +80,15 @@ public class AdminPermisoServiceImpl implements AdminPermisoService{
 				}
 			}
 		}
-		
-		AuthorityPrivilege autPriv = null;
-		if( authorityID != null && privilegeID != null ) {
-			Authority authority = authorityRepository.getAuthority(authorityID);
-			Privilege privilege = privilegeRepository.getPrivilege(privilegeID);
 
-			authorityPrivilege.setIdAuthority(authority);		
-			authorityPrivilege.setIdPrivilege(privilege);
-			authorityPrivilege.setEnabled(flag);
-			
-			autPriv = authorityPrivilegeRepository.getAuthorityPrivilege(authorityPrivilege);			
-		}
+		Authority authority = authorityRepository.getAuthority(authorityID == null ? adminPermiso.getActiveUser() : authorityID);
+		Privilege privilege = privilegeRepository.getPrivilege(privilegeID == null ? adminPermiso.getIdPrivilege() : privilegeID);
+		
+		authorityPrivilege.setIdAuthority(authority);		
+		authorityPrivilege.setIdPrivilege(privilege);
+		authorityPrivilege.setEnabled(flag);
+		
+		AuthorityPrivilege autPriv = authorityPrivilegeRepository.getAuthorityPrivilege(authorityPrivilege);		
 		
 		if( autPriv == null) {			
 			authorityPrivilegeRepository.insertAuthorityPrivilege(authorityPrivilege);
