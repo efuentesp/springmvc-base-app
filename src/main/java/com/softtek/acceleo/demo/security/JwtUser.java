@@ -2,11 +2,13 @@ package com.softtek.acceleo.demo.security;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.softtek.acceleo.demo.domain.Privilege;
 
 /**
  * Created by stephan on 20.03.16.
@@ -43,6 +45,17 @@ public class JwtUser implements UserDetails {
         this.enabled = enabled;
         this.lastPasswordResetDate = lastPasswordResetDate;
     }
+    
+    /**
+     * Se carga informacion de los authority.
+     * @return
+     */
+    private Collection<? extends Privilege> loadPrivilege(){
+    	
+    	
+    	return null;
+    }
+    
 
     @JsonIgnore
     public Long getId() {

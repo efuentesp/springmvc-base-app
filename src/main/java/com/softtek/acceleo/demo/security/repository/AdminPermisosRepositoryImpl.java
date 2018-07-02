@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import com.softtek.acceleo.demo.domain.AdminPermiso;
+import com.softtek.acceleo.demo.domain.ConfigAuthority;
+import com.softtek.acceleo.demo.domain.ConfigPermisos;
 
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
@@ -60,12 +62,14 @@ public class AdminPermisosRepositoryImpl implements AdminPermisosRepository {
 			
 			for(Object[] row : lstAdminPerm) {
 				AdminPermiso adminPermiso = new AdminPermiso();
-				
+
+				/**
 				logger.info("IdGrupo: " + row[0].toString() + "\tNombreGrupo: " + row[1].toString() + "\tIdPrivilege: " + row[2].toString() + 
 						    "\tNombrePrivilege: " + row[3].toString() + "\tAdmin: " + row[4].toString() + "\tUser: " + row[5].toString() +
 						    "\tAnonymous: " + row[6].toString() + "\tIdAuthorityAdmin: " + (row[7] == null ? "null" : row[7].toString()) + "\tIdPrivilegeAdmin: " + (row[8] == null ? "null" : row[8].toString()) +
 						    "\tIdAuthorityUser: " + (row[9] == null ? "null" : row[9].toString()) + "\tIdPrivilegeUser: " + (row[10] == null ? "null" : row[10].toString()) + 
 						    "\tIdAuthorityAnonymous: " + (row[11] == null ? "null" : row[11].toString()) + "\tIdPrivilegeAnonymous: " + (row[12] == null ? "null" : row[12].toString()));
+				*/
 				
 				adminPermiso.setIdGrupo(row[0] == null ? null : Long.parseLong(row[0].toString()));
 				adminPermiso.setNombreGrupo(row[1] == null ? null : row[1].toString());
@@ -93,12 +97,90 @@ public class AdminPermisosRepositoryImpl implements AdminPermisosRepository {
 						    "\tIdAuthorityAnonymous: " + adminPermiso.getIdAuthorityAnonymous() + "\tIdPrivilegeAnonymous: " + adminPermiso.getIdPrivilegeAnonymous());
 			}
 			
-			
 		}catch(Exception e) {
 			logger.error("Erro", e);
 		}
 		
 		return lstAdminPermisos;
+	}
+
+
+	@Override
+	public List<ConfigPermisos> getConfiguracionPermisos() {
+		List<ConfigPermisos> lstConfiguracionPermisos = new ArrayList<>();
+		
+		Session session = sessionFactory.getCurrentSession();
+		Transaction transaction = session.beginTransaction();
+		
+		
+		SQLQuery query = session.createSQLQuery("select a.ID_AUTHORITY, a.NAME, a.ENABLED\r\n" + 
+		"from demoacceleo.authority a\r\n" + 
+		"where a.ENABLED = 1\r\n" +
+		"order by a.NAME asc\r\n");
+		List<Object[]> lstAuthority = query.list();
+		session.clear();
+		session.flush();
+		
+		
+		query = session.createSQLQuery("select g.ID_GRUPO, g.NAME, p.ID_PRIVILEGE, p.NAME, p.ENABLED\r\n" + 
+				"from demoacceleo.grupo g, demoacceleo.privilege p\r\n" + 
+				"where g.ID_GRUPO = p.ID_GRUPO\r\n" + 
+				"and p.ENABLED = 1");
+		
+		List<Object[]> lstAdminPerm = query.list();
+		session.clear();
+		session.flush();
+		
+		try {
+			for(Object[] row : lstAdminPerm) {
+				ConfigPermisos configPermisos = new ConfigPermisos();
+				List<ConfigAuthority> lstConfigAuthority = new ArrayList<>();
+				
+				query = session.createSQLQuery("select ap.ID_AUTHORITY, ap.ID_PRIVILEGE, ap.ENABLED\r\n" + 
+						"from demoacceleo.authority_privilege ap\r\n" + 
+						"where ap.ID_PRIVILEGE = 1;\r\n");
+				List<Object[]> lstAuthorityPrivilege = query.list();
+				session.clear();
+				session.flush();
+				
+				for(Object[] rowAuthority : lstAuthority) {
+					ConfigAuthority configAuthority = new ConfigAuthority();
+					boolean eureka = false;
+					
+					for(Object[] rowAuthorityPrivilege : lstAuthorityPrivilege ) {
+						if( rowAuthority[0].toString().equals(rowAuthorityPrivilege[0].toString()) ) {
+							configAuthority.setIdPrivilege(Long.parseLong(rowAuthorityPrivilege[1].toString()));						
+							configAuthority.setEnabled(rowAuthorityPrivilege[2] == null ? Boolean.FALSE : "1".equals(rowAuthorityPrivilege[2].toString()) ? Boolean.TRUE : Boolean.FALSE);
+							eureka = true;
+							break;
+						}
+					}
+					
+					if( !eureka ) {
+						configAuthority.setIdPrivilege(null);
+						configAuthority.setEnabled(Boolean.FALSE);
+					}				
+	
+					configAuthority.setIdAuthority(Long.parseLong(rowAuthority[0].toString()));				
+					configAuthority.setNameAuthority((String) rowAuthority[1]);
+					
+					lstConfigAuthority.add(configAuthority);
+				}
+				
+				configPermisos.setIdGrupo(row[0] == null ? null : Long.parseLong(row[0].toString()));
+				configPermisos.setNombreGrupo((String) row[1]);
+				configPermisos.setIdPrivilege(row[2] == null ? null : Long.parseLong(row[2].toString()));
+				configPermisos.setNombrePrivilege((String) row[3]);
+				configPermisos.setLstConfigAuthority(lstConfigAuthority);
+				
+				lstConfiguracionPermisos.add(configPermisos);
+			}
+		}catch(Exception e) {
+			logger.error("Error: ", e);
+		}
+		
+		
+		return lstConfiguracionPermisos;
 	}
 
 }

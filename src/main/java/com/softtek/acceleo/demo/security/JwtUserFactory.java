@@ -4,14 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.log4j.Logger;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import com.softtek.acceleo.demo.domain.Authority;
 import com.softtek.acceleo.demo.domain.Privilege;
 import com.softtek.acceleo.demo.domain.User;
+import com.softtek.acceleo.demo.security.repository.AdminPermisosRepositoryImplTest;
 
 public final class JwtUserFactory {
+	private static final Logger logger = Logger.getLogger(JwtUserFactory.class);
 
     private JwtUserFactory() {
     }
@@ -26,15 +29,35 @@ public final class JwtUserFactory {
                 user.getPassword(),
                 mapToGrantedAuthorities(user.getAuthorities()),
                 //mapToGrantedPrivileges(user.getAuthorities()),
+                //user.getAuthorities()
                 user.getEnabled(),
                 user.getLastPasswordResetDate()
         );
     }
 
-    private static List<GrantedAuthority> mapToGrantedAuthorities(List<Authority> authorities) {
-        return authorities.stream()
-                .map(authority -> new SimpleGrantedAuthority(authority.getName()))
-                .collect(Collectors.toList());
+    private static List<GrantedAuthority> mapToGrantedAuthorities(List<Authority> authorities) {    	
+    	//Barrer los autorities
+    	//Por cada Autority obtener privilegios
+    	//Y cada nombre de privilegio crear un arrglo de GrantedAuthority
+    	List<GrantedAuthority> listGrantedAuthority = new ArrayList<>();
+    	
+    	
+    	logger.info("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_");
+    	logger.info("Iniciando convert AUTHORITY --> PRIVILEGE:");
+    	for(Authority authority : authorities) {
+    		for(Privilege privilege : authority.getPrivilege()){
+    			listGrantedAuthority.add(new SimpleGrantedAuthority(privilege.getName()));
+    			logger.info("Name: " + privilege.getName());
+    		}
+    	}
+    	logger.info("Finalizando convert AUTHORITY --> PRIVILEGE:");    	
+    	logger.info("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_");
+    	    	
+    	return listGrantedAuthority;
+    	
+        //return authorities.stream()
+          //      .map(authority -> new SimpleGrantedAuthority(authority.getName))
+            //    .collect(Collectors.toList());
     }
     
 //    private static List<GrantedAuthority> mapToGrantedPrivileges(List<Authority> authorities) {

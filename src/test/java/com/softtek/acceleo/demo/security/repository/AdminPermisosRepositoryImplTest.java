@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.softtek.acceleo.demo.domain.AdminPermiso;
+import com.softtek.acceleo.demo.domain.ConfigAuthority;
+import com.softtek.acceleo.demo.domain.ConfigPermisos;
 
 import org.apache.log4j.Logger;
 
@@ -32,6 +35,7 @@ public class AdminPermisosRepositoryImplTest {
 		logger.info("****** Iniciando prueba de JUnit - AdminPermisosRepositoryImplTest... ******");
 	}
 
+	@Ignore
 	@Test
 	public void testGetPermisos() {
 		try {
@@ -52,6 +56,27 @@ public class AdminPermisosRepositoryImplTest {
 			}
 		}catch(Exception e) {
 			logger.info("Error: ", e);
+		}
+	}
+	
+	
+	@Test
+	public void testGetConfiguracionPermisos(){
+		List<ConfigPermisos> lstConfigPermisos = adminPermisosRepository.getConfiguracionPermisos();
+		if( lstConfigPermisos == null || lstConfigPermisos.isEmpty() ) {
+			logger.info("No se encontraron registros.");
+		}else {
+			logger.info("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_");			
+			logger.info("El numero de registros obtenidos es: " + lstConfigPermisos.size());
+			
+			for(ConfigPermisos configPermisos: lstConfigPermisos) {
+				logger.info("IdGrupo: " + configPermisos.getIdGrupo() + "\tNombreGrupo: " + configPermisos.getNombreGrupo() + "\tIdPrivilege: " + configPermisos.getIdPrivilege() + 
+							"\tNombrePrivilege: " + configPermisos.getNombrePrivilege());
+				
+				for(ConfigAuthority configAuthority : configPermisos.getLstConfigAuthority()) {
+					logger.info("  NameAuthority: " + configAuthority.getNameAuthority() + "\tIdAuthority: " + configAuthority.getIdAuthority() + "\tIdPrivilege: " + configAuthority.getIdPrivilege() + "\tEnabled: " + configAuthority.getEnabled());
+				}
+			}
 		}
 	}
 
