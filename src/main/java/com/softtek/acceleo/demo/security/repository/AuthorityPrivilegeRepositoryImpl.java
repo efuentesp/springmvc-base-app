@@ -23,7 +23,8 @@ import com.softtek.acceleo.demo.service.AfiliadoService;
 
 @Repository("authorityPrivilegeRepository")
 @Rollback(false)
-@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+//@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+@Transactional
 public class AuthorityPrivilegeRepositoryImpl implements AuthorityPrivilegeRepository{
 	private static final Logger logger = Logger.getLogger(AuthorityPrivilegeRepositoryImpl.class);
 	
@@ -31,7 +32,7 @@ public class AuthorityPrivilegeRepositoryImpl implements AuthorityPrivilegeRepos
 	private SessionFactory sessionFactory;
 
 	@Override
-	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	//@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<AuthorityPrivilege> getAuthorityPrivilege() {
 		List<AuthorityPrivilege> lstAuthorityPrivilege = null;
 		
@@ -47,7 +48,7 @@ public class AuthorityPrivilegeRepositoryImpl implements AuthorityPrivilegeRepos
 	}
 
 	@Override
-	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+	//@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public void updateAuthorityPrivilege(AuthorityPrivilege authorityPrivilege) {
 		try {
 			Session session = sessionFactory.getCurrentSession();
@@ -59,7 +60,7 @@ public class AuthorityPrivilegeRepositoryImpl implements AuthorityPrivilegeRepos
 	}
 
 	@Override
-	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+	//@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public void insertAuthorityPrivilege(AuthorityPrivilege authorityPrivilege) {
 		try {
 			Session session = sessionFactory.getCurrentSession();
