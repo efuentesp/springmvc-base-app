@@ -64,7 +64,9 @@ public class AuthorityPrivilegeRepositoryImpl implements AuthorityPrivilegeRepos
 	public void insertAuthorityPrivilege(AuthorityPrivilege authorityPrivilege) {
 		try {
 			Session session = sessionFactory.getCurrentSession();
+			session.clear();
 			session.flush();
+			
 			session.persist(authorityPrivilege);
 		}catch(Exception e) {
 			logger.error("Error ---->> ", e);
@@ -77,6 +79,9 @@ public class AuthorityPrivilegeRepositoryImpl implements AuthorityPrivilegeRepos
 		
 		try {
 			Session session = sessionFactory.getCurrentSession();
+			session.clear();
+			session.flush();
+						
 			Criteria criteria = session.createCriteria(AuthorityPrivilege.class);
 			criteria.add(Restrictions.and(Restrictions.eq("idAuthority", authorityPrivilege.getIdAuthority()) , 
 					                      Restrictions.eq("idPrivilege", authorityPrivilege.getIdPrivilege())));
@@ -86,6 +91,7 @@ public class AuthorityPrivilegeRepositoryImpl implements AuthorityPrivilegeRepos
 			if( lstAuthorityPrivilege != null && !lstAuthorityPrivilege.isEmpty() ) {
 				autPriv = lstAuthorityPrivilege.get(0); 
 			}
+			
 		}catch(Exception e) {
 			logger.error("Error: ", e);
 		}

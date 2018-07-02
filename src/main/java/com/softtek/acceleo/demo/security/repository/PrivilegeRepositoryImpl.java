@@ -36,7 +36,11 @@ public class PrivilegeRepositoryImpl implements PrivilegeRepository{
 		Privilege privilege = null;
 		
 		try {
-			privilege = (Privilege) sessionFactory.getCurrentSession().get(Privilege.class, idPrivilege);
+			Session session = sessionFactory.getCurrentSession();
+			privilege = (Privilege) session.get(Privilege.class, idPrivilege);
+			
+			session.clear();
+			session.flush();
 		}catch(Exception e) {
 			logger.error("---->> Error: ", e);
 		}

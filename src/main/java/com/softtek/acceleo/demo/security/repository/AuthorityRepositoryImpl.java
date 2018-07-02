@@ -27,7 +27,12 @@ public class AuthorityRepositoryImpl implements AuthorityRepository{
 		Authority authority = null;
 		
 		try {
-			authority = (Authority) sessionFactory.getCurrentSession().get(Authority.class, authoritoryId);
+			Session session = sessionFactory.getCurrentSession();
+			
+			authority = (Authority) session.get(Authority.class, authoritoryId);
+			
+			session.clear();
+			session.flush();			
 		}catch(Exception e) {
 			logger.error("---->> Error: ", e);
 		}
@@ -44,7 +49,10 @@ public class AuthorityRepositoryImpl implements AuthorityRepository{
 			Criteria criteria = session.createCriteria(Authority.class);
 			criteria.add(Restrictions.eq("enabled", Boolean.TRUE)).list();
 			
-			lstAuthority = (List<Authority>) criteria.list();			
+			lstAuthority = (List<Authority>) criteria.list();
+			
+			session.clear();
+			session.flush();
 		}catch(Exception e) {
 			logger.error("Error: ", e);
 		}

@@ -54,7 +54,7 @@ public class AdminPermisoServiceImpl implements AdminPermisoService{
 	public void updateAuthorityPrivilege(AdminPermiso adminPermiso) {
 		AuthorityPrivilege authorityPrivilege = new AuthorityPrivilege();
 		Long authorityID = null;
-		Long privilegeID = null;
+		Long privilegeID = null; 
 		Boolean flag = Boolean.FALSE;
 		
 		List<Authority> lstAuthority = authorityRepository.getAuthority();
