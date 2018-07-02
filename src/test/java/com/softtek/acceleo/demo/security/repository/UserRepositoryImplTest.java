@@ -41,7 +41,8 @@ public class UserRepositoryImplTest {
 			logger.info("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_");
 			logger.info("Nivel 1 -- user --> Email: " + user.getEmail() + "\tFirstname: " + user.getFirstname() + "\tLastname: " + user.getLastname() + 
 					    "\tPassword: " + user.getPassword() + "\tUsername: " + user.getUserName() + "\tAttemps: " + user.getAttemps() + 
-					    "\tIdUser: " + user.getIdUser() + "\tAuthority" + /*user.getAuthority() +*/
+					    "\tIdUser: " + user.getIdUser() + "\tAuthority" + user.getAuthorities().size() +
+					    "\tPrivileges"  + user.getAuthorities().get(0).getPrivilege().get(0).getName() +
 					    "\tEnabled: " + user.getEnabled() + "\tLastPasswordResetDate: " + user.getLastPasswordResetDate());
 			logger.info("-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_");
 //			for(Authority authority : user.getAuthority()) {

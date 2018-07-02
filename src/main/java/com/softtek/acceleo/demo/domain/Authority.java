@@ -3,6 +3,9 @@ package com.softtek.acceleo.demo.domain;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -16,26 +19,34 @@ public class Authority {
 
     @Column(name = "NAME", length = 50)
     @NotNull
-    @Enumerated(EnumType.STRING)
-    private AuthorityName name;
+    //@Enumerated(EnumType.STRING)
+    //private AuthorityName name;
+    private String name;
     
     @Column(name = "ENABLED")
     @NotNull
     private Boolean enabled;
-
+    
+    
+    @Column(name = "CREATIONDATE")
+    @NotNull
+    private Date creationDate;
+    
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "authority_privilege", joinColumns = { 
 			@JoinColumn(name = "ID_AUTHORITY", nullable = false, updatable = false) }, 
 			inverseJoinColumns = { @JoinColumn(name = "ID_PRIVILEGE", nullable = false, updatable = false) })    
-    private List<Privilege> privilege;
+	@JsonIgnore 
+	private List<Privilege> privilege;
     
     
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "user_authority", joinColumns = { 
 			@JoinColumn(name = "ID_AUTHORITY", nullable = false, updatable = false) }, 
 			inverseJoinColumns = { @JoinColumn(name = "ID_USER", nullable = false, updatable = false) })    	
-    private List<User> user;
+	@JsonIgnore 
+	private List<User> user;
 
 	public Long getIdAuthority() {
         return idAuthority;
@@ -45,16 +56,26 @@ public class Authority {
         this.idAuthority = idAuthority;
     }
 
-    public AuthorityName getName() {
-        return name;
-    }
-
-    public void setName(AuthorityName name) {
-        this.name = name;
-    }
+    
+    
+//    public AuthorityName getName() {
+//        return name;
+//    }
+//
+//    public void setName(AuthorityName name) {
+//        this.name = name;
+//    }
 
     public List<Privilege> getPrivilege() {
 		return privilege;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public void setPrivilege(List<Privilege> privilege) {
@@ -76,5 +97,15 @@ public class Authority {
 	public void setEnabled(Boolean enabled) {
 		this.enabled = enabled;
 	}
+
+	public Date getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
+	}
+	
+	
     
 }

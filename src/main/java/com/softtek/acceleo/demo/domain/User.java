@@ -91,6 +91,14 @@ public class User {
     private List<Authority> authorities;
     
 
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
 	public Long getIdUser() {
         return idUser;
     }
@@ -99,15 +107,7 @@ public class User {
         this.idUser = idUser;
     }
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getPassword() {
+	public String getPassword() {
         return password;
     }
 
@@ -187,12 +187,12 @@ public class User {
 //		this.authority = authority;
 //	}    
 
-	public Object getRole() {
-		return null;
-	}
-
-	public void setRole(String string) {
-	}
+//	public Object getRole() {
+//		return null;
+//	}
+//
+//	public void setRole(String string) {
+//	}
 	
     public List<Authority> getAuthorities() {
 		return authorities;

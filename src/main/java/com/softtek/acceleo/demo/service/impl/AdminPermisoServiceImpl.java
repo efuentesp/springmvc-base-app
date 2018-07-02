@@ -62,17 +62,17 @@ public class AdminPermisoServiceImpl implements AdminPermisoService{
 			logger.info("No se encontro informacion en el catalogo authority.");
 		}else {
 			for(Authority authority : lstAuthority) {
-				if( authority.getIdAuthority().longValue() == adminPermiso.getActiveUser() && "ROLE_ADMIN".equals(authority.getName().name()) ) {
+				if( authority.getIdAuthority().longValue() == adminPermiso.getActiveUser() && "ROLE_ADMIN".equals(authority.getName()) ) {
 					authorityID = adminPermiso.getIdAuthorityAdmin();
 					privilegeID = adminPermiso.getIdPrivilegeAdmin();
 					flag = adminPermiso.isAdmin();
 					break;
-				}else if( authority.getIdAuthority().longValue() == adminPermiso.getActiveUser() && "ROLE_USER".equals(authority.getName().name()) ) {
+				}else if( authority.getIdAuthority().longValue() == adminPermiso.getActiveUser() && "ROLE_USER".equals(authority.getName()) ) {
 					authorityID = adminPermiso.getIdAuthorityUser();
 					privilegeID = adminPermiso.getIdPrivilegeUser();
 					flag = adminPermiso.isUser();
 					break;
-				}else if( authority.getIdAuthority().longValue() == adminPermiso.getActiveUser() && "ROLE_ANONYMOUS".equals(authority.getName().name()) ) {
+				}else if( authority.getIdAuthority().longValue() == adminPermiso.getActiveUser() && "ROLE_ANONYMOUS".equals(authority.getName()) ) {
 					authorityID = adminPermiso.getIdAuthorityAnonymous();
 					privilegeID = adminPermiso.getIdPrivilegeAnonymous();
 					flag = adminPermiso.isAnonymous();
