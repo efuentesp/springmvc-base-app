@@ -18,8 +18,8 @@ import com.softtek.acceleo.demo.service.AdminPermisoService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "file:src/test/resources/applicationContext.xml")
-//@Transactional
-//@Rollback(false)
+@Transactional
+@Rollback(false)
 public class AdminPermisoServiceImplTest {
 	private static final Logger logger = Logger.getLogger(AdminPermisoServiceImplTest.class);
 
@@ -31,7 +31,7 @@ public class AdminPermisoServiceImplTest {
 		logger.info("****** Iniciando prueba de JUnit - AdminPermisoServiceImplTest... ******");
 	}
 
-	@Ignore
+	//@Ignore
 	@Test
 	@Transactional
 	@Rollback(false)
@@ -47,11 +47,6 @@ public class AdminPermisoServiceImplTest {
 		logger.info("FINALIZANDO update / insert de authority_privilege");
 	}
 	
-	@Test
-	public void test() {
-		logger.info("Prueba temoral para la actualizacion de los privilegios.");
-	}
-
 	@After
 	public void finJUnit() {
 		logger.info("****** Finalizando prueba de JUnit - AdminPermisoServiceImplTest... ******");

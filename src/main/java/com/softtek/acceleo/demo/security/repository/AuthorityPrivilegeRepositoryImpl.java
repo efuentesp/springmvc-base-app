@@ -23,8 +23,7 @@ import com.softtek.acceleo.demo.service.AfiliadoService;
 
 @Repository("authorityPrivilegeRepository")
 @Rollback(false)
-//@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-@Transactional
+@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 public class AuthorityPrivilegeRepositoryImpl implements AuthorityPrivilegeRepository{
 	private static final Logger logger = Logger.getLogger(AuthorityPrivilegeRepositoryImpl.class);
 	
@@ -32,7 +31,7 @@ public class AuthorityPrivilegeRepositoryImpl implements AuthorityPrivilegeRepos
 	private SessionFactory sessionFactory;
 
 	@Override
-	//@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<AuthorityPrivilege> getAuthorityPrivilege() {
 		List<AuthorityPrivilege> lstAuthorityPrivilege = null;
 		
@@ -48,7 +47,7 @@ public class AuthorityPrivilegeRepositoryImpl implements AuthorityPrivilegeRepos
 	}
 
 	@Override
-	//@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public void updateAuthorityPrivilege(AuthorityPrivilege authorityPrivilege) {
 		try {
 			Session session = sessionFactory.getCurrentSession();
@@ -60,13 +59,11 @@ public class AuthorityPrivilegeRepositoryImpl implements AuthorityPrivilegeRepos
 	}
 
 	@Override
-	//@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public void insertAuthorityPrivilege(AuthorityPrivilege authorityPrivilege) {
 		try {
 			Session session = sessionFactory.getCurrentSession();
-			session.clear();
 			session.flush();
-			
 			session.persist(authorityPrivilege);
 		}catch(Exception e) {
 			logger.error("Error ---->> ", e);
@@ -79,9 +76,6 @@ public class AuthorityPrivilegeRepositoryImpl implements AuthorityPrivilegeRepos
 		
 		try {
 			Session session = sessionFactory.getCurrentSession();
-			session.clear();
-			session.flush();
-						
 			Criteria criteria = session.createCriteria(AuthorityPrivilege.class);
 			criteria.add(Restrictions.and(Restrictions.eq("idAuthority", authorityPrivilege.getIdAuthority()) , 
 					                      Restrictions.eq("idPrivilege", authorityPrivilege.getIdPrivilege())));
@@ -91,7 +85,6 @@ public class AuthorityPrivilegeRepositoryImpl implements AuthorityPrivilegeRepos
 			if( lstAuthorityPrivilege != null && !lstAuthorityPrivilege.isEmpty() ) {
 				autPriv = lstAuthorityPrivilege.get(0); 
 			}
-			
 		}catch(Exception e) {
 			logger.error("Error: ", e);
 		}

@@ -30,9 +30,6 @@ public class AuthorityRepositoryImpl implements AuthorityRepository{
 			Session session = sessionFactory.getCurrentSession();
 			
 			authority = (Authority) session.get(Authority.class, authoritoryId);
-			
-			session.clear();
-			session.flush();			
 		}catch(Exception e) {
 			logger.error("---->> Error: ", e);
 		}
@@ -50,9 +47,6 @@ public class AuthorityRepositoryImpl implements AuthorityRepository{
 			criteria.add(Restrictions.eq("enabled", Boolean.TRUE)).list();
 			
 			lstAuthority = (List<Authority>) criteria.list();
-			
-			session.clear();
-			session.flush();
 		}catch(Exception e) {
 			logger.error("Error: ", e);
 		}
