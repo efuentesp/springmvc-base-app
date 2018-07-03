@@ -52,7 +52,7 @@ public class BeneficiarioController {
 	
 	
 	@RequestMapping(value = "/beneficiario", method = RequestMethod.GET, produces = "application/json")
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ROLE_BENEFICIARIOSEARCH')")
 	public @ResponseBody  List<Beneficiario> getBeneficiarios(@RequestParam Map<String,String> requestParams, HttpServletRequest request, HttpServletResponse response) {
 		Beneficiario beneficiario = new Beneficiario();
 		
@@ -80,7 +80,7 @@ public class BeneficiarioController {
 	}
 	
 	@RequestMapping(value = "/beneficiario/{id}", method = RequestMethod.GET, produces = "application/json")
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ROLE_BENEFICIARIOSEARCH')")
 	    public @ResponseBody  Beneficiario getBeneficiario(@PathVariable("id") int id) {	        
 	        Beneficiario beneficiario = null;
 	        
@@ -89,7 +89,7 @@ public class BeneficiarioController {
 	 }
 
 	 @RequestMapping(value = "/beneficiario", method = RequestMethod.POST)
-	 @PreAuthorize("hasRole('ADMIN')")
+	 @PreAuthorize("hasRole('ROLE_BENEFICIARIOSEARCH')")
 	    public ResponseEntity<Void> createBeneficiario(@RequestBody Beneficiario beneficiario,    UriComponentsBuilder ucBuilder) {
 	   
 	        beneficiarioService.addBeneficiario(beneficiario);
@@ -100,7 +100,7 @@ public class BeneficiarioController {
 	 }
 		
 	 @RequestMapping(value = "/beneficiario/{id}", method = RequestMethod.PUT)
-	 @PreAuthorize("hasRole('ADMIN')")
+	 @PreAuthorize("hasRole('ROLE_BENEFICIARIOSEARCH')")
 	    public ResponseEntity<Beneficiario> actualizarBeneficiario(
 				@PathVariable("id") int id, 
 				@RequestBody Beneficiario beneficiario) {
@@ -128,7 +128,7 @@ public class BeneficiarioController {
 	
 		
 		@RequestMapping(value = "/beneficiario/{id}", method = RequestMethod.DELETE)
-		@PreAuthorize("hasRole('ADMIN')")
+		@PreAuthorize("hasRole('ROLE_BENEFICIARIOSEARCH')")
 	    public ResponseEntity<Beneficiario> deleteBeneficiario(@PathVariable("id") int id) {
 	  
              try{
@@ -146,7 +146,7 @@ public class BeneficiarioController {
 
 
 	@RequestMapping(value = "/saveBeneficiario", method = RequestMethod.POST)
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ROLE_BENEFICIARIOSEARCH')")
 	public @ResponseBody String saveBeneficiario(
 			@ModelAttribute("command") BeneficiarioBean beneficiarioBean) {
 
@@ -157,7 +157,7 @@ public class BeneficiarioController {
 	}
 	
 	@RequestMapping(value = "/editBeneficiario", method = RequestMethod.POST)
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ROLE_BENEFICIARIOSEARCH')")
 	public @ResponseBody String editBeneficiario(
 			@ModelAttribute("command") BeneficiarioBean beneficiarioBean) {
 
@@ -168,7 +168,7 @@ public class BeneficiarioController {
 	}
 
 	@RequestMapping(value = "/searchBeneficiario", method = RequestMethod.GET)
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ROLE_BENEFICIARIOSEARCH')")
 	public ModelAndView addBeneficiario(
 			@ModelAttribute("command") BeneficiarioBean beneficiarioBean,
 			BindingResult result) {

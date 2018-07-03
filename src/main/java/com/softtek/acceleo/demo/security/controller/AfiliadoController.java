@@ -58,7 +58,7 @@ public class AfiliadoController {
 	 * @return List<Afiliado>.
 	 */
 	@RequestMapping(value = "/afiliado", method = RequestMethod.GET, produces = "application/json")
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ROLE_AFILIADOSEARCH')")
 	public @ResponseBody  List<Afiliado> getAfiliados(@RequestParam Map<String,String> requestParams, HttpServletRequest request, HttpServletResponse response) {
 
        	String query=requestParams.get("q");
@@ -90,7 +90,7 @@ public class AfiliadoController {
 	 * @return Afiliado.
 	 */
 	@RequestMapping(value = "/afiliado/{id}", method = RequestMethod.GET, produces = "application/json")
-	@PreAuthorize("hasRole('ADMIN')")    
+	@PreAuthorize("hasRole('ROLE_AFILIADOSEARCH')")    
 	public @ResponseBody  Afiliado getAfiliado(@PathVariable("id") int id) {
 	        
 		System.out.println("Inicio Afiliado");
@@ -109,7 +109,7 @@ public class AfiliadoController {
 	 * @return ResponseEntity.
 	 */
 	 @RequestMapping(value = "/afiliado", method = RequestMethod.POST)
-	 @PreAuthorize("hasRole('ADMIN')")
+	 @PreAuthorize("hasRole('ROLE_AFILIADOSEARCH')")
 	    public ResponseEntity<Void> createAfiliado(@RequestBody Afiliado afiliado,    UriComponentsBuilder ucBuilder) {
 	   
 	        afiliadoService.addAfiliado(afiliado);
@@ -126,7 +126,7 @@ public class AfiliadoController {
 	  * @return ResponseEntity.
 	  */
 	 @RequestMapping(value = "/afiliado/{id}", method = RequestMethod.PUT)
-	 @PreAuthorize("hasRole('ADMIN')")  
+	 @PreAuthorize("hasRole('ROLE_AFILIADOSEARCH')")  
 	    public ResponseEntity<Afiliado> actualizarAfiliado(
 				@PathVariable("id") int id, 
 				@RequestBody Afiliado afiliado) {
@@ -190,7 +190,7 @@ public class AfiliadoController {
 	 * @return String.
 	 */
 	@RequestMapping(value = "/saveAfiliado", method = RequestMethod.POST)
-	@PreAuthorize("hasRole('ADMIN')")  
+	@PreAuthorize("hasRole('ROLE_AFILIADOSEARCH')")  
 	public @ResponseBody String saveAfiliado(
 			@ModelAttribute("command") AfiliadoBean afiliadoBean) {
 
@@ -206,7 +206,7 @@ public class AfiliadoController {
 	 * @return String.
 	 */
 	@RequestMapping(value = "/editAfiliado", method = RequestMethod.POST)
-	@PreAuthorize("hasRole('ADMIN')")  
+	@PreAuthorize("hasRole('ROLE_AFILIADOSEARCH')")  
 	public @ResponseBody String editAfiliado(
 			@ModelAttribute("command") AfiliadoBean afiliadoBean) {
 
@@ -223,7 +223,7 @@ public class AfiliadoController {
 	 * @return ModelAndView.
 	 */
 	@RequestMapping(value = "/searchAfiliado", method = RequestMethod.GET)
-	@PreAuthorize("hasRole('ADMIN')")  
+	@PreAuthorize("hasRole('ROLE_AFILIADOSEARCH')")  
 	public ModelAndView addAfiliado(
 			@ModelAttribute("command") AfiliadoBean afiliadoBean,
 			BindingResult result) {
@@ -244,7 +244,7 @@ public class AfiliadoController {
 	 * @return ModelAndView.
 	 */
 	@RequestMapping(value = "/deleteAfiliado", method = RequestMethod.POST)
-	@PreAuthorize("hasRole('ADMIN')")  
+	@PreAuthorize("hasRole('ROLE_AFILIADOSEARCH')")  
 	public ModelAndView deleteAfiliado(
 			@ModelAttribute("command") AfiliadoBean afiliadoBean,
 			BindingResult result) {
@@ -262,7 +262,7 @@ public class AfiliadoController {
 	 * @return ModelAndView.
 	 */
 	@RequestMapping(value = "/entryAfiliado", method = RequestMethod.GET)
-	@PreAuthorize("hasRole('ADMIN')")  
+	@PreAuthorize("hasRole('ROLE_AFILIADOSEARCH')")  
 	public ModelAndView entryAfiliado() {
 		return new ModelAndView("redirect:/searchAfiliado");
 	}

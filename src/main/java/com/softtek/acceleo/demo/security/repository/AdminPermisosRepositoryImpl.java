@@ -33,7 +33,7 @@ public class AdminPermisosRepositoryImpl implements AdminPermisosRepository {
 			Session session = sessionFactory.getCurrentSession();
 			Transaction transaction = session.beginTransaction();
 			
-			SQLQuery query = session.createSQLQuery("select g.ID_GRUPO, g.NAME, p.ID_PRIVILEGE, p.NAME, (CASE WHEN ra.ENABLED is null THEN 0 ELSE ra.ENABLED END) as 'ADMIN', (CASE WHEN ru.ENABLED is null THEN 0 ELSE ru.ENABLED END) as 'USER', (CASE WHEN ran.ENABLED is null THEN 0 ELSE ran.ENABLED END) as 'ANONYMOUS', ra.ID_PRIVILEGE as ID_PRIVILEGE_ADMIN, ra.ID_AUTHORITY as ID_AUTHORITY_ADMIN, ru.ID_PRIVILEGE as ID_PRIVILEGE_USER, ru.ID_AUTHORITY as ID_AUTHORITY_USER, ran.ID_PRIVILEGE as ID_PRIVILEGE_ANONYMOUS, ran.ID_AUTHORITY as ID_AUTHORITY_ANONYMOUS\r\n" + 
+			SQLQuery query = session.createSQLQuery("select g.ID_GRUPO, g.NAME, p.ID_PRIVILEGE, p.NAME as ROLE, (CASE WHEN ra.ENABLED is null THEN 0 ELSE ra.ENABLED END) as 'ADMIN', (CASE WHEN ru.ENABLED is null THEN 0 ELSE ru.ENABLED END) as 'USER', (CASE WHEN ran.ENABLED is null THEN 0 ELSE ran.ENABLED END) as 'ANONYMOUS', ra.ID_PRIVILEGE as ID_PRIVILEGE_ADMIN, ra.ID_AUTHORITY as ID_AUTHORITY_ADMIN, ru.ID_PRIVILEGE as ID_PRIVILEGE_USER, ru.ID_AUTHORITY as ID_AUTHORITY_USER, ran.ID_PRIVILEGE as ID_PRIVILEGE_ANONYMOUS, ran.ID_AUTHORITY as ID_AUTHORITY_ANONYMOUS\r\n" + 
 					"from demoacceleo.grupo g, demoacceleo.privilege p \r\n" + 
 					"left outer join (select a.ENABLED, a.ID_PRIVILEGE, a.ID_AUTHORITY\r\n" + 
 					"				 from demoacceleo.authority_privilege a, demoacceleo.authority b, demoacceleo.privilege c\r\n" + 

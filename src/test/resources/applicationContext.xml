@@ -60,8 +60,8 @@
 	
 	<bean id="testAdminPermisoServiceImpl" class="com.softtek.acceleo.demo.service.impl.AdminPermisoServiceImpl" />
 	
-    
-      
+<!--     <bean id="bcryptEncoder" class="org.springframewok.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+ -->      
 <!-- 
     <context:component-scan base-package="com.softtek.spring">
     	<context:include-filter type="aspectj" expression="com.softtek.spring.seguridad.*" />

@@ -51,7 +51,7 @@ public class TipopensionController {
 	private TipopensionService tipopensionService;
 
 	@RequestMapping(value = "/tipopension", method = RequestMethod.GET, produces = "application/json")
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ROLE_TIPOPENSIONSEARCH')")
 	public @ResponseBody  List<Tipopension> getTipopensions(@RequestParam Map<String,String> requestParams, HttpServletRequest request, HttpServletResponse response) {
 		Tipopension tipopension = new Tipopension();
 		
@@ -79,7 +79,7 @@ public class TipopensionController {
 	}
 	
 	@RequestMapping(value = "/tipopension/{id}", method = RequestMethod.GET, produces = "application/json")
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ROLE_TIPOPENSIONSEARCH')")
 	    public @ResponseBody  Tipopension getTipopension(@PathVariable("id") int id) {
 	        
 	        Tipopension tipopension = null;
@@ -90,7 +90,7 @@ public class TipopensionController {
 
 
 	 @RequestMapping(value = "/tipopension", method = RequestMethod.POST)
-	 @PreAuthorize("hasRole('ADMIN')")
+	 @PreAuthorize("hasRole('ROLE_TIPOPENSIONSEARCH')")
 	    public ResponseEntity<Void> createTipopension(@RequestBody Tipopension tipopension,    UriComponentsBuilder ucBuilder) {
 	   
 	        tipopensionService.addTipopension(tipopension);
@@ -101,7 +101,7 @@ public class TipopensionController {
 	 }
 		
 	 @RequestMapping(value = "/tipopension/{id}", method = RequestMethod.PUT)
-	 @PreAuthorize("hasRole('ADMIN')")
+	 @PreAuthorize("hasRole('ROLE_TIPOPENSIONSEARCH')")
 	    public ResponseEntity<Tipopension> actualizarTipopension(
 				@PathVariable("id") int id, 
 				@RequestBody Tipopension tipopension) {
@@ -125,7 +125,7 @@ public class TipopensionController {
 	
 		
 		@RequestMapping(value = "/tipopension/{id}", method = RequestMethod.DELETE)
-		@PreAuthorize("hasRole('ADMIN')")
+		@PreAuthorize("hasRole('ROLE_TIPOPENSIONSEARCH')")
 	    public ResponseEntity<Tipopension> deleteTipopension(@PathVariable("id") int id) {
 	    	 	  
              try{
@@ -143,7 +143,7 @@ public class TipopensionController {
 
 
 	@RequestMapping(value = "/saveTipopension", method = RequestMethod.POST)
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ROLE_TIPOPENSIONSEARCH')")
 	public @ResponseBody String saveTipopension(
 			@ModelAttribute("command") TipopensionBean tipopensionBean) {
 
@@ -154,7 +154,7 @@ public class TipopensionController {
 	}
 	
 	@RequestMapping(value = "/editTipopension", method = RequestMethod.POST)
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ROLE_TIPOPENSIONSEARCH')")
 	public @ResponseBody String editTipopension(
 			@ModelAttribute("command") TipopensionBean tipopensionBean) {
 
@@ -165,7 +165,7 @@ public class TipopensionController {
 	}
 
 	@RequestMapping(value = "/searchTipopension", method = RequestMethod.GET)
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ROLE_TIPOPENSIONSEARCH')")
 	public ModelAndView addTipopension(
 			@ModelAttribute("command") TipopensionBean tipopensionBean,
 			BindingResult result) {
@@ -180,7 +180,7 @@ public class TipopensionController {
 	}
 
 	@RequestMapping(value = "/entryTipopension", method = RequestMethod.GET)
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ROLE_TIPOPENSIONSEARCH')")
 	public ModelAndView entryTipopension() {
 		return new ModelAndView("redirect:/searchTipopension");
 	}

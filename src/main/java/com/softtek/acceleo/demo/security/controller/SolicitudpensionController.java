@@ -52,7 +52,7 @@ public class SolicitudpensionController {
 	
 	
 	@RequestMapping(value = "/solicitudpension", method = RequestMethod.GET, produces = "application/json")
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ROLE_SOLICITUDPENSIONSEARCH')")
 	public @ResponseBody  List<Solicitudpension> getSolicitudpensions(@RequestParam Map<String,String> requestParams, HttpServletRequest request, HttpServletResponse response) {
 		Solicitudpension solicitudpension = new Solicitudpension();
 
@@ -80,7 +80,7 @@ public class SolicitudpensionController {
 	}
 	
 	@RequestMapping(value = "/solicitudpension/{id}", method = RequestMethod.GET, produces = "application/json")
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ROLE_SOLICITUDPENSIONSEARCH')")
 	    public @ResponseBody  Solicitudpension getSolicitudpension(@PathVariable("id") int id) {
 
 			Solicitudpension solicitudpension = null;
@@ -91,7 +91,7 @@ public class SolicitudpensionController {
 
 
 	 @RequestMapping(value = "/solicitudpension", method = RequestMethod.POST)
-	 @PreAuthorize("hasRole('ADMIN')")
+	 @PreAuthorize("hasRole('ROLE_SOLICITUDPENSIONSEARCH')")
 	    public ResponseEntity<Void> createSolicitudpension(@RequestBody Solicitudpension solicitudpension,    UriComponentsBuilder ucBuilder) {
 	   
 	        solicitudpensionService.addSolicitudpension(solicitudpension);
@@ -102,7 +102,7 @@ public class SolicitudpensionController {
 	 }
 		
 	 @RequestMapping(value = "/solicitudpension/{id}", method = RequestMethod.PUT)
-	 @PreAuthorize("hasRole('ADMIN')")
+	 @PreAuthorize("hasRole('ROLE_SOLICITUDPENSIONSEARCH')")
 	    public ResponseEntity<Solicitudpension> actualizarSolicitudpension(
 				@PathVariable("id") int id, 
 				@RequestBody Solicitudpension solicitudpension) {
@@ -129,7 +129,7 @@ public class SolicitudpensionController {
 	
 		
 		@RequestMapping(value = "/solicitudpension/{id}", method = RequestMethod.DELETE)
-		@PreAuthorize("hasRole('ADMIN')")
+		@PreAuthorize("hasRole('ROLE_SOLICITUDPENSIONSEARCH')")
 	    public ResponseEntity<Solicitudpension> deleteSolicitudpension(@PathVariable("id") int id) {
 	  
              try{
@@ -147,7 +147,7 @@ public class SolicitudpensionController {
 
 
 	@RequestMapping(value = "/saveSolicitudpension", method = RequestMethod.POST)
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ROLE_SOLICITUDPENSIONSEARCH')")
 	public @ResponseBody String saveSolicitudpension(
 			@ModelAttribute("command") SolicitudpensionBean solicitudpensionBean) {
 
@@ -158,7 +158,7 @@ public class SolicitudpensionController {
 	}
 	
 	@RequestMapping(value = "/editSolicitudpension", method = RequestMethod.POST)
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ROLE_SOLICITUDPENSIONSEARCH')")
 	public @ResponseBody String editSolicitudpension(
 			@ModelAttribute("command") SolicitudpensionBean solicitudpensionBean) {
 
@@ -169,7 +169,7 @@ public class SolicitudpensionController {
 	}
 
 	@RequestMapping(value = "/searchSolicitudpension", method = RequestMethod.GET)
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ROLE_SOLICITUDPENSIONSEARCH')")
 	public ModelAndView addSolicitudpension(
 			@ModelAttribute("command") SolicitudpensionBean solicitudpensionBean,
 			BindingResult result) {
@@ -184,7 +184,7 @@ public class SolicitudpensionController {
 	}
 
 	@RequestMapping(value = "/entrySolicitudpension", method = RequestMethod.GET)
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ROLE_SOLICITUDPENSIONSEARCH')")
 	public ModelAndView entrySolicitudpension() {
 		return new ModelAndView("redirect:/searchSolicitudpension");
 	}

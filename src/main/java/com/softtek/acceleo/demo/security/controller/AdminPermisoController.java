@@ -36,7 +36,7 @@ public class AdminPermisoController {
 	 * @return List<AdminPermiso>.
 	 */
 	@RequestMapping(value = "/adminPermiso", method = RequestMethod.GET, produces = "application/json")
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ROLE_MANAGESEARCH')")
 	public @ResponseBody  List<AdminPermiso> getAdminPermisos(@RequestParam Map<String,String> requestParams, HttpServletRequest request, HttpServletResponse response) {
 
 
@@ -54,7 +54,7 @@ public class AdminPermisoController {
 	}
 	
 	@RequestMapping(value = "/adminPermiso", method = RequestMethod.PUT, produces = "application/json")
-	@PreAuthorize("hasRole('ADMIN')")  
+	@PreAuthorize("hasRole('ROLE_MANAGESEARCH')")  
     public void updateAuthorityPrivilege(@RequestBody AdminPermiso adminPermiso) {
 		
 		// UpdateData
