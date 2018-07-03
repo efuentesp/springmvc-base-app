@@ -14,6 +14,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "authority_privilege")
@@ -27,33 +28,18 @@ public class AuthorityPrivilege {
     private Boolean enabled;
     
     
-	//    @Column(name = "ID_PRIVILEGE")
-//    @NotNull
+//	@Column(name = "ID_PRIVILEGE")
+//  @NotNull
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "ID_PRIVILEGE")    
     private Privilege idPrivilege;
     
-//    @Column(name = "ID_AUTHORITY")
-//    @NotNull
+//  @Column(name = "ID_AUTHORITY")
+//  @NotNull
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "ID_AUTHORITY")    
     private Authority idAuthority;
     
-	
-//	@ManyToMany(fetch = FetchType.EAGER)
-//    @JoinTable(
-//            name = "AUTHORITY",
-//            joinColumns = {@JoinColumn(name = "ID_AUTHORITY", referencedColumnName = "ID_AUTHORITY")}/**,
-//            inverseJoinColumns = {@JoinColumn(name = "ID_AUTHORITY", referencedColumnName = "ID_AUTHORITY")}*/)
-//	private List<Authority> authorities;
-//	
-//    @ManyToMany(fetch = FetchType.EAGER)
-//    @JoinTable(
-//            name = "PRIVILEGE",
-//            joinColumns = {@JoinColumn(name = "ID_PRIVILEGE", referencedColumnName = "ID_PRIVILEGE")}/**,
-//            inverseJoinColumns = {@JoinColumn(name = "ID_PRIVILEGE", referencedColumnName = "ID_PRIVILEGE")}*/)
-//	private List<Privilege> privileges;
-
 	public Long getIdAutorityPrivilege() {
 		return idAutorityPrivilege;
 	}

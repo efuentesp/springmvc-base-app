@@ -51,6 +51,7 @@ public class AdminPermisoServiceImpl implements AdminPermisoService{
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public void updateAuthorityPrivilege(AdminPermiso adminPermiso) {
 		AuthorityPrivilege authorityPrivilege = new AuthorityPrivilege();
 		Long authorityID = null;
@@ -94,7 +95,9 @@ public class AdminPermisoServiceImpl implements AdminPermisoService{
 			authorityPrivilegeRepository.insertAuthorityPrivilege(authorityPrivilege);
 			logger.info("El registro no existia, por lo cual se inserto exitosamente...");
 		}else {
-			authorityPrivilegeRepository.updateAuthorityPrivilege(authorityPrivilege);
+			autPriv.setEnabled(flag);
+			
+			authorityPrivilegeRepository.updateAuthorityPrivilege(autPriv);
 			logger.info("El registro se actualizo exitosamente...");
 		}		
 	}

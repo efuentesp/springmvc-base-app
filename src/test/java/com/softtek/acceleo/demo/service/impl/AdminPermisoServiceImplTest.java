@@ -18,8 +18,8 @@ import com.softtek.acceleo.demo.service.AdminPermisoService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "file:src/test/resources/applicationContext.xml")
-@Transactional
-@Rollback(false)
+//@Transactional
+//@Rollback(false)
 public class AdminPermisoServiceImplTest {
 	private static final Logger logger = Logger.getLogger(AdminPermisoServiceImplTest.class);
 
@@ -38,9 +38,9 @@ public class AdminPermisoServiceImplTest {
 	public void testUpdateAuthorityPrivilege() {
 		AdminPermiso adminPermiso = new AdminPermiso();
 		adminPermiso.setActiveUser(1);
-		adminPermiso.setIdAuthorityAdmin(3L);
+		adminPermiso.setIdAuthorityAdmin(1L);
 		adminPermiso.setIdPrivilegeAdmin(1L);
-		adminPermiso.setAdmin(true);
+		adminPermiso.setAdmin(false);
 		
 		logger.info("INICIANDO update / insert de authority_privilege");
 		adminPermisoService.updateAuthorityPrivilege(adminPermiso);
