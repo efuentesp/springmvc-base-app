@@ -125,7 +125,8 @@ public class AdminPermisosRepositoryImpl implements AdminPermisosRepository {
 		query = session.createSQLQuery("select g.ID_GRUPO, g.NAME as GROUP_NAME, p.ID_PRIVILEGE, p.NAME as PRIVILEGE_NAME, p.ENABLED\r\n" + 
 				"from demoacceleo.grupo g, demoacceleo.privilege p\r\n" + 
 				"where g.ID_GRUPO = p.ID_GRUPO\r\n" + 
-				"and p.ENABLED = 1");
+				"and p.ENABLED = 1\r\n" + 
+				"order by g.ID_GRUPO, p.ID_PRIVILEGE");
 		
 		List<Object[]> lstGrupoPrivileges = query.list();
 		session.clear();

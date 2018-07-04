@@ -16,8 +16,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.softtek.acceleo.demo.domain.AdminPermiso;
+import com.softtek.acceleo.demo.domain.Authority;
 import com.softtek.acceleo.demo.domain.ConfigAuthority;
 import com.softtek.acceleo.demo.domain.ConfigPermisos;
+import com.softtek.acceleo.demo.security.repository.AuthorityRepository;
 import com.softtek.acceleo.demo.service.AdminPermisoService;
 
 
@@ -31,6 +33,9 @@ public class AdminPermisoServiceImplTest {
 	@Autowired
 	AdminPermisoService adminPermisoService;
 	
+	@Autowired
+	AuthorityRepository authorityRepository;
+	
 	@Before
 	public void initJUnit() {
 		logger.info("****** Iniciando prueba de JUnit - AdminPermisoServiceImplTest... ******");
@@ -41,24 +46,38 @@ public class AdminPermisoServiceImplTest {
 	@Transactional
 	@Rollback(false)
 	public void testUpdateAuthorityPrivilege() {
-		ConfigPermisos configPermisos = new ConfigPermisos();
-		configPermisos.setActiveUser(1);
-		configPermisos.setIdGrupo(1L);
-		configPermisos.setNombreGrupo("AFILIADO");
-		configPermisos.setIdPrivilege(1L);		
-		configPermisos.setNombrePrivilege("ROLE_AFILIADOCREATE");
-		
-		
 		List<ConfigAuthority> lstConfigAuthority = new ArrayList<>();
-		ConfigAuthority configAuthority = new ConfigAuthority();
-		configAuthority.setIdAuthority(1L);
-		configAuthority.setIdPrivilege(1L);
-		configAuthority.setNameAuthority("ROLE_ADMIN");
-		configAuthority.setEnabled(true);
-		lstConfigAuthority.add(configAuthority);
+		Long idPrivilege = 1L;
+		String namePrivilege = "ROLE_AFILIADOCREATE";
+		Long idGrupo = 1L;
+		String nameGrup = "AFILIADO";
+		Long activarUser = 1L;
+		Boolean enabled = Boolean.TRUE;
 		
+		List<Authority> lstAuthority = authorityRepository.getAuthority();
+		for(Authority authority : lstAuthority) {
+			ConfigAuthority configAuthority = new ConfigAuthority();
+			
+			configAuthority.setIdAuthority(authority.getIdAuthority());
+			configAuthority.setIdPrivilege(idPrivilege);
+			configAuthority.setNameAuthority(authority.getName());
+			if( authority.getIdAuthority().longValue() == activarUser.longValue() ) {
+				configAuthority.setEnabled(enabled);
+			}
+			
+			lstConfigAuthority.add(configAuthority);
+			
+		}
+
+		ConfigPermisos configPermisos = new ConfigPermisos();
+		
+		configPermisos.setIdGrupo(idGrupo);
+		configPermisos.setNombreGrupo(nameGrup);
+		configPermisos.setIdPrivilege(idPrivilege);		
+		configPermisos.setNombrePrivilege(namePrivilege);
 		configPermisos.setLstConfigAuthority(lstConfigAuthority);
-		
+		configPermisos.setActiveUser(activarUser);
+				
 		logger.info("INICIANDO update / insert de authority_privilege");
 		adminPermisoService.updateAuthorityPrivilege(configPermisos);
 		logger.info("FINALIZANDO update / insert de authority_privilege");

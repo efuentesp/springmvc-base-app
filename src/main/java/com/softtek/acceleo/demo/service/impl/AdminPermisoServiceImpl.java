@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.softtek.acceleo.demo.domain.AdminPermiso;
 import com.softtek.acceleo.demo.domain.Authority;
 import com.softtek.acceleo.demo.domain.AuthorityPrivilege;
+import com.softtek.acceleo.demo.domain.ConfigAuthority;
 import com.softtek.acceleo.demo.domain.ConfigPermisos;
 import com.softtek.acceleo.demo.domain.Privilege;
 import com.softtek.acceleo.demo.security.repository.AdminPermisosRepository;
@@ -59,50 +60,35 @@ public class AdminPermisoServiceImpl implements AdminPermisoService{
 		Long privilegeID = null; 
 		Boolean flag = Boolean.FALSE;
 		
-		List<Authority> lstAuthority = authorityRepository.getAuthority();
-		if( lstAuthority == null || lstAuthority.isEmpty() ) {
-			logger.info("No se encontro informacion en el catalogo authority.");
+		if( configPermisos.getLstConfigAuthority() == null || configPermisos.getLstConfigAuthority().isEmpty() ) {
+			logger.info("No existe informacion de los authority");
 		}else {
-			for(Authority authority : lstAuthority) {
-				/*
-				if( authority.getIdAuthority().longValue() == adminPermiso.getActiveUser() && "ROLE_ADMIN".equals(authority.getName()) ) {
-					authorityID = adminPermiso.getIdAuthorityAdmin();
-					privilegeID = adminPermiso.getIdPrivilegeAdmin();
-					flag = adminPermiso.isAdmin();
-					break;
-				}else if( authority.getIdAuthority().longValue() == adminPermiso.getActiveUser() && "ROLE_USER".equals(authority.getName()) ) {
-					authorityID = adminPermiso.getIdAuthorityUser();
-					privilegeID = adminPermiso.getIdPrivilegeUser();
-					flag = adminPermiso.isUser();
-					break;
-				}else if( authority.getIdAuthority().longValue() == adminPermiso.getActiveUser() && "ROLE_ANONYMOUS".equals(authority.getName()) ) {
-					authorityID = adminPermiso.getIdAuthorityAnonymous();
-					privilegeID = adminPermiso.getIdPrivilegeAnonymous();
-					flag = adminPermiso.isAnonymous();
+			List<ConfigAuthority> lstConfigAuthority = configPermisos.getLstConfigAuthority();
+			
+			for(ConfigAuthority configAuth : lstConfigAuthority) {
+				if( configAuth.getIdAuthority().longValue() == configPermisos.getActiveUser().longValue() ) {
+					authorityID = configAuth.getIdAuthority();
+					privilegeID = configAuth.getIdPrivilege();
+					flag = configAuth.getEnabled();
 					break;
 				}
-				*/
-			}
+			}			
 		}
 
-		/**
-		Authority authority = authorityRepository.getAuthority(authorityID == null ? adminPermiso.getActiveUser() : authorityID);
-		Privilege privilege = privilegeRepository.getPrivilege(privilegeID == null ? adminPermiso.getIdPrivilege() : privilegeID);
-		
+		Authority authority = authorityRepository.getAuthority(authorityID);
+		Privilege privilege = privilegeRepository.getPrivilege(privilegeID);
 		
 		authorityPrivilege.setIdAuthority(authority);		
 		authorityPrivilege.setIdPrivilege(privilege);
-		*/
 		authorityPrivilege.setEnabled(flag);
 		
-		AuthorityPrivilege autPriv = authorityPrivilegeRepository.getAuthorityPrivilege(authorityPrivilege);		
-		
+		AuthorityPrivilege autPriv = authorityPrivilegeRepository.getAuthorityPrivilege(authorityPrivilege);
+
 		if( autPriv == null) {			
 			authorityPrivilegeRepository.insertAuthorityPrivilege(authorityPrivilege);
-			logger.info("El registro no existia, por lo cual se inserto exitosamente...");
+			logger.info("El registro no existe, por lo cual se inserto exitosamente.");
 		}else {
-			autPriv.setEnabled(flag);
-			
+			autPriv.setEnabled(flag);			
 			authorityPrivilegeRepository.updateAuthorityPrivilege(autPriv);
 			logger.info("El registro se actualizo exitosamente...");
 		}		

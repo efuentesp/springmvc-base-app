@@ -8,7 +8,7 @@ public class ConfigPermisos {
 	private Long idPrivilege;
 	private String nombrePrivilege;
 	private List<ConfigAuthority> lstConfigAuthority;
-	private Integer activeUser;
+	private Long activeUser;
 		
 	public Long getIdGrupo() {
 		return idGrupo;
@@ -40,10 +40,10 @@ public class ConfigPermisos {
 	public void setLstConfigAuthority(List<ConfigAuthority> lstConfigAuthority) {
 		this.lstConfigAuthority = lstConfigAuthority;
 	}
-	public Integer getActiveUser() {
+	public Long getActiveUser() {
 		return activeUser;
 	}
-	public void setActiveUser(Integer activeUser) {
+	public void setActiveUser(Long activeUser) {
 		this.activeUser = activeUser;
 	}
 
