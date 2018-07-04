@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.softtek.acceleo.demo.domain.AdminPermiso;
+import com.softtek.acceleo.demo.domain.ConfigPermisos;
 import com.softtek.acceleo.demo.service.AdminPermisoService;
 
 
@@ -37,10 +38,10 @@ public class AdminPermisoController {
 	 */
 	@RequestMapping(value = "/adminPermiso", method = RequestMethod.GET, produces = "application/json")
 	@PreAuthorize("hasRole('ROLE_MANAGESEARCH')")
-	public @ResponseBody  List<AdminPermiso> getAdminPermisos(@RequestParam Map<String,String> requestParams, HttpServletRequest request, HttpServletResponse response) {
+	public @ResponseBody  List<ConfigPermisos> getAdminPermisos(@RequestParam Map<String,String> requestParams, HttpServletRequest request, HttpServletResponse response) {
 
 
-		List<AdminPermiso> listAdminPermiso = null;
+		List<ConfigPermisos> listAdminPermiso = null;
 
 		
        	listAdminPermiso = adminPermisoService.listAdminPermiso();
@@ -55,10 +56,10 @@ public class AdminPermisoController {
 	
 	@RequestMapping(value = "/adminPermiso", method = RequestMethod.PUT, produces = "application/json")
 	@PreAuthorize("hasRole('ROLE_MANAGESEARCH')")  
-    public void updateAuthorityPrivilege(@RequestBody AdminPermiso adminPermiso) {
+    public void updateAuthorityPrivilege(@RequestBody ConfigPermisos configPermisos) {
 		
 		// UpdateData
-		adminPermisoService.updateAuthorityPrivilege(adminPermiso);
+		adminPermisoService.updateAuthorityPrivilege(configPermisos);
 		
 		System.out.println("Dato Actualizado");
 	}

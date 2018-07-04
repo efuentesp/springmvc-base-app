@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.softtek.acceleo.demo.domain.AdminPermiso;
 import com.softtek.acceleo.demo.domain.Authority;
 import com.softtek.acceleo.demo.domain.AuthorityPrivilege;
+import com.softtek.acceleo.demo.domain.ConfigPermisos;
 import com.softtek.acceleo.demo.domain.Privilege;
 import com.softtek.acceleo.demo.security.repository.AdminPermisosRepository;
 import com.softtek.acceleo.demo.security.repository.AuthorityPrivilegeRepository;
@@ -46,13 +47,13 @@ public class AdminPermisoServiceImpl implements AdminPermisoService{
 	/**
 	 * Consulta informacion de adminPermiso.
 	 */
-	public List<AdminPermiso> listAdminPermiso() {
-		return adminPermisoRepository.getPermisos();
+	public List<ConfigPermisos> listAdminPermiso() {
+		return adminPermisoRepository.getConfiguracionPermisos();
 	}
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-	public void updateAuthorityPrivilege(AdminPermiso adminPermiso) {
+	public void updateAuthorityPrivilege(ConfigPermisos configPermisos) {
 		AuthorityPrivilege authorityPrivilege = new AuthorityPrivilege();
 		Long authorityID = null;
 		Long privilegeID = null; 
@@ -63,6 +64,7 @@ public class AdminPermisoServiceImpl implements AdminPermisoService{
 			logger.info("No se encontro informacion en el catalogo authority.");
 		}else {
 			for(Authority authority : lstAuthority) {
+				/*
 				if( authority.getIdAuthority().longValue() == adminPermiso.getActiveUser() && "ROLE_ADMIN".equals(authority.getName()) ) {
 					authorityID = adminPermiso.getIdAuthorityAdmin();
 					privilegeID = adminPermiso.getIdPrivilegeAdmin();
@@ -79,14 +81,18 @@ public class AdminPermisoServiceImpl implements AdminPermisoService{
 					flag = adminPermiso.isAnonymous();
 					break;
 				}
+				*/
 			}
 		}
 
+		/**
 		Authority authority = authorityRepository.getAuthority(authorityID == null ? adminPermiso.getActiveUser() : authorityID);
 		Privilege privilege = privilegeRepository.getPrivilege(privilegeID == null ? adminPermiso.getIdPrivilege() : privilegeID);
 		
+		
 		authorityPrivilege.setIdAuthority(authority);		
 		authorityPrivilege.setIdPrivilege(privilege);
+		*/
 		authorityPrivilege.setEnabled(flag);
 		
 		AuthorityPrivilege autPriv = authorityPrivilegeRepository.getAuthorityPrivilege(authorityPrivilege);		

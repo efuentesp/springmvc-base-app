@@ -113,7 +113,7 @@ public class AdminPermisosRepositoryImpl implements AdminPermisosRepository {
 		Transaction transaction = session.beginTransaction();
 		
 		
-		SQLQuery query = session.createSQLQuery("select a.ID_AUTHORITY, a.NAME, a.ENABLED\r\n" + 
+		SQLQuery query = session.createSQLQuery("select a.ID_AUTHORITY, a.NAME as AUTHORITY_NAME, a.ENABLED\r\n" + 
 		"from demoacceleo.authority a\r\n" + 
 		"where a.ENABLED = 1\r\n" +
 		"order by a.NAME asc\r\n");
@@ -122,33 +122,34 @@ public class AdminPermisosRepositoryImpl implements AdminPermisosRepository {
 		session.flush();
 		
 		
-		query = session.createSQLQuery("select g.ID_GRUPO, g.NAME, p.ID_PRIVILEGE, p.NAME, p.ENABLED\r\n" + 
+		query = session.createSQLQuery("select g.ID_GRUPO, g.NAME as GROUP_NAME, p.ID_PRIVILEGE, p.NAME as PRIVILEGE_NAME, p.ENABLED\r\n" + 
 				"from demoacceleo.grupo g, demoacceleo.privilege p\r\n" + 
 				"where g.ID_GRUPO = p.ID_GRUPO\r\n" + 
 				"and p.ENABLED = 1");
 		
-		List<Object[]> lstAdminPerm = query.list();
+		List<Object[]> lstGrupoPrivileges = query.list();
 		session.clear();
 		session.flush();
 		
+		query = session.createSQLQuery("select distinct ap.ID_AUTHORITY, ap.ID_PRIVILEGE, ap.ENABLED\r\n" + 
+				"from demoacceleo.authority_privilege ap\r\n" + 
+				"group by ap.ID_AUTHORITY, ap.ID_PRIVILEGE\r\n" + 
+				"order by ap.ID_AUTHORITY, ap.ID_PRIVILEGE");
+		List<Object[]> lstAuthorityPrivilege = query.list();
+		session.clear();
+		session.flush();
+				
 		try {
-			for(Object[] row : lstAdminPerm) {
+			for(Object[] rowGrupPriv : lstGrupoPrivileges) {
 				ConfigPermisos configPermisos = new ConfigPermisos();
 				List<ConfigAuthority> lstConfigAuthority = new ArrayList<>();
-				
-				query = session.createSQLQuery("select ap.ID_AUTHORITY, ap.ID_PRIVILEGE, ap.ENABLED\r\n" + 
-						"from demoacceleo.authority_privilege ap\r\n" + 
-						"where ap.ID_PRIVILEGE = 1;\r\n");
-				List<Object[]> lstAuthorityPrivilege = query.list();
-				session.clear();
-				session.flush();
 				
 				for(Object[] rowAuthority : lstAuthority) {
 					ConfigAuthority configAuthority = new ConfigAuthority();
 					boolean eureka = false;
 					
 					for(Object[] rowAuthorityPrivilege : lstAuthorityPrivilege ) {
-						if( rowAuthority[0].toString().equals(rowAuthorityPrivilege[0].toString()) ) {
+						if( rowGrupPriv[2].toString().equals(rowAuthorityPrivilege[1].toString()) && rowAuthority[0].toString().equals(rowAuthorityPrivilege[0].toString()) ) {
 							configAuthority.setIdPrivilege(Long.parseLong(rowAuthorityPrivilege[1].toString()));						
 							configAuthority.setEnabled(rowAuthorityPrivilege[2] == null ? Boolean.FALSE : "1".equals(rowAuthorityPrivilege[2].toString()) ? Boolean.TRUE : Boolean.FALSE);
 							eureka = true;
@@ -167,10 +168,10 @@ public class AdminPermisosRepositoryImpl implements AdminPermisosRepository {
 					lstConfigAuthority.add(configAuthority);
 				}
 				
-				configPermisos.setIdGrupo(row[0] == null ? null : Long.parseLong(row[0].toString()));
-				configPermisos.setNombreGrupo((String) row[1]);
-				configPermisos.setIdPrivilege(row[2] == null ? null : Long.parseLong(row[2].toString()));
-				configPermisos.setNombrePrivilege((String) row[3]);
+				configPermisos.setIdGrupo(rowGrupPriv[0] == null ? null : Long.parseLong(rowGrupPriv[0].toString()));
+				configPermisos.setNombreGrupo((String) rowGrupPriv[1]);
+				configPermisos.setIdPrivilege(rowGrupPriv[2] == null ? null : Long.parseLong(rowGrupPriv[2].toString()));
+				configPermisos.setNombrePrivilege((String) rowGrupPriv[3]);
 				configPermisos.setLstConfigAuthority(lstConfigAuthority);
 				
 				lstConfiguracionPermisos.add(configPermisos);

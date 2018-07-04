@@ -101,15 +101,15 @@ public class AuthorityController {
 	            System.out.println("User with id " + id + " not found");
 	            return new ResponseEntity<Authority>(HttpStatus.NOT_FOUND);
 	        }
-	 
-//				authorityFound.setIdRol(authority.getIdRol());
-//				authorityFound.setRol(authority.getRol());
-//				authorityFound.setEstatus(authority.getEstatus());
-//				authorityFound.setFechaCreacion(authority.getFechaCreacion());
-//				authorityFound.setFechaModificacion(authority.getFechaModificacion());
-//			authority.setId(null);
+
+	        //****
+        	authorityFound.setIdAuthority(authority.getIdAuthority());
+        	authorityFound.setName(authority.getName());
+        	authorityFound.setEnabled(authority.getEnabled());
+        	authorityFound.setCreationDate(authority.getCreationDate());
+        	authorityFound.setModifiedDate(authority.getModifiedDate());
 	        
-	        authorityService.editAuthority(authorityFound);
+	        authorityService.editAuthority(authorityFound);	        
 	        return new ResponseEntity<Authority>(authorityFound, HttpStatus.OK);
 	  } 	
 	
@@ -117,112 +117,22 @@ public class AuthorityController {
 		@RequestMapping(value = "/authority/{id}", method = RequestMethod.DELETE)
 	    public ResponseEntity<Authority> deleteAuthority(@PathVariable("id") Long id) {
 	    	 System.out.println("Fetching & Deleting User with id " + id);
-			 long rows = 0;	
-	    	 
+			 
 	         Authority authority = authorityService.getAuthority(id);
 	         if (authority == null) {
 	             System.out.println("Unable to delete. Cuenta with id " + id + " not found");
 	             return new ResponseEntity<Authority>(HttpStatus.NOT_FOUND);
 	         }
 	  
-             
 
-             if (rows==0){
-	             authorityService.deleteAuthority(authority);
+	         try {
+	        	 authorityService.deleteAuthority(authority);
             	 return new ResponseEntity<Authority>(HttpStatus.OK);
-             } else {
-            	 return new ResponseEntity<Authority>(HttpStatus.PRECONDITION_FAILED);
-             }
+			} catch (Exception e) {
+				return new ResponseEntity<Authority>(HttpStatus.PRECONDITION_FAILED);
+			}
 			
 		}
-//
-//
-//	@RequestMapping(value = "/saveAuthority", method = RequestMethod.POST)
-//	public @ResponseBody String saveAuthority(
-//			@ModelAttribute("command") AuthorityBean authorityBean) {
-//
-//
-//		Authority authority = prepareModel(authorityBean);
-//		authorityService.addAuthority(authority);
-//
-//		return "SUCCESS";
-//	}
-//	
-//	@RequestMapping(value = "/editAuthority", method = RequestMethod.POST)
-//	public @ResponseBody String editAuthority(
-//			@ModelAttribute("command") AuthorityBean authorityBean) {
-//
-//
-//		Authority authority = prepareModel(authorityBean);
-//		authorityService.editAuthority(authority);
-//		return "SUCCESS";
-//	}
-//
-//	@RequestMapping(value = "/searchAuthority", method = RequestMethod.GET)
-//	public ModelAndView addAuthority(
-//			@ModelAttribute("command") AuthorityBean authorityBean,
-//			BindingResult result) {
-//
-//		Map<String, Object> model = new HashMap<String, Object>();
-//		Authority authority = null;
-//		if (authorityBean != null)
-//			authority = prepareModel(authorityBean);
-//		model.put("authoritys",
-//				prepareListofBean(authorityService.listAuthorityss(authority)));
-//		return new ModelAndView("searchAuthority", model);
-//	}
-//
-//	@RequestMapping(value = "/deleteAuthority", method = RequestMethod.POST)
-//	public ModelAndView deleteAuthority(
-//			@ModelAttribute("command") AuthorityBean authorityBean,
-//			BindingResult result) {
-//		System.out.println("delete " + authorityBean.getId());
-//		authorityService.deleteAuthority(prepareModel(authorityBean));
-//		Map<String, Object> model = new HashMap<String, Object>();
-//		model.put("authority", null);
-//		model.put("authoritys",
-//				prepareListofBean(authorityService.listAuthorityss(null)));
-//		return new ModelAndView("searchAuthority", model);
-//	}
-//
-//	@RequestMapping(value = "/entryAuthority", method = RequestMethod.GET)
-//	public ModelAndView entryAuthority() {
-//		return new ModelAndView("redirect:/searchAuthority");
-//	}
-//
-//	private Authority prepareModel(AuthorityBean authorityBean) {
-//		Authority authority = new Authority();
-//
-//		authority.setIdRol(authorityBean.getId());
-//		authority.setRol(authorityBean.getRol());
-//		authority.setEstatus(authorityBean.getEstatus());
-//		authority.setFechaCreacion(authorityBean.getFechaCreacion());
-//		authority.setFechaModificacion(authorityBean.getFechaModificacion());
-//		authority.setId(authorityBean.getId());
-//		authorityBean.setId(null);
-//		return authority;
-//	}
-//
-//	private List<AuthorityBean> prepareListofBean(List<Authority> authoritys) {
-//		List<AuthorityBean> beans = null;
-//		if (authoritys != null && !authoritys.isEmpty()) {
-//			beans = new ArrayList<AuthorityBean>();
-//			AuthorityBean bean = null;
-//			for (Authority authority : authoritys) {
-//				bean = new AuthorityBean();
-//
-//                bean.setId(authority.getIdRol());
-//                bean.setRol(authority.getRol());
-//                bean.setEstatus(authority.getEstatus());
-//                bean.setFechaCreacion(authority.getFechaCreacion());
-//                bean.setFechaModificacion(authority.getFechaModificacion());
-//				bean.setId(authority.getId());
-//				beans.add(bean);
-//			}
-//		}
-//		return beans;
-//	}
-
 }
 
 

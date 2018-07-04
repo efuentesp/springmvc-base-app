@@ -35,7 +35,7 @@ public class AdminPermisosRepositoryImplTest {
 		logger.info("****** Iniciando prueba de JUnit - AdminPermisosRepositoryImplTest... ******");
 	}
 
-	//@Ignore
+	@Ignore
 	@Test
 	@Transactional
 	public void testGetPermisos() {
@@ -60,8 +60,9 @@ public class AdminPermisosRepositoryImplTest {
 		}
 	}
 	
-	@Ignore
+	//@Ignore
 	@Test
+	@Transactional
 	public void testGetConfiguracionPermisos(){
 		List<ConfigPermisos> lstConfigPermisos = adminPermisosRepository.getConfiguracionPermisos();
 		if( lstConfigPermisos == null || lstConfigPermisos.isEmpty() ) {

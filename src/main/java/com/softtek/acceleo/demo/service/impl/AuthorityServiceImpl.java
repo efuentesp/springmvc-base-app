@@ -79,14 +79,12 @@ public class AuthorityServiceImpl implements AuthorityService {
 
 
 	public List<Authority> listAuthorityssQuery(Authority authority, String query, int page, int size) {
-		// TODO Auto-generated method stub
 		return authorityRepository.listAuthorityssQuery(authority, query, page, size);
 	}
 
 	@Override
 	public Authority getAuthority(Long empid) {
-		// TODO Auto-generated method stub
-		return null;
+		return authorityRepository.getAuthority(empid);
 	}
 
 

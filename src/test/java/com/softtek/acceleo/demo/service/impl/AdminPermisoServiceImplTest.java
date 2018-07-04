@@ -1,5 +1,8 @@
 package com.softtek.acceleo.demo.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
@@ -13,6 +16,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.softtek.acceleo.demo.domain.AdminPermiso;
+import com.softtek.acceleo.demo.domain.ConfigAuthority;
+import com.softtek.acceleo.demo.domain.ConfigPermisos;
 import com.softtek.acceleo.demo.service.AdminPermisoService;
 
 
@@ -36,14 +41,26 @@ public class AdminPermisoServiceImplTest {
 	@Transactional
 	@Rollback(false)
 	public void testUpdateAuthorityPrivilege() {
-		AdminPermiso adminPermiso = new AdminPermiso();
-		adminPermiso.setActiveUser(1);
-		adminPermiso.setIdAuthorityAdmin(1L);
-		adminPermiso.setIdPrivilegeAdmin(1L);
-		adminPermiso.setAdmin(false);
+		ConfigPermisos configPermisos = new ConfigPermisos();
+		configPermisos.setActiveUser(1);
+		configPermisos.setIdGrupo(1L);
+		configPermisos.setNombreGrupo("AFILIADO");
+		configPermisos.setIdPrivilege(1L);		
+		configPermisos.setNombrePrivilege("ROLE_AFILIADOCREATE");
+		
+		
+		List<ConfigAuthority> lstConfigAuthority = new ArrayList<>();
+		ConfigAuthority configAuthority = new ConfigAuthority();
+		configAuthority.setIdAuthority(1L);
+		configAuthority.setIdPrivilege(1L);
+		configAuthority.setNameAuthority("ROLE_ADMIN");
+		configAuthority.setEnabled(true);
+		lstConfigAuthority.add(configAuthority);
+		
+		configPermisos.setLstConfigAuthority(lstConfigAuthority);
 		
 		logger.info("INICIANDO update / insert de authority_privilege");
-		adminPermisoService.updateAuthorityPrivilege(adminPermiso);
+		adminPermisoService.updateAuthorityPrivilege(configPermisos);
 		logger.info("FINALIZANDO update / insert de authority_privilege");
 	}
 	

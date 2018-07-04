@@ -31,6 +31,9 @@ public class Authority {
     @Column(name = "CREATIONDATE")
     @NotNull
     private Date creationDate;
+
+    @Column(name = "MODIFIEDDATE")
+    private Date modifiedDate;
     
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -106,6 +109,13 @@ public class Authority {
 		this.creationDate = creationDate;
 	}
 	
+	public Date getModifiedDate() {
+		return modifiedDate;
+	}
+
+	public void setModifiedDate(Date modifiedDate) {
+		this.modifiedDate = modifiedDate;
+	}
 	
     
 }
