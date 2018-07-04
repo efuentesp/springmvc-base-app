@@ -2,9 +2,12 @@ package com.softtek.acceleo.demo.security.repository;
 
 import static org.junit.Assert.*;
 
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +32,7 @@ public class AuthorityRepositoryImplTest {
 		logger.info("****** Iniciando prueba de JUnit - AuthorityRepositoryImplTest... ******");
 	}
 
+	@Ignore
 	@Test
 	public void testGetAuthority() {
 		long idAuthority = 2;
@@ -39,6 +43,21 @@ public class AuthorityRepositoryImplTest {
 		for(Privilege privilege : authority.getPrivilege()) {
 			logger.info("IdGroup: " + privilege.getGrupo() + "\tIdGrupo: " + privilege.getGrupo().getIdGrupo() + "\tGrupo-Name: " + privilege.getGrupo().getName() + "\tName: " + privilege.getName() + "\tId_privilege: " + privilege.getIdPrivilege() + 
 					"\tEnabled: " + privilege.getEnabled() + "\tCreationdate: " + privilege.getCreationdate() + "\tModifieddate: " + privilege.getModifieddate());
+		}
+		logger.info("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_");
+	}
+	
+	@Test
+	public void testGetLstAuthority() {
+		List<Authority> lstAuthority = authorityRepository.getAuthority();
+		logger.info("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_");
+		for(Authority authority : lstAuthority) {
+			logger.info("Id: " + authority.getIdAuthority() + "\tName: " + authority.getName() + "\tPrivilege: " + authority.getPrivilege());
+			for(Privilege privilege : authority.getPrivilege()) {
+				logger.info("IdGroup: " + privilege.getGrupo() + "\tIdGrupo: " + privilege.getGrupo().getIdGrupo() + "\tGrupo-Name: " + privilege.getGrupo().getName() + "\tName: " + privilege.getName() + "\tId_privilege: " + privilege.getIdPrivilege() + 
+						"\tEnabled: " + privilege.getEnabled() + "\tCreationdate: " + privilege.getCreationdate() + "\tModifieddate: " + privilege.getModifieddate());
+			}
+			logger.info("-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_");
 		}
 		logger.info("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_");
 	}

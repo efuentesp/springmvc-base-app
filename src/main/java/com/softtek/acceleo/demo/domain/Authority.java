@@ -19,8 +19,7 @@ public class Authority {
 
     @Column(name = "NAME", length = 50)
     @NotNull
-    //@Enumerated(EnumType.STRING)
-    //private AuthorityName name;
+    @OrderBy("name ASC")
     private String name;
     
     @Column(name = "ENABLED")
@@ -58,17 +57,7 @@ public class Authority {
     public void setIdAuthority(Long idAuthority) {
         this.idAuthority = idAuthority;
     }
-
     
-    
-//    public AuthorityName getName() {
-//        return name;
-//    }
-//
-//    public void setName(AuthorityName name) {
-//        this.name = name;
-//    }
-
     public List<Privilege> getPrivilege() {
 		return privilege;
 	}

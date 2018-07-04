@@ -7,6 +7,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Example;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,7 @@ public class AuthorityRepositoryImpl implements AuthorityRepository{
 		try {
 			Session session = sessionFactory.getCurrentSession();
 			Criteria criteria = session.createCriteria(Authority.class);
-			criteria.add(Restrictions.eq("enabled", Boolean.TRUE)).list();
+			criteria.add(Restrictions.eq("enabled", Boolean.TRUE)).addOrder(Order.asc("name")).list();
 			
 			lstAuthority = (List<Authority>) criteria.list();
 		}catch(Exception e) {
