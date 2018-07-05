@@ -68,7 +68,7 @@ public class AdminPermisoServiceImpl implements AdminPermisoService{
 			for(ConfigAuthority configAuth : lstConfigAuthority) {
 				if( configAuth.getIdAuthority().longValue() == configPermisos.getActiveUser().longValue() ) {
 					authorityID = configAuth.getIdAuthority();
-					privilegeID = configAuth.getIdPrivilege();
+					privilegeID = configAuth.getIdPrivilege() == null ? configPermisos.getIdPrivilege() : configAuth.getIdPrivilege();
 					flag = configAuth.getEnabled();
 					break;
 				}
