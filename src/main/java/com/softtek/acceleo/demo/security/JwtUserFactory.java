@@ -28,26 +28,26 @@ public final class JwtUserFactory {
                 user.getEmail(),
                 user.getPassword(),
                 mapToGrantedAuthorities(user.getAuthorities()),
-                //mapToGrantedPrivileges(user.getAuthorities()),
-                //user.getAuthorities()
                 user.getEnabled(),
                 user.getLastPasswordResetDate()
         );
     }
 
-    private static List<GrantedAuthority> mapToGrantedAuthorities(List<Authority> authorities) {    	
+    private static List<GrantedAuthority> mapToGrantedAuthorities(List<Authority> authorities) {
     	//Barrer los autorities
     	//Por cada Autority obtener privilegios
     	//Y cada nombre de privilegio crear un arrglo de GrantedAuthority
     	List<GrantedAuthority> listGrantedAuthority = new ArrayList<>();
+    	String prefijoRole = "ROLE_";
+
     	
     	
     	logger.info("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_");
     	logger.info("Iniciando convert AUTHORITY --> PRIVILEGE:");
     	for(Authority authority : authorities) {
     		for(Privilege privilege : authority.getPrivilege()){
-    			listGrantedAuthority.add(new SimpleGrantedAuthority(privilege.getName()));
-    			logger.info("Name: " + privilege.getName());
+    			listGrantedAuthority.add(new SimpleGrantedAuthority(prefijoRole + privilege.getName()));
+    			logger.info("Name: " + prefijoRole + privilege.getName());
     		}
     	}
     	logger.info("Finalizando convert AUTHORITY --> PRIVILEGE:");    	
