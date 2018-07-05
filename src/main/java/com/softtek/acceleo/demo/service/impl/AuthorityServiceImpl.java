@@ -37,6 +37,8 @@ public class AuthorityServiceImpl implements AuthorityService {
 
 		return authorityRepository.listAuthorityss(authority);
 	}
+	
+	
 
 	public Authority getAuthority(int empid) {
 
@@ -85,6 +87,16 @@ public class AuthorityServiceImpl implements AuthorityService {
 	@Override
 	public Authority getAuthority(Long empid) {
 		return authorityRepository.getAuthority(empid);
+	}
+
+	@Override
+	public List<Authority> getAuthority() {
+		return authorityRepository.getAuthority();
+	}
+
+	@Override
+	public List<Authority> listAuthoritys() {
+		return authorityRepository.getAuthority();
 	}
 
 

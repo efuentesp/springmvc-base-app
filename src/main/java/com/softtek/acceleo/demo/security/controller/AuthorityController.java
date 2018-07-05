@@ -48,7 +48,8 @@ public class AuthorityController {
 		List<Authority> listAuthority = null;
 
 		if (query==null && _page == 0 ) {
-       		listAuthority = authorityService.listAuthorityss(authority);
+       		//listAuthority = authorityService.listAuthorityss(authority);
+			listAuthority = authorityService.listAuthoritys();
 			rows = authorityService.getTotalRows();
 		} else if (query!= null){
 				listAuthority = authorityService.listAuthorityssQuery(authority, query, _page, 10);

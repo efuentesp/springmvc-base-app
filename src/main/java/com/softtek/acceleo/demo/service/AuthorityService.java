@@ -10,6 +10,8 @@ public interface AuthorityService {
 	public void editAuthority(Authority authority);
 	
 	public List<Authority> listAuthorityss(Authority authority);
+	
+	public List<Authority> listAuthoritys();
 
 	public Authority getAuthority(Long empid);
 
@@ -19,6 +21,7 @@ public interface AuthorityService {
 
 	public List<Authority> listAuthoritysPagination(Authority authority, int page, int size);
 	
+	public List<Authority> getAuthority();
 
 	public long getTotalRows();
 
