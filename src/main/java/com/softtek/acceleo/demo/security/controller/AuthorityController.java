@@ -94,6 +94,7 @@ public class AuthorityController {
 
 
 	 @RequestMapping(value = "/authority", method = RequestMethod.POST)
+	 @PreAuthorize("hasRole('AUTHORITYSEARCH')")
 	    public ResponseEntity<Void> createAuthority(@RequestBody Authority authority,    UriComponentsBuilder ucBuilder) {
 	   
 		 	authority.setCreationDate(new Date());

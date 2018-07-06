@@ -33,7 +33,7 @@ public class UserController {
 		
 		@Autowired
 	    public PasswordEncoder passwordEncoder;
-
+		@PreAuthorize("hasRole('MANAGESEARCH')")
 	   @RequestMapping(value = "/usersList", method = RequestMethod.GET, produces = "application/json")
 	    public @ResponseBody  List<User> getUsers(HttpServletRequest request, HttpServletResponse response) {
 
@@ -64,9 +64,9 @@ public class UserController {
 	    */
 
 	    
-	    @RequestMapping(value = "/users/{username}/{privileges}", method = RequestMethod.POST)
-	    
-	        public ResponseEntity<Void> createAfiliado(@RequestBody User user, @PathVariable("username") String userName,  @PathVariable("privileges") String privileges, UriComponentsBuilder ucBuilder) {
+	    @RequestMapping(value = "/users/{userName}/{privileges}", method = RequestMethod.POST)
+	    @PreAuthorize("hasRole('USERCREATE')")
+	        public ResponseEntity<Void> createAfiliado(@RequestBody User user, @PathVariable("userName") String userName,  @PathVariable("privileges") String privileges, UriComponentsBuilder ucBuilder) {
 	       
 	                user.setCreationDate(new Date()); 
 	                user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -91,6 +91,7 @@ public class UserController {
 	    
 		
 		@RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE)
+		@PreAuthorize("hasRole('USERDELETE')")
 	    public ResponseEntity<User> deleteUser(@PathVariable("id") int id) {
 			 
 	         User user = userService.getUser(new Long(id));
@@ -108,6 +109,7 @@ public class UserController {
 		}
 		
 		 @RequestMapping(value = "/users/{id}/{username}/{privileges}/{flag}", method = RequestMethod.PUT)
+		 @PreAuthorize("hasRole('MANAGEUPDATE')")
 		    public ResponseEntity<User> actualizarUser( @RequestBody User user, @PathVariable("id") int id, @PathVariable("username") String userName,  @PathVariable("privileges") String privileges, @PathVariable("flag") Boolean flag) {
 		        
 		        User userFound = userService.getUser(new Long(id));

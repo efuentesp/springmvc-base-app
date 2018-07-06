@@ -159,6 +159,8 @@ public class UserRepositoryImpl implements UserRepository {
 		try {
 			Session session = sessionFactory.getCurrentSession();
 			// sessionFactory.getCurrentSession().persist(user);
+			session.clear();
+			session.flush();
 			logger.info("IdUser: " + user.getIdUser() + "\t UserName: " + user.getUserName() + "\t Password: "
 					+ user.getPassword());
 			session.persist(user);
