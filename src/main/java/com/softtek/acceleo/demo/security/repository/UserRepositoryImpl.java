@@ -37,7 +37,7 @@ public class UserRepositoryImpl implements UserRepository {
 		try {
 			Session session = sessionFactory.getCurrentSession();
 			Criteria criteria = session.createCriteria(User.class);
-			criteria.add(Restrictions.eq("userName", username)).list();
+			criteria.add(Restrictions.and(Restrictions.eq("userName", username), Restrictions.eq("enabled", Boolean.TRUE))).list();
 			List<User> users = (List<User>) criteria.list();
 
 			user = users.get(0);

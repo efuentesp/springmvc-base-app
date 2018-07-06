@@ -3,6 +3,8 @@ package com.softtek.acceleo.demo.domain;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.WhereJoinTable;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Date;
@@ -38,7 +40,8 @@ public class Authority {
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "authority_privilege", joinColumns = { 
 			@JoinColumn(name = "ID_AUTHORITY", nullable = false, updatable = false) }, 
-			inverseJoinColumns = { @JoinColumn(name = "ID_PRIVILEGE", nullable = false, updatable = false) })    
+			inverseJoinColumns = { @JoinColumn(name = "ID_PRIVILEGE", nullable = false, updatable = false) })
+	@WhereJoinTable(clause = "ENABLED = '1'") 
 	@JsonIgnore 
 	private List<Privilege> privilege;
     
