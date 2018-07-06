@@ -32,12 +32,12 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	
-	public List<User> listUserss(User user) {
+	public List<User> listUserss() {
 		System.out.print("listUserss Service");
-		return userRepository.listUserss(user);
+		return userRepository.listUserss();
 	}
 
-	public User getUser(int empid) {
+	public User getUser(Long empid) {
 
 		return userRepository.getUser(empid);
 	}

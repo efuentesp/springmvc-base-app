@@ -9,6 +9,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Example;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
@@ -180,19 +181,21 @@ public class UserRepositoryImpl implements UserRepository {
 	}
 
 	@SuppressWarnings({ "unchecked" })
-	public List<User> listUserss(User user) {
+	public List<User> listUserss() {
 
-		if (user != null) {
+		List<User> lstUser = null;
 
-			User userProxy = new User();
-
-			return (List<User>) sessionFactory.getCurrentSession().createCriteria(User.class)
-					.add(Example.create(userProxy)).list();
-
+		try {
+			Session session = sessionFactory.getCurrentSession();
+			Criteria criteria = session.createCriteria(User.class);
+			criteria.addOrder(Order.asc("firstname")).list();
+			
+			lstUser = (List<User>) criteria.list();
+		}catch(Exception e) {
+			logger.error("Error: ", e);
 		}
-
-		return (List<User>) sessionFactory.getCurrentSession().createCriteria(User.class).list();
-
+		
+		return lstUser;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -266,7 +269,7 @@ public class UserRepositoryImpl implements UserRepository {
 		return totalRows;
 	}
 
-	public User getUser(int empid) {
+	public User getUser(Long empid) {
 		return (User) sessionFactory.getCurrentSession().get(User.class, empid);
 	}
 

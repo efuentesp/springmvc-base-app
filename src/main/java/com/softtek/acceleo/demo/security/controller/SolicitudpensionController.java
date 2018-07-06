@@ -20,7 +20,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,7 +31,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.UriComponentsBuilder;
-
 import com.softtek.acceleo.demo.catalogo.bean.SolicitudpensionBean;
 import com.softtek.acceleo.demo.domain.Solicitudpension;
 import com.softtek.acceleo.demo.exception.GenericException;
@@ -52,7 +50,7 @@ public class SolicitudpensionController {
 	
 	
 	@RequestMapping(value = "/solicitudpension", method = RequestMethod.GET, produces = "application/json")
-	@PreAuthorize("hasRole('ROLE_SOLICITUDPENSIONSEARCH')")
+	@PreAuthorize("hasRole('SOLICITUDPENSIONSEARCH')")
 	public @ResponseBody  List<Solicitudpension> getSolicitudpensions(@RequestParam Map<String,String> requestParams, HttpServletRequest request, HttpServletResponse response) {
 		Solicitudpension solicitudpension = new Solicitudpension();
 
@@ -80,7 +78,7 @@ public class SolicitudpensionController {
 	}
 	
 	@RequestMapping(value = "/solicitudpension/{id}", method = RequestMethod.GET, produces = "application/json")
-	@PreAuthorize("hasRole('ROLE_SOLICITUDPENSIONSEARCH')")
+	@PreAuthorize("hasRole('SOLICITUDPENSIONSEARCH')")
 	    public @ResponseBody  Solicitudpension getSolicitudpension(@PathVariable("id") int id) {
 
 			Solicitudpension solicitudpension = null;
@@ -91,7 +89,7 @@ public class SolicitudpensionController {
 
 
 	 @RequestMapping(value = "/solicitudpension", method = RequestMethod.POST)
-	 @PreAuthorize("hasRole('ROLE_SOLICITUDPENSIONSEARCH')")
+	 @PreAuthorize("hasRole('SOLICITUDPENSIONSEARCH')")
 	    public ResponseEntity<Void> createSolicitudpension(@RequestBody Solicitudpension solicitudpension,    UriComponentsBuilder ucBuilder) {
 	   
 	        solicitudpensionService.addSolicitudpension(solicitudpension);
@@ -102,7 +100,7 @@ public class SolicitudpensionController {
 	 }
 		
 	 @RequestMapping(value = "/solicitudpension/{id}", method = RequestMethod.PUT)
-	 @PreAuthorize("hasRole('ROLE_SOLICITUDPENSIONSEARCH')")
+	 @PreAuthorize("hasRole('SOLICITUDPENSIONUPDATE')")
 	    public ResponseEntity<Solicitudpension> actualizarSolicitudpension(
 				@PathVariable("id") int id, 
 				@RequestBody Solicitudpension solicitudpension) {
@@ -129,7 +127,7 @@ public class SolicitudpensionController {
 	
 		
 		@RequestMapping(value = "/solicitudpension/{id}", method = RequestMethod.DELETE)
-		@PreAuthorize("hasRole('ROLE_SOLICITUDPENSIONSEARCH')")
+		@PreAuthorize("hasRole('SOLICITUDPENSIONDELETE')")
 	    public ResponseEntity<Solicitudpension> deleteSolicitudpension(@PathVariable("id") int id) {
 	  
              try{
@@ -147,7 +145,7 @@ public class SolicitudpensionController {
 
 
 	@RequestMapping(value = "/saveSolicitudpension", method = RequestMethod.POST)
-	@PreAuthorize("hasRole('ROLE_SOLICITUDPENSIONSEARCH')")
+	@PreAuthorize("hasRole('SOLICITUDPENSION')")
 	public @ResponseBody String saveSolicitudpension(
 			@ModelAttribute("command") SolicitudpensionBean solicitudpensionBean) {
 
@@ -158,7 +156,7 @@ public class SolicitudpensionController {
 	}
 	
 	@RequestMapping(value = "/editSolicitudpension", method = RequestMethod.POST)
-	@PreAuthorize("hasRole('ROLE_SOLICITUDPENSIONSEARCH')")
+	@PreAuthorize("hasRole('SOLICITUDPENSION')")
 	public @ResponseBody String editSolicitudpension(
 			@ModelAttribute("command") SolicitudpensionBean solicitudpensionBean) {
 
@@ -169,7 +167,7 @@ public class SolicitudpensionController {
 	}
 
 	@RequestMapping(value = "/searchSolicitudpension", method = RequestMethod.GET)
-	@PreAuthorize("hasRole('ROLE_SOLICITUDPENSIONSEARCH')")
+	@PreAuthorize("hasRole('SOLICITUDPENSION')")
 	public ModelAndView addSolicitudpension(
 			@ModelAttribute("command") SolicitudpensionBean solicitudpensionBean,
 			BindingResult result) {
@@ -184,7 +182,7 @@ public class SolicitudpensionController {
 	}
 
 	@RequestMapping(value = "/entrySolicitudpension", method = RequestMethod.GET)
-	@PreAuthorize("hasRole('ROLE_SOLICITUDPENSIONSEARCH')")
+	@PreAuthorize("hasRole('SOLICITUDPENSION')")
 	public ModelAndView entrySolicitudpension() {
 		return new ModelAndView("redirect:/searchSolicitudpension");
 	}

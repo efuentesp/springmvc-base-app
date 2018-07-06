@@ -20,7 +20,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -52,7 +51,7 @@ public class BeneficiarioController {
 	
 	
 	@RequestMapping(value = "/beneficiario", method = RequestMethod.GET, produces = "application/json")
-	@PreAuthorize("hasRole('ROLE_BENEFICIARIOSEARCH')")
+	@PreAuthorize("hasRole('BENEFICIARIOSEARCH')")
 	public @ResponseBody  List<Beneficiario> getBeneficiarios(@RequestParam Map<String,String> requestParams, HttpServletRequest request, HttpServletResponse response) {
 		Beneficiario beneficiario = new Beneficiario();
 		
@@ -80,7 +79,7 @@ public class BeneficiarioController {
 	}
 	
 	@RequestMapping(value = "/beneficiario/{id}", method = RequestMethod.GET, produces = "application/json")
-	@PreAuthorize("hasRole('ROLE_BENEFICIARIOSEARCH')")
+	@PreAuthorize("hasRole('BENEFICIARIOSEARCH')")
 	    public @ResponseBody  Beneficiario getBeneficiario(@PathVariable("id") int id) {	        
 	        Beneficiario beneficiario = null;
 	        
@@ -89,7 +88,7 @@ public class BeneficiarioController {
 	 }
 
 	 @RequestMapping(value = "/beneficiario", method = RequestMethod.POST)
-	 @PreAuthorize("hasRole('ROLE_BENEFICIARIOSEARCH')")
+	 @PreAuthorize("hasRole('BENEFICIARIOCREATE')")
 	    public ResponseEntity<Void> createBeneficiario(@RequestBody Beneficiario beneficiario,    UriComponentsBuilder ucBuilder) {
 	   
 	        beneficiarioService.addBeneficiario(beneficiario);
@@ -100,7 +99,7 @@ public class BeneficiarioController {
 	 }
 		
 	 @RequestMapping(value = "/beneficiario/{id}", method = RequestMethod.PUT)
-	 @PreAuthorize("hasRole('ROLE_BENEFICIARIOSEARCH')")
+	 @PreAuthorize("hasRole('BENEFICIARIOUPDATE')")
 	    public ResponseEntity<Beneficiario> actualizarBeneficiario(
 				@PathVariable("id") int id, 
 				@RequestBody Beneficiario beneficiario) {
@@ -128,7 +127,7 @@ public class BeneficiarioController {
 	
 		
 		@RequestMapping(value = "/beneficiario/{id}", method = RequestMethod.DELETE)
-		@PreAuthorize("hasRole('ROLE_BENEFICIARIOSEARCH')")
+		@PreAuthorize("hasRole('BENEFICIARIODELETE')")
 	    public ResponseEntity<Beneficiario> deleteBeneficiario(@PathVariable("id") int id) {
 	  
              try{
@@ -146,7 +145,7 @@ public class BeneficiarioController {
 
 
 	@RequestMapping(value = "/saveBeneficiario", method = RequestMethod.POST)
-	@PreAuthorize("hasRole('ROLE_BENEFICIARIOSEARCH')")
+	@PreAuthorize("hasRole('BENEFICIARIO')")
 	public @ResponseBody String saveBeneficiario(
 			@ModelAttribute("command") BeneficiarioBean beneficiarioBean) {
 
@@ -157,7 +156,7 @@ public class BeneficiarioController {
 	}
 	
 	@RequestMapping(value = "/editBeneficiario", method = RequestMethod.POST)
-	@PreAuthorize("hasRole('ROLE_BENEFICIARIOSEARCH')")
+	@PreAuthorize("hasRole('BENEFICIARIO')")
 	public @ResponseBody String editBeneficiario(
 			@ModelAttribute("command") BeneficiarioBean beneficiarioBean) {
 
@@ -168,7 +167,7 @@ public class BeneficiarioController {
 	}
 
 	@RequestMapping(value = "/searchBeneficiario", method = RequestMethod.GET)
-	@PreAuthorize("hasRole('ROLE_BENEFICIARIOSEARCH')")
+	@PreAuthorize("hasRole('BENEFICIARIO')")
 	public ModelAndView addBeneficiario(
 			@ModelAttribute("command") BeneficiarioBean beneficiarioBean,
 			BindingResult result) {

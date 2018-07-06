@@ -70,54 +70,54 @@ public class UserRestController {
         return user;
     }
     
-    @RequestMapping(value = "userList", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody  List<User> getUsers(HttpServletRequest request, HttpServletResponse response) {
-
-
-		List<User> listUser = null;
-       	listUser = userService.listUserss(user);
-       	
-       	Set<User> hs = new HashSet<User>();
-       	hs.addAll(listUser);
-       	listUser.clear();
-       	listUser.addAll(hs);
-       	
-		System.out.print("Conttroller - Cantidad" + listUser.size());
-		System.out.print("Fin Conttroller - userList ");
-		return listUser;
-	}
-    
-    
-    /**
-    * Crea un nuevo afiliado.
-    * @param afiliado.
-    * @param ucBuilder.
-    * @return ResponseEntity.
-    */
-
-    @RequestMapping(value = "/user/{username}/{privileges}", method = RequestMethod.POST)
-        public ResponseEntity<Void> createAfiliado(@RequestBody User user, @PathVariable("username") String userName,  @PathVariable("privileges") String privileges, UriComponentsBuilder ucBuilder) {
-       
-                 user.setCreationDate(new Date()); 
-                 user.setPassword(passwordEncoder.encode(user.getPassword()));
-                user.setUserName(userName);
-                user.setEnabled(true);
-                user.setLastPasswordResetDate(new Date());
-                
-                 List<Authority> auths = new ArrayList<>();
-                Authority auth = new Authority();
-                auth.setIdAuthority(new Long(privileges)); ;
-                auths.add(auth);
-                
-                 user.setAuthorities(auths);
-                
-            userService.addUser(user);
-            
-     
-            HttpHeaders headers = new HttpHeaders();
-            headers.setLocation(ucBuilder.path("/afiliado/{id}").buildAndExpand(user.getIdUser()).toUri());
-            return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
-    }
+//    @RequestMapping(value = "userList", method = RequestMethod.GET, produces = "application/json")
+//	public @ResponseBody  List<User> getUsers(HttpServletRequest request, HttpServletResponse response) {
+//
+//
+//		List<User> listUser = null;
+//       	listUser = userService.listUserss(user);
+//       	
+//       	Set<User> hs = new HashSet<User>();
+//       	hs.addAll(listUser);
+//       	listUser.clear();
+//       	listUser.addAll(hs);
+//       	
+//		System.out.print("Conttroller - Cantidad" + listUser.size());
+//		System.out.print("Fin Conttroller - userList ");
+//		return listUser;
+//	}
+//    
+//    
+//    /**
+//    * Crea un nuevo afiliado.
+//    * @param afiliado.
+//    * @param ucBuilder.
+//    * @return ResponseEntity.
+//    */
+//
+//    @RequestMapping(value = "/user/{username}/{privileges}", method = RequestMethod.POST)
+//        public ResponseEntity<Void> createAfiliado(@RequestBody User user, @PathVariable("username") String userName,  @PathVariable("privileges") String privileges, UriComponentsBuilder ucBuilder) {
+//       
+//                 user.setCreationDate(new Date()); 
+//                 user.setPassword(passwordEncoder.encode(user.getPassword()));
+//                user.setUserName(userName);
+//                user.setEnabled(true);
+//                user.setLastPasswordResetDate(new Date());
+//                
+//                 List<Authority> auths = new ArrayList<>();
+//                Authority auth = new Authority();
+//                auth.setIdAuthority(new Long(privileges)); ;
+//                auths.add(auth);
+//                
+//                 user.setAuthorities(auths);
+//                
+//            userService.addUser(user);
+//            
+//     
+//            HttpHeaders headers = new HttpHeaders();
+//            headers.setLocation(ucBuilder.path("/afiliado/{id}").buildAndExpand(user.getIdUser()).toUri());
+//            return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+//    }
 
 
 }
