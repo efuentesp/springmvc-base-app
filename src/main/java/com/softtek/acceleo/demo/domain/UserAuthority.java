@@ -18,6 +18,9 @@ public class UserAuthority {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long idUserAuthority;
 		
+    @Column(name = "ENABLED")    
+    private Boolean enabled;
+    
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "ID_USER")
 	private User idUser;
@@ -44,6 +47,12 @@ public class UserAuthority {
 	}
 	public void setIdUserAuthority(long idUserAuthority) {
 		this.idUserAuthority = idUserAuthority;
+	}
+	public Boolean getEnabled() {
+		return enabled;
+	}
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
 	}
 
 	

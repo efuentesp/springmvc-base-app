@@ -20,6 +20,8 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.WhereJoinTable;
+
 @Entity
 @Table(name = "user")
 public class User {
@@ -73,21 +75,12 @@ public class User {
     @Temporal(TemporalType.TIMESTAMP)
     private Date modifiedDate;
     
-//    @ManyToMany(fetch = FetchType.EAGER)
-//    @JoinTable(
-//            name = "USER_AUTHORITY",
-//            joinColumns = {@JoinColumn(name = "ID_USER", referencedColumnName = "ID_USER")},
-//            inverseJoinColumns = {@JoinColumn(name = "ID_AUTHORITY", referencedColumnName = "ID_AUTHORITY")})
-    //@ManyToMany(fetch = FetchType.LAZY, mappedBy = "user")
-//    @ManyToMany(fetch = FetchType.EAGER, mappedBy="user")
-//    private List<Authority> authority;
-    
-    
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "USER_AUTHORITY",
             joinColumns = {@JoinColumn(name = "ID_USER", referencedColumnName = "ID_USER")},
             inverseJoinColumns = {@JoinColumn(name = "ID_AUTHORITY", referencedColumnName = "ID_AUTHORITY")})
+	@WhereJoinTable(clause = "ENABLED = '1'")     
     private List<Authority> authorities;
     
 

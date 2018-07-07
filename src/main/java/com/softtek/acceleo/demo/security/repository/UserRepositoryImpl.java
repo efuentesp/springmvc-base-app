@@ -38,7 +38,7 @@ public class UserRepositoryImpl implements UserRepository {
 		try {
 			Session session = sessionFactory.getCurrentSession();
 			Criteria criteria = session.createCriteria(User.class);
-			criteria.add(Restrictions.and(Restrictions.eq("userName", username), Restrictions.eq("enabled", Boolean.TRUE))).list();
+			criteria.add(Restrictions.eq("userName", username)).list();
 			List<User> users = (List<User>) criteria.list();
 
 			user = users.get(0);
@@ -61,13 +61,12 @@ public class UserRepositoryImpl implements UserRepository {
 			user.setLastPasswordResetDate(da);
 		} catch (HibernateException e) {
 			logger.error("Error - HibernateException: ", e);
-			System.err.println("Error: " + e);
+		} catch(IndexOutOfBoundsException e) {
+			logger.error("Error - IndexOutOfBoundsException: ", e);
 		} catch (RuntimeException e) {
 			logger.error("Error - RuntimeException: ", e);
-			System.err.println("Error: " + e);
 		} catch (Exception e) {
 			logger.error("Error - Exception: ", e);
-			System.err.println("Error: " + e);
 		}
 
 		return user;

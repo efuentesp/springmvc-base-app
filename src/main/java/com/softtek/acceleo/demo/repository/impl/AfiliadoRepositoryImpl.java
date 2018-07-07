@@ -50,12 +50,12 @@ public class AfiliadoRepositoryImpl implements AfiliadoRepository {
 	@SuppressWarnings({ "unchecked" })
 	public List<Afiliado> listAfiliados(Afiliado afiliado) {
 
-		if (afiliado != null) {
-			Afiliado afiliadoProxy = new Afiliado();
-			return (List<Afiliado>) sessionFactory.getCurrentSession()
-					.createCriteria(Afiliado.class)
-					.add(Example.create(afiliadoProxy)).list();
-		}
+//		if (afiliado != null) {
+//			Afiliado afiliadoProxy = new Afiliado();
+//			return (List<Afiliado>) sessionFactory.getCurrentSession()
+//					.createCriteria(Afiliado.class)
+//					.add(Example.create(afiliadoProxy)).list();
+//		}
 
 		return (List<Afiliado>) sessionFactory.getCurrentSession()
 				.createCriteria(Afiliado.class).list();
