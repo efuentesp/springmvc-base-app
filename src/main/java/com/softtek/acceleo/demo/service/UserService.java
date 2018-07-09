@@ -3,9 +3,11 @@ package com.softtek.acceleo.demo.service;
 import com.softtek.acceleo.demo.domain.User;
 import java.util.List;
 
+import org.hibernate.HibernateException;
+
 public interface UserService {
 
-	public void addUser(User user);
+	public void addUser(User user) throws HibernateException;
 
 	public void editUser(User user);
 	

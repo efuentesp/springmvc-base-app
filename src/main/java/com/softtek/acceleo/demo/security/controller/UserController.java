@@ -74,7 +74,8 @@ public class UserController {
 	    @RequestMapping(value = "/users/{username}/{privileges}", method = RequestMethod.POST)
 	    @PreAuthorize("hasRole('MANAGESEARCH')")
 	        public ResponseEntity<Void> createAfiliado(@RequestBody User user, @PathVariable("username") String userName,  @PathVariable("privileges") String privileges, UriComponentsBuilder ucBuilder) {
-	       
+	    	HttpStatus httpStatus = null;
+	    	
 	            user.setCreationDate(new Date()); 
 	            user.setPassword(passwordEncoder.encode(user.getPassword()));
 	            user.setUserName(userName);
@@ -90,19 +91,23 @@ public class UserController {
 	            
 	            try {
 	            	userService.addUser(user);
+	            	
+	            	httpStatus = HttpStatus.CREATED;
 	            }catch(HibernateException e) {
 	            	if(e.getMessage().contains("Duplicate entry")) {
 	            		logger.error("---->>> Error: ", e);
 	            	}	            	
+	            	httpStatus = HttpStatus.NOT_ACCEPTABLE;
 	            }catch(Exception e) {
 	            	if(e.getMessage().contains("Duplicate entry")) {
 	            		logger.error("---->>> Error: ", e);
 	            	}
+	            	httpStatus = HttpStatus.NOT_ACCEPTABLE;
 	            }	            
 	     
 	            HttpHeaders headers = new HttpHeaders();
 	            headers.setLocation(ucBuilder.path("/users/{id}").buildAndExpand(user.getIdUser()).toUri());
-	            return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+	            return new ResponseEntity<Void>(headers, httpStatus);
 	    }
 	    
 		
@@ -137,28 +142,33 @@ public class UserController {
 		        }
 
 		        if (flag){
-		        	user.setPassword(passwordEncoder.encode(user.getPassword()));
+		        	String pass = passwordEncoder.encode(user.getPassword());
+		        	user.setPassword(pass);
 		        }
 		       
-		        List<Authority> auths = new ArrayList<>();
-                Authority auth = new Authority();
-                auth.setIdAuthority(new Long(privileges)); ;
-                auths.add(auth);
-		        
-		        //userFound.setAttemps(null);
-		        userFound.setAuthorities(auths);
-		        userFound.setCreationDate(new Date());
-		        userFound.setEmail(user.getEmail());
-		        userFound.setEnabled(user.getEnabled());
-		        userFound.setFirstname(user.getFirstname());
-		        userFound.setLastname(user.getLastname());
-		        userFound.setLastPasswordResetDate(new Date());
-		        userFound.setModifiedDate(new Date());
-		        userFound.setUserName(username);
-		        userFound.setIdUser(new Long(user.getIdUser()));
-		        
-		        userService.editUser(userFound);	        
-		        return new ResponseEntity<User>(userFound, HttpStatus.OK);
+		        try {
+			        List<Authority> auths = new ArrayList<>();
+	                Authority auth = new Authority();
+	                auth.setIdAuthority(new Long(privileges));
+	                auths.add(auth);
+			        
+			        userFound.setAuthorities(auths);
+			        userFound.setCreationDate(new Date());
+			        userFound.setEmail(user.getEmail());
+			        userFound.setEnabled(user.getEnabled());
+			        userFound.setFirstname(user.getFirstname());
+			        userFound.setLastname(user.getLastname());
+			        userFound.setLastPasswordResetDate(new Date());
+			        userFound.setModifiedDate(new Date());
+			        userFound.setUserName(username);
+			        userFound.setIdUser(new Long(user.getIdUser()));
+			        userFound.setPassword(user.getPassword());
+			        
+			        userService.editUser(userFound);
+			        
+			        return new ResponseEntity<User>(userFound, HttpStatus.OK);
+		        }catch(Exception e) {
+		        	return new ResponseEntity<User>(userFound, HttpStatus.NOT_ACCEPTABLE);
+		        }
 		  } 	
-	    
 }

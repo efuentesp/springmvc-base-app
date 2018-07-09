@@ -4,6 +4,7 @@ package com.softtek.acceleo.demo.service.impl;
 
 import java.util.List;
 
+import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -20,8 +21,7 @@ public class UserServiceImpl implements UserService {
 	private com.softtek.acceleo.demo.security.repository.UserRepository userRepository;
 
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-	public void addUser(User user) {
-		
+	public void addUser(User user) throws HibernateException {
 		userRepository.addUser(user);
 	}
 

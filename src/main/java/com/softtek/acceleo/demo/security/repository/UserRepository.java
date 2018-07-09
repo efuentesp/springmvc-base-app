@@ -2,12 +2,14 @@ package com.softtek.acceleo.demo.security.repository;
 
 import java.util.List;
 
+import org.hibernate.HibernateException;
+
 import com.softtek.acceleo.demo.domain.User;
 
 public interface UserRepository  {
     User findByUsername(String username);
     
-    public void addUser(User user);   
+    public void addUser(User user) throws HibernateException;   
 	 
 	 public void editUser(User user);
 	   
