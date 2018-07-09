@@ -64,22 +64,21 @@ public class UserController {
 	    */
 
 	    
-	    @RequestMapping(value = "/users/{userName}/{privileges}", method = RequestMethod.POST)
-	    @PreAuthorize("hasRole('USERCREATE')")
-	        public ResponseEntity<Void> createAfiliado(@RequestBody User user, @PathVariable("userName") String userName,  @PathVariable("privileges") String privileges, UriComponentsBuilder ucBuilder) {
+	    @RequestMapping(value = "/users/{username}/{privileges}", method = RequestMethod.POST)
+	    @PreAuthorize("hasRole('MANAGESEARCH')")
+	        public ResponseEntity<Void> createAfiliado(@RequestBody User user, @PathVariable("username") String userName,  @PathVariable("privileges") String privileges, UriComponentsBuilder ucBuilder) {
 	       
-	                user.setCreationDate(new Date()); 
-	                user.setPassword(passwordEncoder.encode(user.getPassword()));
-	                user.setUserName(userName);
-	                user.setEnabled(true);
-	                user.setLastPasswordResetDate(new Date());
-	                
-	                 List<Authority> auths = new ArrayList<>();
-	                Authority auth = new Authority();
-	                auth.setIdAuthority(new Long(privileges)); ;
-	                auths.add(auth);
-	                
-	                 user.setAuthorities(auths);
+	            user.setCreationDate(new Date()); 
+	            user.setPassword(passwordEncoder.encode(user.getPassword()));
+	            user.setUserName(userName);
+	            user.setLastPasswordResetDate(new Date());
+	            
+	            List<Authority> auths = new ArrayList<>();
+	            Authority auth = new Authority();
+	            auth.setIdAuthority(new Long(privileges)); ;
+	            auths.add(auth);
+	            
+	            user.setAuthorities(auths);
 	                
 	            userService.addUser(user);
 	            
@@ -109,8 +108,9 @@ public class UserController {
 		}
 		
 		 @RequestMapping(value = "/users/{id}/{username}/{privileges}/{flag}", method = RequestMethod.PUT)
-		 @PreAuthorize("hasRole('MANAGEUPDATE')")
-		    public ResponseEntity<User> actualizarUser( @RequestBody User user, @PathVariable("id") int id, @PathVariable("username") String userName,  @PathVariable("privileges") String privileges, @PathVariable("flag") Boolean flag) {
+		 @PreAuthorize("hasRole('MANAGESEARCH')")
+		    public ResponseEntity<User> actualizarUser( @RequestBody User user, @PathVariable("id") int id, @PathVariable("username") String username,  
+		    		@PathVariable("privileges") String privileges, @PathVariable("flag") Boolean flag) {
 		        
 		        User userFound = userService.getUser(new Long(id));
 		         
@@ -121,17 +121,14 @@ public class UserController {
 
 		        if (flag){
 		        	user.setPassword(passwordEncoder.encode(user.getPassword()));
-		        }else{
-		        	user.setPassword(user.getPassword());
 		        }
-		        
 		       
 		        List<Authority> auths = new ArrayList<>();
                 Authority auth = new Authority();
                 auth.setIdAuthority(new Long(privileges)); ;
                 auths.add(auth);
 		        
-		        userFound.setAttemps(new Long(1));
+		        userFound.setAttemps(null);
 		        userFound.setAuthorities(auths);
 		        userFound.setCreationDate(new Date());
 		        userFound.setEmail(user.getEmail());
