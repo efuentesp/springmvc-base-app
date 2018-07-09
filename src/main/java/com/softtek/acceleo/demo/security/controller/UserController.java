@@ -75,7 +75,7 @@ public class UserController {
 	            
 	            List<Authority> auths = new ArrayList<>();
 	            Authority auth = new Authority();
-	            auth.setIdAuthority(new Long(privileges)); ;
+	            auth.setIdAuthority(new Long(privileges));
 	            auths.add(auth);
 	            
 	            user.setAuthorities(auths);
@@ -128,7 +128,7 @@ public class UserController {
                 auth.setIdAuthority(new Long(privileges)); ;
                 auths.add(auth);
 		        
-		        userFound.setAttemps(null);
+		        //userFound.setAttemps(null);
 		        userFound.setAuthorities(auths);
 		        userFound.setCreationDate(new Date());
 		        userFound.setEmail(user.getEmail());
