@@ -7,6 +7,9 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.hibernate.HibernateException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -25,8 +28,12 @@ import com.softtek.acceleo.demo.domain.Authority;
 import com.softtek.acceleo.demo.domain.User;
 import com.softtek.acceleo.demo.service.UserService;
 
+
+
 @RestController
 public class UserController {
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
 	
 		@Autowired
 		private UserService userService;
@@ -80,8 +87,18 @@ public class UserController {
 	            
 	            user.setAuthorities(auths);
 	                
-	            userService.addUser(user);
 	            
+	            try {
+	            	userService.addUser(user);
+	            }catch(HibernateException e) {
+	            	if(e.getMessage().contains("Duplicate entry")) {
+	            		logger.error("---->>> Error: ", e);
+	            	}	            	
+	            }catch(Exception e) {
+	            	if(e.getMessage().contains("Duplicate entry")) {
+	            		logger.error("---->>> Error: ", e);
+	            	}
+	            }	            
 	     
 	            HttpHeaders headers = new HttpHeaders();
 	            headers.setLocation(ucBuilder.path("/users/{id}").buildAndExpand(user.getIdUser()).toUri());
