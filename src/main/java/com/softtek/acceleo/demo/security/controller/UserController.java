@@ -137,7 +137,7 @@ public class UserController {
 		        userFound.setLastname(user.getLastname());
 		        userFound.setLastPasswordResetDate(new Date());
 		        userFound.setModifiedDate(new Date());
-		        userFound.setUserName(user.getUserName());
+		        userFound.setUserName(username);
 		        userFound.setIdUser(new Long(user.getIdUser()));
 		        
 		        userService.editUser(userFound);	        
