@@ -61,6 +61,8 @@ public class UserRepositoryImpl implements UserRepository {
 			user.setLastPasswordResetDate(da);
 		} catch (HibernateException e) {
 			logger.error("Error - HibernateException: ", e);
+			logger.info("Error - HibernateException: ", e);
+			System.out.println("Error - HibernateException: " + e);
 		} catch(IndexOutOfBoundsException e) {
 			logger.error("Error - IndexOutOfBoundsException: ", e);
 		} catch (RuntimeException e) {

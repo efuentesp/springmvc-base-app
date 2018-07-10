@@ -20,6 +20,7 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.Where;
 import org.hibernate.annotations.WhereJoinTable;
 
 @Entity
@@ -80,9 +81,8 @@ public class User {
             name = "USER_AUTHORITY",
             joinColumns = {@JoinColumn(name = "ID_USER", referencedColumnName = "ID_USER")},
             inverseJoinColumns = {@JoinColumn(name = "ID_AUTHORITY", referencedColumnName = "ID_AUTHORITY")})
-	@WhereJoinTable(clause = "ENABLED = '1'")     
+	//@WhereJoinTable(clause = "ENABLED = '1'")     
     private List<Authority> authorities;
-    
 
 	public String getUserName() {
 		return userName;

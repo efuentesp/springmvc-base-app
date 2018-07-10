@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Where;
+
 @Entity
 @Table(name = "user_authority")
 public class UserAuthority {
@@ -27,6 +29,7 @@ public class UserAuthority {
     
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "ID_AUTHORITY")
+    //@Where(clause = "ENABLED = '1'")
 	private Authority idAuthority;
 	
 	public User getIdUser() {

@@ -78,7 +78,7 @@ public class BeneficiarioController {
 		return listBeneficiario;
 	}
 	
-	@RequestMapping(value = "/beneficiario/{id}", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/idbeneficiario/{id}", method = RequestMethod.GET, produces = "application/json")
 	@PreAuthorize("hasRole('BENEFICIARIOSEARCH')")
 	    public @ResponseBody  Beneficiario getBeneficiario(@PathVariable("id") int id) {	        
 	        Beneficiario beneficiario = null;
