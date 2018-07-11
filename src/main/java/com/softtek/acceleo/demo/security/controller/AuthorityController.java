@@ -25,8 +25,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.softtek.acceleo.demo.domain.Authority;
 import com.softtek.acceleo.demo.domain.AuthorityPrivilege;
+import com.softtek.acceleo.demo.domain.UserAuthority;
 import com.softtek.acceleo.demo.security.repository.AuthorityPrivilegeRepository;
+import com.softtek.acceleo.demo.security.repository.UserAuthorityRepository;
 import com.softtek.acceleo.demo.service.AuthorityService;
+import com.softtek.acceleo.demo.service.UserService;
 
 @RestController
 public class AuthorityController {
@@ -37,6 +40,9 @@ public class AuthorityController {
 	
 	@Autowired
 	private AuthorityPrivilegeRepository authorityPrivilegeRepository;
+	
+	@Autowired
+	private UserAuthorityRepository userAuthorityRepository;
 	
 	Authority authority = new Authority();
 	
@@ -139,11 +145,19 @@ public class AuthorityController {
 	         if (authority == null) {
 	             return new ResponseEntity<Authority>(HttpStatus.NOT_FOUND);
 	         }else {
-	        	 authorityPrivilegeRepository.deleteAuthorities(authority);
-	        	 
 		         try {
-		        	 authorityService.deleteAuthority(authority);
-	            	 return new ResponseEntity<Authority>(HttpStatus.OK);
+		        	 /**Antes de borrar un authority, se debe validar que no este asociado a usuarios. **/
+		        	 List<UserAuthority> lstUserAuthority = userAuthorityRepository.findUserAuthorityByIdAuthority(authority);
+		        	 
+		        	 if( lstUserAuthority == null && lstUserAuthority.size() == 0 ) {
+			        	 authorityPrivilegeRepository.deleteAuthorities(authority);
+			        	 
+			        	 authorityService.deleteAuthority(authority);
+		            	 return new ResponseEntity<Authority>(HttpStatus.OK);		        		 
+		        	 }else {
+						logger.error("Error: El Authority no se puede eliminar debido a que esta asociado con usuarios.");
+						throw new Exception("El Authority no se puede eliminar debido a que esta asociado con usuarios");
+		        	 }
 				} catch (Exception e) {
 					logger.error("Error: ", e);
 					return new ResponseEntity<Authority>(HttpStatus.PRECONDITION_FAILED);
