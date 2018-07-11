@@ -157,8 +157,10 @@ public class UserRepositoryImpl implements UserRepository {
 	 */
 
 	public void addUser(User user) {
+		Session session = null;
+		
 		try {
-			Session session = sessionFactory.getCurrentSession();
+			session = sessionFactory.getCurrentSession();
 			// sessionFactory.getCurrentSession().persist(user);
 			session.clear();
 			session.flush();
@@ -169,7 +171,12 @@ public class UserRepositoryImpl implements UserRepository {
 			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		}/*finally {
+			if( session != null ) {
+				session.clear();
+				session.flush();		
+			}
+		}*/
 	}
 
 	public void editUser(User user) {

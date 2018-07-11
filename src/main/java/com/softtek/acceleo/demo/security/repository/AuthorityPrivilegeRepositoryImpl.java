@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.softtek.acceleo.demo.domain.Afiliado;
+import com.softtek.acceleo.demo.domain.Authority;
 import com.softtek.acceleo.demo.domain.AuthorityPrivilege;
 import com.softtek.acceleo.demo.domain.Tipopension;
 import com.softtek.acceleo.demo.repository.AfiliadoRepository;
@@ -94,5 +96,40 @@ public class AuthorityPrivilegeRepositoryImpl implements AuthorityPrivilegeRepos
 		
 		return autPriv;
 	}
+	
+	@Override
+	public void deleteAuthority(AuthorityPrivilege authorityPrivilege) {
+		sessionFactory.getCurrentSession().delete(authorityPrivilege);
+	}
+	
+	@Override
+	public void deleteAuthorities(Authority authority) {
+		Session session = sessionFactory.getCurrentSession();
+		String hql = "delete from AuthorityPrivilege where idAuthority.idAuthority = :idAuthority";
+		Query query = null;
+		
+	    query = session.createQuery(hql);
+	    query.setLong("idAuthority", authority.getIdAuthority());
+	    query.executeUpdate(); 			
+	}
+
+	@Override
+	public List<AuthorityPrivilege> getAuthorityPrivilegePorIdAuthority(Authority authority) {
+		List<AuthorityPrivilege> lstAuthorityPrivilege = null;
+		
+		try {
+			Session session = sessionFactory.getCurrentSession();
+			Criteria criteria = session.createCriteria(AuthorityPrivilege.class);
+			criteria.add(Restrictions.eq("idAuthority.idAuthority", authority.getIdAuthority()));
+			
+			lstAuthorityPrivilege = (List<AuthorityPrivilege>) criteria.list();			
+		}catch(Exception e) {
+			logger.error("Error: ", e);
+		}
+		
+		return lstAuthorityPrivilege;
+	}
+	
+	
 
 }

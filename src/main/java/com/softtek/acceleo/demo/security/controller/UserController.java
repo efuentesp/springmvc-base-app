@@ -94,14 +94,10 @@ public class UserController {
 	            	
 	            	httpStatus = HttpStatus.CREATED;
 	            }catch(HibernateException e) {
-	            	if(e.getMessage().contains("Duplicate entry")) {
-	            		logger.error("---->>> Error: ", e);
-	            	}	            	
+	            	logger.error("---->>> Error: ", e);
 	            	httpStatus = HttpStatus.NOT_ACCEPTABLE;
 	            }catch(Exception e) {
-	            	if(e.getMessage().contains("Duplicate entry")) {
-	            		logger.error("---->>> Error: ", e);
-	            	}
+	            	logger.error("---->>> Error: ", e);
 	            	httpStatus = HttpStatus.NOT_ACCEPTABLE;
 	            }	            
 	     
