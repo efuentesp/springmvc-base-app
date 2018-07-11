@@ -149,7 +149,7 @@ public class AuthorityController {
 		        	 /**Antes de borrar un authority, se debe validar que no este asociado a usuarios. **/
 		        	 List<UserAuthority> lstUserAuthority = userAuthorityRepository.findUserAuthorityByIdAuthority(authority);
 		        	 
-		        	 if( lstUserAuthority == null && lstUserAuthority.size() == 0 ) {
+		        	 if( lstUserAuthority == null || lstUserAuthority.isEmpty() ) {
 			        	 authorityPrivilegeRepository.deleteAuthorities(authority);
 			        	 
 			        	 authorityService.deleteAuthority(authority);
