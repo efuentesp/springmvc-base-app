@@ -16,12 +16,8 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.softtek.acceleo.demo.domain.Afiliado;
 import com.softtek.acceleo.demo.domain.Authority;
 import com.softtek.acceleo.demo.domain.AuthorityPrivilege;
-import com.softtek.acceleo.demo.domain.Tipopension;
-import com.softtek.acceleo.demo.repository.AfiliadoRepository;
-import com.softtek.acceleo.demo.service.AfiliadoService;
 
 
 @Repository("authorityPrivilegeRepository")
