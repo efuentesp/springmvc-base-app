@@ -19,7 +19,6 @@ import com.softtek.acceleo.demo.domain.AuthorityPrivilege;
 
 
 @Repository("authorityPrivilegeRepository")
-@Rollback(false)
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 public class AuthorityPrivilegeRepositoryImpl implements AuthorityPrivilegeRepository{
 	private static final Logger logger = Logger.getLogger(AuthorityPrivilegeRepositoryImpl.class);
