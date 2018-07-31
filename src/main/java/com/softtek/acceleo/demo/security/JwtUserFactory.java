@@ -11,7 +11,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import com.softtek.acceleo.demo.domain.Authority;
 import com.softtek.acceleo.demo.domain.Privilege;
 import com.softtek.acceleo.demo.domain.User;
-import com.softtek.acceleo.demo.security.repository.AdminPermisosRepositoryImplTest;
 
 public final class JwtUserFactory {
 	private static final Logger logger = Logger.getLogger(JwtUserFactory.class);
